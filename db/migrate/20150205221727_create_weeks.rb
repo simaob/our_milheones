@@ -3,7 +3,7 @@ class CreateWeeks < ActiveRecord::Migration
     create_table :weeks do |t|
       t.integer :number
       t.date :friday
-      t.integer :solution_id
+      t.json :solution
 
       t.timestamps null: false
     end

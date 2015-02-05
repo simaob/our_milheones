@@ -1,14 +1,13 @@
 # == Schema Information
 #
-# Table name: weeks
+# Table name: bets
 #
 #  id         :integer          not null, primary key
-#  number     :integer
-#  friday     :date
-#  solution   :json
+#  bet        :json
+#  user_id    :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
 
-class Week < ActiveRecord::Base
+class Bet < ActiveRecord::Base
 end

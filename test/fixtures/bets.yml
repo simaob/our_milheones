@@ -1,11 +1,10 @@
 # == Schema Information
 #
-# Table name: weeks
+# Table name: bets
 #
 #  id         :integer          not null, primary key
-#  number     :integer
-#  friday     :date
-#  solution   :json
+#  bet        :json
+#  user_id    :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
@@ -13,11 +12,9 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  number: 1
-  friday: 2015-02-05
-  solution_id: 1
+  bet: 
+  user_id: 1
 
 two:
-  number: 1
-  friday: 2015-02-05
-  solution_id: 1
+  bet: 
+  user_id: 1

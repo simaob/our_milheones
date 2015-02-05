@@ -1,18 +1,17 @@
 # == Schema Information
 #
-# Table name: weeks
+# Table name: bets
 #
 #  id         :integer          not null, primary key
-#  number     :integer
-#  friday     :date
-#  solution   :json
+#  bet        :json
+#  user_id    :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
 
 require 'test_helper'
 
-class WeekTest < ActiveSupport::TestCase
+class BetTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end
