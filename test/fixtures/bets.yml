@@ -5,6 +5,7 @@
 #  id         :integer          not null, primary key
 #  bet        :json
 #  user_id    :integer
+#  week_id    :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
