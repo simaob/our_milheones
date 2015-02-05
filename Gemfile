@@ -44,3 +44,5 @@ group :development, :test do
   gem 'spring'
 end
 
+
+gem 'annotate', github: 'ctran/annotate_models', group: :development
