@@ -13,4 +13,6 @@
 class Week < ActiveRecord::Base
 
   has_many :bets
+
+  validates :number, uniqueness: { scope: :friday }
 end

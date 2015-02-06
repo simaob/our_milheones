@@ -14,7 +14,12 @@ class BetsController < ApplicationController
 
   # GET /bets/new
   def new
-    @bet = Bet.new
+    friday = Date.today.end_of_week
+    @week = Week.find_or_create_by(
+      number: friday.strftime("%U").to_i,
+      friday: friday
+    )
+    @bet = Bet.find_or_initialize_by(week_id: @week.id, user_id: current_user.id)
   end
 
   # GET /bets/1/edit
