@@ -13,4 +13,14 @@
 class Bet < ActiveRecord::Base
   belongs_to :user
   belongs_to :week
+
+  def numbers
+    return "" unless bet
+    bet["numbers"]
+  end
+
+  def stars
+    return "" unless bet
+    bet["stars"]
+  end
 end

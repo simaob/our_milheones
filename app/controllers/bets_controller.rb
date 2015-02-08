@@ -29,6 +29,7 @@ class BetsController < ApplicationController
   # POST /bets
   # POST /bets.json
   def create
+    debugger
     @bet = Bet.new(bet_params)
 
     respond_to do |format|
@@ -74,6 +75,6 @@ class BetsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def bet_params
-      params.require(:bet).permit(:bet, :user_id)
+      params.require(:bet).permit(:bet, :user_id, :numbers, :stars)
     end
 end

@@ -12,8 +12,18 @@
 
 <p>
   <strong>Solution:</strong>
-  <%= @week.solution_id %>
+  <%= @week.solution %>
 </p>
 
-<%= link_to 'Edit', edit_week_path(@week) %> |
+<% if @bets.any? %>
+  <h4>Bets for this week</h4>
+  <ul>
+    <% @bets.each do |bet| %>
+      <li><%= bet.user.name %>: <%= bet.bet && bet.bet["numbers"] %> +
+        <%= bet.bet && bet.bet["stars"] %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>
+
 <%= link_to 'Back', weeks_path %>

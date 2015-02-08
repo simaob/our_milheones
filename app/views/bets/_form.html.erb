@@ -14,12 +14,12 @@
   <%= f.hidden_field :week_id %>
   <div class="form-group">
     <%= label_tag "Números" %>
-    <%= text_field_tag :numbers, nil, placeholder: "1, 2, 3, 4, 5",
+    <%= f.text_field :numbers, placeholder: "1, 2, 3, 4, 5",
       class: "form-control" %>
   </div>
   <div class="form-group">
     <%= label_tag "Estrelas" %>
-    <%= text_field_tag :stars, nil, placeholder: "1, 2",
+    <%= f.text_field :stars, placeholder: "1, 2",
       class: "form-control" %>
   </div>
   <div class="action">

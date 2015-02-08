@@ -6,7 +6,8 @@
       <th>Number</th>
       <th>Friday</th>
       <th>Solution</th>
-      <th colspan="2"></th>
+      <th>Bets</th>
+      <th></th>
     </tr>
   </thead>
 
@@ -16,8 +17,13 @@
         <td><%= week.number %></td>
         <td><%= week.friday %></td>
         <td><%= week.solution %></td>
-        <td><%= link_to 'Show', week %></td>
-        <td><%= link_to 'Destroy', week, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= week.bets.size %>
+          (<%= week.bets_missing %> missing)</td>
+        <td>
+          <%= link_to 'Show', week %>
+          <%= link_to 'Destroy', week, method: :delete,
+            data: { confirm: 'Are you sure?' } %>
+        </td>
       </tr>
     <% end %>
   </tbody>

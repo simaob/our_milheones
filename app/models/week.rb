@@ -15,4 +15,8 @@ class Week < ActiveRecord::Base
   has_many :bets
 
   validates :number, uniqueness: { scope: :friday }
+
+  def bets_missing
+    User.count - bets.size
+  end
 end

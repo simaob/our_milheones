@@ -10,6 +10,7 @@ class WeeksController < ApplicationController
   # GET /weeks/1
   # GET /weeks/1.json
   def show
+    @bets = @week.bets.joins(:user).order('users.name ASC')
   end
 
   # DELETE /weeks/1
