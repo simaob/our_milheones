@@ -16,6 +16,15 @@ class Week < ActiveRecord::Base
 
   validates :number, uniqueness: { scope: :friday }
 
+  before_validation do |model|
+    if model.solution
+      model.solution['numbers'].reject!(&:blank?)
+      model.solution['numbers'].map!(&:to_i).sort!
+      model.solution['stars'].reject!(&:blank?)
+      model.solution['stars'].map!(&:to_i).sort!
+    end
+  end
+
   def bets_missing
     User.count - bets.size
   end
@@ -23,6 +32,12 @@ class Week < ActiveRecord::Base
   def bet_from user
     bet = bets.find_by(user_id: user.id)
     return "Bet missing!" unless bet
-    "#{bet.print_numbers} + #{bet.print_stars}"
+    "#{bet.print_numbers(solution && solution['numbers'])} +" +
+    "#{bet.print_stars(solution && solution['stars'])}"
+  end
+
+  def print_solution
+    return "" unless solution
+    "#{solution["numbers"].join(", ")} + #{solution["stars"].join(", ")}"
   end
 end

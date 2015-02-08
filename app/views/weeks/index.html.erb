@@ -17,11 +17,11 @@
       <tr class="<%= if week == current_week then "success" end %>">
         <td><%= week.number %></td>
         <td><%= week.friday %></td>
-        <td><%= week.solution %></td>
+        <td><%= week.print_solution %></td>
         <td><%= week.bets.size %>
           (<%= week.bets_missing %> missing)
         </td>
-        <td><%= week.bet_from(current_user) %>
+        <td><%= week.bet_from(current_user).html_safe %>
         <td>
           <%= link_to 'Show', week %>
           <%= link_to 'Add solution', edit_week_path(week) %>

@@ -12,15 +12,16 @@
 
 <p>
   <strong>Solution:</strong>
-  <%= @week.solution %>
+  <%= @week.print_solution %>
 </p>
 
 <% if @bets.any? %>
   <h4>Bets for this week</h4>
   <ul>
     <% @bets.each do |bet| %>
-      <li><%= bet.user.name %>: <%= bet.print_numbers %> +
-        <%= bet.print_stars %>
+      <li>
+        <%= bet.user == current_user ? "<u>#{bet.user.name}</u>".html_safe : bet.user.name %>:
+        <%= @week.bet_from(bet.user).html_safe %>
       </li>
     <% end %>
   </ul>
