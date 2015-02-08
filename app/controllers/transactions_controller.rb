@@ -3,7 +3,7 @@ class TransactionsController < ApplicationController
   # GET /transactions
   # GET /transactions.json
   def index
-    @transactions = Transaction.order('created_at ASC')
+    @transactions = Transaction.order('created_at DESC')
   end
 
   # GET /transactions/new
