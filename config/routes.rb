@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   resources :bets
   resources :weeks, except: [:new, :create]
-  resources :transactions, except: [:edit, :update, :destroy]
+  resources :transactions, only: [:new, :index, :create]
 
   root 'weeks#index'
 end

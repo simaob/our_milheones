@@ -1,0 +1,6 @@
+en:
+  enumerations:
+    transaction_kind:
+      bet: "Bet"
+      payment: "Payment"
+      admin: "Admin"

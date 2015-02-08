@@ -9,6 +9,7 @@
 #  date       :date
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  kind       :integer          not null
 #
 
 class Transaction < ActiveRecord::Base

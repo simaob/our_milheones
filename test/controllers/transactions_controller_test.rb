@@ -25,9 +25,4 @@ class TransactionsControllerTest < ActionController::TestCase
 
     assert_redirected_to transaction_path(assigns(:transaction))
   end
-
-  test "should show transaction" do
-    get :show, id: @transaction
-    assert_response :success
-  end
 end
