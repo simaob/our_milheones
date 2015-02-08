@@ -29,6 +29,8 @@ class Bet < ActiveRecord::Base
     end
   end
 
+  validate :bet_is_right
+
   after_commit :add_transaction, on: [:create]
 
   def numbers
@@ -51,5 +53,11 @@ class Bet < ActiveRecord::Base
       details: "Bet for week number #{week.number} (#{week.friday})",
       date: Date.today
     )
+  end
+
+  def bet_is_right
+    unless bet && bet['numbers'].size == 5 && bet['stars'].size == 2
+      errors.add(:bet, "not valid. Please select 5 numbers and 2 stars")
+    end
   end
 end
