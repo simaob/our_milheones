@@ -4,7 +4,7 @@ class WeeksController < ApplicationController
   # GET /weeks
   # GET /weeks.json
   def index
-    @weeks = Week.order('friday DESC')
+    @weeks = Week.order('friday DESC').includes(:bets)
   end
 
   # GET /weeks/1

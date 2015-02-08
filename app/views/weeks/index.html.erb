@@ -7,6 +7,7 @@
       <th>Friday</th>
       <th>Solution</th>
       <th>Bets</th>
+      <th>Your bet</th>
       <th></th>
     </tr>
   </thead>
@@ -18,7 +19,9 @@
         <td><%= week.friday %></td>
         <td><%= week.solution %></td>
         <td><%= week.bets.size %>
-          (<%= week.bets_missing %> missing)</td>
+          (<%= week.bets_missing %> missing)
+        </td>
+        <td><%= week.bet_from(current_user) %>
         <td>
           <%= link_to 'Show', week %>
           <%= link_to 'Destroy', week, method: :delete,
