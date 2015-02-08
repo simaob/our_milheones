@@ -16,7 +16,7 @@
 #  name                   :string
 #  created_at             :datetime
 #  updated_at             :datetime
-#  balance                :float
+#  balance                :float            default("0.0")
 #
 
 class User < ActiveRecord::Base
@@ -26,4 +26,5 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   has_many :bets
+  has_many :payments
 end
