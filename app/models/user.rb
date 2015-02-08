@@ -27,5 +27,5 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   has_many :bets
-  has_many :payments
+  has_many :transactions
 end

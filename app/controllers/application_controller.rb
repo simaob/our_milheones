@@ -18,6 +18,13 @@ class ApplicationController < ActionController::Base
     Date.today.end_of_week
   end
 
+  def authorize!
+    unless current_user.is_admin?
+      redirect_to request.referrer || root_url,
+        alert: 'You are not authorized to view that page'
+    end
+  end
+
   protected
 
   def configure_permitted_parameters

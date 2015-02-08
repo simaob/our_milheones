@@ -3,11 +3,16 @@ class TransactionsController < ApplicationController
   # GET /transactions
   # GET /transactions.json
   def index
-    @transactions = Transaction.order('created_at DESC')
+    if current_user.is_admin?
+      @transactions = Transaction.order('created_at DESC')
+    else
+      @transactions = current_user.transactions.order('created_at DESC')
+    end
   end
 
   # GET /transactions/new
   def new
+    authorize!
     @transaction = Transaction.new
     @users = User.order(:name)
   end

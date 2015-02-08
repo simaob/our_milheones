@@ -14,11 +14,18 @@
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        <li class="active"><%= link_to "Home", root_url %></li>
-        <li><%= link_to "Bet", new_bet_path %></li>
-        <li><%= link_to "Transactions", transactions_path %></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#contact">Contact</a></li>
+        <li class="<%= "active" if controller_name == "weeks" %>">
+          <%= link_to "Home", root_url %>
+        </li>
+        <li class="<%= "active" if controller_name == "bets" %>">
+          <%= link_to "Bet!", new_bet_path %>
+        </li>
+        <li class="<%= "active" if controller_name == "transactions" %>">
+          <%= link_to "Transactions", transactions_path %>
+        </li>
+        <li class="<%= "active" if controller_name == "users" %>">
+          <%= link_to "Users", users_path %>
+        </li>
       </ul>
       <% if current_user %>
         <ul class="nav navbar-nav navbar-right">

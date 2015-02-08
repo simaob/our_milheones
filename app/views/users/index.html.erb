@@ -1,0 +1,33 @@
+<h1>Users</h1>
+
+<table class="table table-bordered table-condensed">
+  <thead>
+    <tr>
+      <th>Email</th>
+      <th>Name</th>
+      <% if current_user.is_admin? %>
+        <th>Balance</th>
+      <% end %>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= mail_to user.email %></td>
+        <td><%= user.name %></td>
+        <% if current_user.is_admin? %>
+          <td class="<%= user.balance >= 0.0 ? "success" : "danger" %>">
+            <%= user.balance %>
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<% if current_user.is_admin? %>
+  <%= link_to 'New User', new_transaction_path %>
+<% end %>

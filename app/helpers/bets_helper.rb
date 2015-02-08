@@ -6,7 +6,7 @@ module BetsHelper
       sol = solution ? solution[i] : []
       tmp = []
       bet.send(i).each do |n|
-        tmp << content_tag(:span, class: "#{sol.include?(n) ? "match" : ""}") do
+        tmp << content_tag(:span, class: "#{"match" if sol.include?(n)}") do
             n.to_s
           end
       end
@@ -16,7 +16,7 @@ module BetsHelper
   end
 
   def display_user_of bet
-    content_tag(:span, class: "#{bet.user == current_user ? "current-user" : ""}") do
+    content_tag(:span, class: "#{"current-user" if bet.user == current_user}") do
       "#{bet.user.name}"
     end
   end
