@@ -14,6 +14,15 @@ class Bet < ActiveRecord::Base
   belongs_to :user
   belongs_to :week
 
+  before_validation do |model|
+    if model.bet
+      model.bet['numbers'].reject!(&:blank?)
+      model.bet['numbers'].map!(&:to_i).sort!
+      model.bet['stars'].reject!(&:blank?)
+      model.bet['stars'].map!(&:to_i).sort!
+    end
+  end
+
   def numbers
     return "" unless bet
     bet["numbers"]

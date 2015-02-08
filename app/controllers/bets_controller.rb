@@ -70,6 +70,7 @@ class BetsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def bet_params
-      params.require(:bet).permit(:user_id, :week_id, bet: [:numbers, :stars])
+      params.require(:bet).permit(:user_id, :week_id,
+                                  bet: [ numbers: [], stars: []])
     end
 end
