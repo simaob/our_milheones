@@ -12,7 +12,7 @@
 
 class Bet < ActiveRecord::Base
 
-  BET_COST = 2.0
+  BET_COST = -2.0
 
   belongs_to :user
   belongs_to :week
@@ -29,7 +29,7 @@ class Bet < ActiveRecord::Base
     end
   end
 
-  after_commit :update_user_balance, on: [:create]
+  after_commit :add_transaction, on: [:create]
 
   def numbers
     return "" unless bet
@@ -43,9 +43,13 @@ class Bet < ActiveRecord::Base
 
   private
 
-  def update_user_balance
-    u = User.find(user_id)
-    u.balance = u.balance - BET_COST
-    u.save!
+  def add_transaction
+    Transaction.create(
+      user_id: user_id,
+      value: BET_COST,
+      kind: TransactionKind::BET,
+      details: "Bet for week number #{week.number} (#{week.friday})",
+      date: Date.today
+    )
   end
 end
