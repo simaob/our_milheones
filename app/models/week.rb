@@ -38,4 +38,19 @@ class Week < ActiveRecord::Base
     return "" unless solution
     "#{solution["numbers"].join(", ")} + #{solution["stars"].join(", ")}"
   end
+
+  def register_prize
+    total = User.count
+    divided = prize/total
+    User.all.each do |u|
+      Transaction.create(
+        user_id: u.id,
+        value: divided,
+        kind: TransactionKind::PRIZE,
+        details: "Prize (#{prize}/#{total} users = #{divided}) for"+
+          " week number #{number} (#{friday})",
+        date: Date.today
+      )
+    end
+  end
 end

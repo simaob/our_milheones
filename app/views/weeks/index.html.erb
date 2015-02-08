@@ -24,7 +24,12 @@
         <td><%= display_bet(week.bet_from(current_user), week.solution) %>
         <td>
           <%= link_to 'Show', week %>
-          <%= link_to 'Add solution', edit_week_path(week) %>
+          <% if current_user.is_admin? %>
+            |
+            <%= link_to 'Add solution', edit_week_path(week, set: 'solution') %>
+            |
+            <%= link_to 'Set prize', edit_week_path(week, set: 'prize') %>
+          <% end %>
         </td>
       </tr>
     <% end %>
