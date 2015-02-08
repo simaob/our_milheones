@@ -1,4 +1,4 @@
-<h1>Listing Weeks</h1>
+<h1>Week by week</h1>
 
 <table class="table table-bordered table-condensed">
   <thead>
@@ -14,7 +14,7 @@
 
   <tbody>
     <% @weeks.each do |week| %>
-      <tr>
+      <tr class="<%= if week == current_week then "success" end %>">
         <td><%= week.number %></td>
         <td><%= week.friday %></td>
         <td><%= week.solution %></td>
@@ -24,8 +24,6 @@
         <td><%= week.bet_from(current_user) %>
         <td>
           <%= link_to 'Show', week %>
-          <%= link_to 'Destroy', week, method: :delete,
-            data: { confirm: 'Are you sure?' } %>
         </td>
       </tr>
     <% end %>

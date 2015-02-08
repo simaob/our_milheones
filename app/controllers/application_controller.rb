@@ -12,6 +12,7 @@ class ApplicationController < ActionController::Base
       friday: friday
     )
   end
+  helper_method :current_week
 
   def friday
     Date.today.end_of_week
