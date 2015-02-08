@@ -5,7 +5,7 @@
 </p>
 <p>
   <strong>Bet:</strong>
-  <%= display_bet @bet, @bet.week.solution %>
+  <%= display_bet @bet, @bet.week.try(:solution) %>
 </p>
 
 <%= link_to 'Edit', edit_bet_path(@bet) %> |
