@@ -1,5 +1,5 @@
 class PaymentsController < ApplicationController
-  before_action :set_payment, only: [:show, :destroy]
+  before_action :set_payment, only: [:show]
 
   # GET /payments
   # GET /payments.json
@@ -31,16 +31,6 @@ class PaymentsController < ApplicationController
         format.html { render :new }
         format.json { render json: @payment.errors, status: :unprocessable_entity }
       end
-    end
-  end
-
-  # DELETE /payments/1
-  # DELETE /payments/1.json
-  def destroy
-    @payment.destroy
-    respond_to do |format|
-      format.html { redirect_to payments_url, notice: 'Payment was successfully destroyed.' }
-      format.json { head :no_content }
     end
   end
 

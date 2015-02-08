@@ -15,6 +15,7 @@ class Payment < ActiveRecord::Base
   belongs_to :user
 
   validates :value, presence: true, numericality: true
+  validates :user_id, presence: true
 
   after_commit :update_user_balance, on: [:create]
 

@@ -28,22 +28,4 @@ class PaymentsControllerTest < ActionController::TestCase
     get :show, id: @payment
     assert_response :success
   end
-
-  test "should get edit" do
-    get :edit, id: @payment
-    assert_response :success
-  end
-
-  test "should update payment" do
-    patch :update, id: @payment, payment: { date: @payment.date, details: @payment.details, user_id: @payment.user_id, value: @payment.value }
-    assert_redirected_to payment_path(assigns(:payment))
-  end
-
-  test "should destroy payment" do
-    assert_difference('Payment.count', -1) do
-      delete :destroy, id: @payment
-    end
-
-    assert_redirected_to payments_path
-  end
 end
