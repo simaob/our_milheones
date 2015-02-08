@@ -8,6 +8,7 @@
 #  solution   :json
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  prize      :float            default("0.0")
 #
 
 require 'test_helper'
