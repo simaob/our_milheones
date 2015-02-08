@@ -14,10 +14,10 @@
 
 one:
   bet: { numbers: [1, 2, 3, 4, 5], stars: [1, 2] }
-  user_id: 1
-  week_id: 1
+  user: user
+  week: week
 
 two:
   bet: { numbers: [1, 2, 3, 4, 5], stars: [1, 2] }
-  user_id: 1
-  week_id: 1
+  user: user
+  week: week

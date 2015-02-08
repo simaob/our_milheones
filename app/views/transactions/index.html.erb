@@ -16,7 +16,7 @@
     <% @transactions.each do |transaction| %>
       <tr>
         <td><%= transaction.value %></td>
-        <td><%= transaction.user.name %></td>
+        <td><%= transaction.user.try(:name) %></td>
         <td><%= transaction.details %></td>
         <td><%= transaction.date %></td>
       </tr>

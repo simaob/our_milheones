@@ -3,7 +3,7 @@ class TransactionsController < ApplicationController
   # GET /transactions
   # GET /transactions.json
   def index
-    @transactions = Transaction.all
+    @transactions = Transaction.order('created_at ASC')
   end
 
   # GET /transactions/new
@@ -19,7 +19,8 @@ class TransactionsController < ApplicationController
 
     respond_to do |format|
       if @transaction.save
-        format.html { redirect_to @transaction, notice: 'transaction was successfully created.' }
+        format.html { redirect_to transactions_path,
+                      notice: 'Transaction was successfully created.' }
         format.json { render :show, status: :created, location: @transaction }
       else
         format.html { render :new }
@@ -32,6 +33,6 @@ class TransactionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def transaction_params
-      params.require(:transaction).permit(:value, :user_id, :details, :date)
+      params.require(:transaction).permit(:value, :user_id, :details, :date, :kind)
     end
 end

@@ -2,6 +2,8 @@ require 'test_helper'
 
 class TransactionsControllerTest < ActionController::TestCase
   setup do
+    @user = users(:one)
+    sign_in @user
     @transaction = transactions(:one)
   end
 
@@ -17,12 +19,12 @@ class TransactionsControllerTest < ActionController::TestCase
   end
 
   test "should create transaction" do
-    assert_difference('transaction.count') do
+    assert_difference('Transaction.count') do
       post :create, transaction: { date: @transaction.date,
         details: @transaction.details, user_id: @transaction.user_id,
-        value: @transaction.value }
+        value: @transaction.value, kind: @transaction.kind }
     end
 
-    assert_redirected_to transaction_path(assigns(:transaction))
+    assert_redirected_to transactions_path
   end
 end

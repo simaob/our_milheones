@@ -15,7 +15,7 @@
     <% @bets.each do |bet| %>
       <tr>
         <td><%= display_bet bet, bet.week.try(:solution) %></td>
-        <td><%= bet.user.name %></td>
+        <td><%= bet.user.try(:name) %></td>
         <td><%= link_to 'Show', bet %></td>
         <td><%= link_to 'Edit', edit_bet_path(bet) %></td>
         <td><%= link_to 'Destroy', bet, method: :delete, data: { confirm: 'Are you sure?' } %></td>
