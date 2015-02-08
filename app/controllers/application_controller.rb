@@ -6,6 +6,17 @@ class ApplicationController < ActionController::Base
   before_filter :authenticate_user!
   before_action :configure_permitted_parameters, if: :devise_controller?
 
+  def current_week
+    @current_week ||= Week.find_or_create_by(
+      number: friday.strftime("%U").to_i,
+      friday: friday
+    )
+  end
+
+  def friday
+    Date.today.end_of_week
+  end
+
   protected
 
   def configure_permitted_parameters
