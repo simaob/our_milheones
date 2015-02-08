@@ -26,37 +26,9 @@ class Bet < ActiveRecord::Base
     end
   end
 
-  def print_numbers solution=nil
-    if solution
-      numbers.map do |n|
-        if solution.include?(n)
-          "<strong>#{n}</strong>"
-        else
-          n
-        end
-      end
-    else
-      numbers
-    end.join(", ")
-  end
-
   def numbers
     return "" unless bet
     bet["numbers"]
-  end
-
-  def print_stars solution=nil
-    if solution
-      stars.map do |s|
-        if solution.include?(s)
-          "<strong>#{s}</strong>"
-        else
-          s
-        end
-      end
-    else
-      stars
-    end.join(", ")
   end
 
   def stars

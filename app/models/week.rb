@@ -30,10 +30,7 @@ class Week < ActiveRecord::Base
   end
 
   def bet_from user
-    bet = bets.find_by(user_id: user.id)
-    return "Bet missing!" unless bet
-    "#{bet.print_numbers(solution && solution['numbers'])} +" +
-    "#{bet.print_stars(solution && solution['stars'])}"
+    bets.find_by(user_id: user.id)
   end
 
   def print_solution

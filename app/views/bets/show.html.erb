@@ -5,7 +5,7 @@
 </p>
 <p>
   <strong>Bet:</strong>
-  <%= @bet.print_numbers %> + <%= @bet.print_stars %>
+  <%= display_bet @bet, @bet.week.solution %>
 </p>
 
 <%= link_to 'Edit', edit_bet_path(@bet) %> |

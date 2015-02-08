@@ -20,8 +20,8 @@
   <ul>
     <% @bets.each do |bet| %>
       <li>
-        <%= bet.user == current_user ? "<u>#{bet.user.name}</u>".html_safe : bet.user.name %>:
-        <%= @week.bet_from(bet.user).html_safe %>
+        <%= display_user_of bet %>:
+        <%= display_bet bet, @week.solution %>
       </li>
     <% end %>
   </ul>

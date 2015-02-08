@@ -2,7 +2,7 @@
 
 <h1>Listing Bets</h1>
 
-<table>
+<table class="table table-bordered table-condensed">
   <thead>
     <tr>
       <th>Bet</th>
@@ -14,8 +14,8 @@
   <tbody>
     <% @bets.each do |bet| %>
       <tr>
-        <td><%= bet.bet %></td>
-        <td><%= bet.user_id %></td>
+        <td><%= display_bet bet, bet.week.solution %></td>
+        <td><%= bet.user.name %></td>
         <td><%= link_to 'Show', bet %></td>
         <td><%= link_to 'Edit', edit_bet_path(bet) %></td>
         <td><%= link_to 'Destroy', bet, method: :delete, data: { confirm: 'Are you sure?' } %></td>

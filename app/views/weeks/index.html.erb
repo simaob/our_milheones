@@ -21,7 +21,7 @@
         <td><%= week.bets.size %>
           (<%= week.bets_missing %> missing)
         </td>
-        <td><%= week.bet_from(current_user).html_safe %>
+        <td><%= display_bet(week.bet_from(current_user), week.solution) %>
         <td>
           <%= link_to 'Show', week %>
           <%= link_to 'Add solution', edit_week_path(week) %>
