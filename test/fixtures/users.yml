@@ -29,6 +29,7 @@
 one:
   email: "simao@fe.up.pt"
   name: My Name
+  is_admin: true
 
 # column: value
 #
