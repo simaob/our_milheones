@@ -12,6 +12,11 @@
   <% end %>
 
   <div class="form-group">
+    <%= f.label :kind %>
+    <%= f.select :kind, options_for_select(TransactionKind.to_a, @transaction.kind),
+      {}, class: 'form-control' %>
+  </div>
+  <div class="form-group">
     <%= f.label :value %>
     <div class="input-group">
       <span class="input-group-addon"><i class="glyphicon glyphicon-euro"></i></span>

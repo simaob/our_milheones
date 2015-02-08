@@ -1,3 +1,5 @@
 class TransactionKind < EnumerateIt::Base
-  associate_values :bet, :payment, :admin
+  associate_values(
+    bet: 0, payment: 1, admin: 2
+  )
 end

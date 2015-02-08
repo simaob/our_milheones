@@ -5,6 +5,7 @@
 <table class="table table-bordered table-condensed">
   <thead>
     <tr>
+      <th>Kind</th>
       <th>Value</th>
       <th>User</th>
       <th>Details</th>
@@ -15,6 +16,7 @@
   <tbody>
     <% @transactions.each do |transaction| %>
       <tr>
+        <td><%= transaction.kind_humanize %></td>
         <td><%= transaction.value %></td>
         <td><%= transaction.user.try(:name) %></td>
         <td><%= transaction.details %></td>

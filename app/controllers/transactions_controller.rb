@@ -23,6 +23,7 @@ class TransactionsController < ApplicationController
                       notice: 'Transaction was successfully created.' }
         format.json { render :show, status: :created, location: @transaction }
       else
+        @users = User.order(:name)
         format.html { render :new }
         format.json { render json: @transaction.errors, status: :unprocessable_entity }
       end

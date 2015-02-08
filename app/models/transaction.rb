@@ -13,6 +13,8 @@
 #
 
 class Transaction < ActiveRecord::Base
+  has_enumeration_for :kind, :with => TransactionKind,
+    :create_helpers => true
   belongs_to :user
 
   validates :value, presence: true, numericality: true
