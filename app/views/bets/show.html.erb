@@ -1,13 +1,11 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Bet:</strong>
-  <%= @bet.bet %>
+  <strong>Week:</strong> <%= link_to @bet.week.try(:number), @bet.week %>
 </p>
-
 <p>
-  <strong>User:</strong>
-  <%= @bet.user_id %>
+  <strong>Bet:</strong>
+  <%= @bet.print_numbers %> + <%= @bet.print_stars %>
 </p>
 
 <%= link_to 'Edit', edit_bet_path(@bet) %> |

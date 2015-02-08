@@ -31,8 +31,8 @@ class WeekTest < ActiveSupport::TestCase
   end
 
   test "bets missing should return number users - bets for week" do
-    Bet.create(week_id: @week.id, bet: {numbers: [1, 2, 3, 4, 5],
-      stars: [1, 2] })
+    bet = Bet.create(week_id: @week.id, bet: {numbers: [1, 2, 3, 4, 5],
+      stars: [1, 2] }, user_id: users(:one).id)
     @week.reload
     assert_equal User.count-1, @week.bets_missing
   end

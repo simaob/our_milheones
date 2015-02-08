@@ -4,6 +4,7 @@ class BetsControllerTest < ActionController::TestCase
   setup do
     @user = users(:one)
     sign_in @user
+    @week = weeks(:one)
     @bet = bets(:one)
   end
 
@@ -20,7 +21,8 @@ class BetsControllerTest < ActionController::TestCase
 
   test "should create bet" do
     assert_difference('Bet.count') do
-      post :create, bet: { bet: @bet.bet, user_id: @bet.user_id }
+      post :create, bet: { bet: @bet.bet, user_id: @bet.user_id,
+        week_id: @week.id }
     end
 
     assert_redirected_to bet_path(assigns(:bet))
@@ -37,7 +39,8 @@ class BetsControllerTest < ActionController::TestCase
   end
 
   test "should update bet" do
-    patch :update, id: @bet, bet: { bet: @bet.bet, user_id: @bet.user_id }
+    patch :update, id: @bet, bet: { bet: @bet.bet, user_id: @bet.user_id,
+      week_id: @week.id }
     assert_redirected_to bet_path(assigns(:bet))
   end
 
