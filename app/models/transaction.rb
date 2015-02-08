@@ -11,7 +11,7 @@
 #  updated_at :datetime         not null
 #
 
-class Payment < ActiveRecord::Base
+class Transaction < ActiveRecord::Base
   belongs_to :user
 
   validates :value, presence: true, numericality: true
