@@ -2,6 +2,8 @@ require 'test_helper'
 
 class WeeksControllerTest < ActionController::TestCase
   setup do
+    @user = users(:one)
+    sign_in @user
     @week = weeks(:one)
   end
 
@@ -11,39 +13,8 @@ class WeeksControllerTest < ActionController::TestCase
     assert_not_nil assigns(:weeks)
   end
 
-  test "should get new" do
-    get :new
-    assert_response :success
-  end
-
-  test "should create week" do
-    assert_difference('Week.count') do
-      post :create, week: { friday: @week.friday, number: @week.number, solution_id: @week.solution_id }
-    end
-
-    assert_redirected_to week_path(assigns(:week))
-  end
-
   test "should show week" do
     get :show, id: @week
     assert_response :success
-  end
-
-  test "should get edit" do
-    get :edit, id: @week
-    assert_response :success
-  end
-
-  test "should update week" do
-    patch :update, id: @week, week: { friday: @week.friday, number: @week.number, solution_id: @week.solution_id }
-    assert_redirected_to week_path(assigns(:week))
-  end
-
-  test "should destroy week" do
-    assert_difference('Week.count', -1) do
-      delete :destroy, id: @week
-    end
-
-    assert_redirected_to weeks_path
   end
 end

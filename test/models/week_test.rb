@@ -16,4 +16,24 @@ class WeekTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end
+  setup do
+    @week = weeks(:one)
+  end
+
+  test "bets missing should return 0 if no users" do
+    User.delete_all
+    assert_equal 0, @week.bets_missing
+  end
+
+  test "bets missing should return number users if no bets" do
+    Bet.delete_all
+    assert_equal User.count, @week.bets_missing
+  end
+
+  test "bets missing should return number users - bets for week" do
+    Bet.create(week_id: @week.id, bet: {numbers: [1, 2, 3, 4, 5],
+      stars: [1, 2] })
+    @week.reload
+    assert_equal User.count-1, @week.bets_missing
+  end
 end

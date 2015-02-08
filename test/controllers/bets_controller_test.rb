@@ -2,6 +2,8 @@ require 'test_helper'
 
 class BetsControllerTest < ActionController::TestCase
   setup do
+    @user = users(:one)
+    sign_in @user
     @bet = bets(:one)
   end
 
