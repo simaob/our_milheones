@@ -12,16 +12,18 @@
   <% end %>
   <%= f.hidden_field :user_id %>
   <%= f.hidden_field :week_id %>
-  <div class="form-group">
-    <%= label_tag "Números" %>
-    <%= f.text_field :numbers, placeholder: "1, 2, 3, 4, 5",
-      class: "form-control" %>
-  </div>
-  <div class="form-group">
-    <%= label_tag "Estrelas" %>
-    <%= f.text_field :stars, placeholder: "1, 2",
-      class: "form-control" %>
-  </div>
+  <%= f.fields_for :bet do |b| %>
+    <div class="form-group">
+      <%= b.label :numbers %>
+      <%= b.select :numbers, options_for_select((1..50).to_a),
+        {}, { multiple: true, class: "form-control" }%>
+    </div>
+    <div class="form-group">
+      <%= b.label :stars %>
+      <%= b.select :stars, options_for_select((1..11).to_a),
+        {}, { multiple: true, class: "form-control" }%>
+    </div>
+  <% end %>
   <div class="action">
     <%= f.submit "Bet!", class: "btn btn-success" %>
   </div>
