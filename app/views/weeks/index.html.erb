@@ -24,6 +24,7 @@
         <td><%= week.bet_from(current_user) %>
         <td>
           <%= link_to 'Show', week %>
+          <%= link_to 'Add solution', edit_week_path(week) %>
         </td>
       </tr>
     <% end %>

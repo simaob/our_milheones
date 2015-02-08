@@ -1,5 +1,5 @@
 class WeeksController < ApplicationController
-  before_action :set_week, only: [:show, :destroy]
+  before_action :set_week, only: [:show, :destroy, :edit, :update]
 
   # GET /weeks
   # GET /weeks.json
@@ -11,6 +11,21 @@ class WeeksController < ApplicationController
   # GET /weeks/1.json
   def show
     @bets = @week.bets.joins(:user).order('users.name ASC')
+  end
+
+  def edit
+  end
+
+  def update
+    respond_to do |format|
+      if @week.update(week_params)
+        format.html { redirect_to @week, notice: 'Week was successfully updated.' }
+        format.json { render :show, status: :ok, location: @week }
+      else
+        format.html { render :edit }
+        format.json { render json: @week.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   # DELETE /weeks/1
@@ -31,6 +46,7 @@ class WeeksController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def week_params
-      params.require(:week).permit(:number, :friday, :solution_id)
+      params.require(:week).permit(:number, :friday,
+                                  solution: [ numbers: [], stars: []])
     end
 end
