@@ -1,5 +1,5 @@
 class PaymentsController < ApplicationController
-  before_action :set_payment, only: [:show, :edit, :update, :destroy]
+  before_action :set_payment, only: [:show, :destroy]
 
   # GET /payments
   # GET /payments.json
@@ -18,10 +18,6 @@ class PaymentsController < ApplicationController
     @users = User.order(:name)
   end
 
-  # GET /payments/1/edit
-  def edit
-  end
-
   # POST /payments
   # POST /payments.json
   def create
@@ -33,21 +29,6 @@ class PaymentsController < ApplicationController
         format.json { render :show, status: :created, location: @payment }
       else
         format.html { render :new }
-        format.json { render json: @payment.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # PATCH/PUT /payments/1
-  # PATCH/PUT /payments/1.json
-  def update
-    @users = User.order(:name)
-    respond_to do |format|
-      if @payment.update(payment_params)
-        format.html { redirect_to @payment, notice: 'Payment was successfully updated.' }
-        format.json { render :show, status: :ok, location: @payment }
-      else
-        format.html { render :edit }
         format.json { render json: @payment.errors, status: :unprocessable_entity }
       end
     end

@@ -11,6 +11,9 @@
 #
 
 class Bet < ActiveRecord::Base
+
+  BET_COST = 2.0
+
   belongs_to :user
   belongs_to :week
 
@@ -26,6 +29,8 @@ class Bet < ActiveRecord::Base
     end
   end
 
+  after_commit :update_user_balance, on: [:create]
+
   def numbers
     return "" unless bet
     bet["numbers"]
@@ -34,5 +39,13 @@ class Bet < ActiveRecord::Base
   def stars
     return "" unless bet
     bet["stars"]
+  end
+
+  private
+
+  def update_user_balance
+    u = User.find(user_id)
+    u.balance = u.balance - BET_COST
+    u.save!
   end
 end
