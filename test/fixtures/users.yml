@@ -17,6 +17,7 @@
 #  created_at             :datetime
 #  updated_at             :datetime
 #  balance                :float            default("0.0")
+#  is_admin               :boolean          default("false")
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html

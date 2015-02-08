@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: payments
+# Table name: transactions
 #
 #  id         :integer          not null, primary key
 #  value      :float
