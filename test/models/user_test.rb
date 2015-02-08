@@ -16,6 +16,7 @@
 #  name                   :string
 #  created_at             :datetime
 #  updated_at             :datetime
+#  balance                :float
 #
 
 require 'test_helper'
