@@ -17,7 +17,7 @@ class Bet < ActiveRecord::Base
   belongs_to :user
   belongs_to :week
 
-  validates :week_id, presence: true, uniqueness: [:user_id]
+  validates :week_id, presence: true, uniqueness: { scope: :user_id }
   validates :user_id, presence: true
 
   before_validation do |model|
