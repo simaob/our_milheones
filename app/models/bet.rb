@@ -22,9 +22,9 @@ class Bet < ActiveRecord::Base
 
   before_validation do |model|
     if model.bet
-      model.bet['numbers'].reject!(&:blank?)
+      model.bet['numbers'] = model.bet['numbers'].split(",")
       model.bet['numbers'].map!(&:to_i).sort!
-      model.bet['stars'].reject!(&:blank?)
+      model.bet['stars'] = model.bet['stars'].split(",")
       model.bet['stars'].map!(&:to_i).sort!
     end
   end

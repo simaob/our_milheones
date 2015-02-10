@@ -15,16 +15,12 @@
   <%= f.fields_for :bet do |b| %>
     <div class="form-group">
       <%= b.label :numbers %>
-      <%= b.select :numbers, options_for_select((1..50).to_a,
-        @bet.bet && @bet.bet["numbers"]),
-        {}, { multiple: true, class: "form-control" }%>
+      <%= b.text_field :numbers, value: @bet.numbers.join(","), class: "form-control" %>
       <p class="help-block">5 numbers from 1 to 50, inclusive.</p>
     </div>
     <div class="form-group">
       <%= b.label :stars %>
-      <%= b.select :stars, options_for_select((1..11).to_a,
-        @bet.bet && @bet.bet["stars"]),
-        {}, { multiple: true, class: "form-control" }%>
+      <%= b.text_field :stars, value: @bet.stars.join(","), class: "form-control" %>
       <p class="help-block">2 numbers from 1 to 11, inclusive.</p>
     </div>
   <% end %>
