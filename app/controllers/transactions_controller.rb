@@ -1,5 +1,7 @@
 class TransactionsController < ApplicationController
 
+  before_filter authorize!, except: [:index]
+
   # GET /transactions
   # GET /transactions.json
   def index
@@ -12,7 +14,6 @@ class TransactionsController < ApplicationController
 
   # GET /transactions/new
   def new
-    authorize!
     @transaction = Transaction.new
     @users = User.order(:name)
   end
