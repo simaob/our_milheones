@@ -1,0 +1,29 @@
+User account created for you
+========================
+
+You can access the Our Milheones website through the following link:
+  <%= link_to "http://our_milheones.simaobelchior.net", root_url %>
+
+Your account details are:
+  * Email: <%= @user.email %>
+  * Name: <%= @user.name %>
+  * Password: <%= @password %> (make sure you change it to something more secure ASAP!")
+
+<% quote = [
+      "Quem tudo quer, tudo perde",
+      "Não há fome que não dê em fartura",
+      "Quem não tem cão, caça com gato",
+      "Mais vale um pássaro na mão, do que dois a voar",
+      "Enquanto há vida, há esperança",
+      "Et pluribus unum",
+      "Confia em ti",
+      "Para a frente é que é caminho",
+      "Sarava!",
+      "Quando é que se abre a porta aBerta?",
+      "Eu sou o rei dos matraquilhos"
+    ].shuffle.first
+%>
+Thank you!
+Simão
+
+-- <%= quote %>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>User account created for you</h1>
+    <p>
+      You can access the Our Milheones website through the following link:
+        <%= link_to "http://our_milheones.simaobelchior.net", root_url %>
+    </p>
+    <p>
+      Your account details are:<br>
+      <strong>Email:</strong> <%= @user.email %><br>
+      <strong>Name:</strong> <%= @user.name %><br>
+      <strong>Password:</strong> <%= @password %> <em>(make sure you change it
+        to something more secure ASAP!")</em>
+    </p>
+
+    <% quote = [
+          "Quem tudo quer, tudo perde",
+          "Não há fome que não dê em fartura",
+          "Quem não tem cão, caça com gato",
+          "Mais vale um pássaro na mão, do que dois a voar",
+          "Enquanto há vida, há esperança",
+          "Et pluribus unum",
+          "Confia em ti",
+          "Para a frente é que é caminho",
+          "Sarava!",
+          "Quando é que se abre a porta aBerta?",
+          "Eu sou o rei dos matraquilhos"
+        ].shuffle.first
+    %>
+    <p>Thank you!<br> Simão</p>
+    <p>
+      -- <em><%= quote %></em>
+    </p>
+  </body>
+</html>
