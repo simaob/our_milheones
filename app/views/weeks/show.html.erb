@@ -30,6 +30,15 @@
       </li>
     <% end %>
   </ul>
+
+  <% if current_user.is_admin? %>
+    <h5>Quick play bets</h5>
+    <ul class="quick-play">
+      <% @bets.each do |bet| %>
+        <li><%= bet.numbers.join(" ") %> + <%= bet.stars.join(" ") %></li>
+      <% end %>
+    </ul>
+  <% end %>
 <% end %>
 
 <%= link_to 'Back', weeks_path %>
