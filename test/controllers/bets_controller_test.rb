@@ -34,11 +34,6 @@ class BetsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should get edit" do
-    get :edit, id: @bet
-    assert_response :success
-  end
-
   test "should update bet" do
     bet = {numbers: @bet.numbers.join(","), stars: @bet.stars.join(",") }
     patch :update, id: @bet, bet: { bet: bet, user_id: @bet.user_id,

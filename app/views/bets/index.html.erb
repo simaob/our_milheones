@@ -18,7 +18,7 @@
         <td><%= bet.user.try(:name) %></td>
         <td>
           <%= link_to 'Show', bet %>
-          <% if bet.week == current_week %>
+          <% if bet.week == current_week && current_user == bet.user %>
             |
             <%= link_to 'Edit', new_bet_path %>
           <% end %>
