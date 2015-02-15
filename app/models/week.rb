@@ -19,9 +19,9 @@ class Week < ActiveRecord::Base
 
   before_validation do |model|
     if model.solution
-      model.solution['numbers'].reject!(&:blank?)
+      model.solution['numbers'] = model.solution['numbers'].split(",")
       model.solution['numbers'].map!(&:to_i).sort!
-      model.solution['stars'].reject!(&:blank?)
+      model.solution['stars'] = model.solution['stars'].split(",")
       model.solution['stars'].map!(&:to_i).sort!
     end
   end
