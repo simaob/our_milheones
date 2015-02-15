@@ -10,8 +10,6 @@
       </ul>
     </div>
   <% end %>
-  <%= f.hidden_field :user_id %>
-  <%= f.hidden_field :week_id %>
   <%= f.fields_for :bet do |b| %>
     <div class="form-group">
       <%= b.label :numbers %>
