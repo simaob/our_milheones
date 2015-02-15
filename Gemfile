@@ -24,7 +24,7 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'devise'
-gem "enumerate_it"
+gem 'enumerate_it'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
@@ -38,6 +38,7 @@ group :development do
   gem 'capistrano-rails', '~> 1.1'
   gem 'capistrano-passenger'
   gem 'annotate', github: 'ctran/annotate_models'
+  gem 'letter_opener'
 end
 
 group :development, :test do
