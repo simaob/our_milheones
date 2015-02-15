@@ -1,6 +1,6 @@
 class WeeksController < ApplicationController
-  before_action :set_week, only: [:show, :destroy, :edit, :update]
-  before_action :authorize!, only: [:edit, :update, :destroy]
+  before_action :set_week, only: [:show, :destroy, :edit, :update, :request_bets]
+  before_action :authorize!, only: [:edit, :update, :destroy, :request_bets]
 
   # GET /weeks
   # GET /weeks.json
@@ -38,6 +38,11 @@ class WeeksController < ApplicationController
       format.html { redirect_to weeks_url, notice: 'Week was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def request_bets
+    BetMailer.make_your_bets(@week).deliver_later
+    render nothing: true
   end
 
   private

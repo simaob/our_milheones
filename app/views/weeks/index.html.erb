@@ -29,6 +29,11 @@
             <%= link_to 'Add solution', edit_week_path(week, set: 'solution') %>
             |
             <%= link_to 'Set prize', edit_week_path(week, set: 'prize') %>
+            <% if week == current_week %>
+              |
+              <%= link_to 'Request bets', request_bets_week_path(week),
+                remote: true %>
+            <% end %>
           <% end %>
         </td>
       </tr>
