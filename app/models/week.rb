@@ -18,7 +18,7 @@ class Week < ActiveRecord::Base
   validates :number, uniqueness: { scope: :friday }
 
   before_validation do |model|
-    if model.solution
+    if model.solution && model.changes.include?(:solution)
       model.solution['numbers'] = model.solution['numbers'].split(",")
       model.solution['numbers'].map!(&:to_i).sort!
       model.solution['stars'] = model.solution['stars'].split(",")
