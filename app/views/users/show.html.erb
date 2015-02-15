@@ -1,0 +1,19 @@
+<h3><%= @user.name %></h3>
+<p>
+  <strong>Email:</strong> <%= mail_to @user.email %>
+</p>
+
+<h4>Last <%= pluralize(@bets.size, 'bet') %></h4>
+<ul>
+  <% @bets.each do |bet| %>
+    <li>
+      <%= display_bet bet, bet.week.solution %>,
+      for <%= link_to "week #{bet.week.number} (#{bet.week.friday})", bet.week %>
+    </li>
+  <% end %>
+</ul>
+
+<% if @user == current_user %>
+  <%= link_to 'Edit', edit_user_path(@user) %> |
+<% end %>
+<%= link_to 'Back', users_path %>

@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   resources :bets
   resources :weeks, except: [:new, :create]
   resources :transactions, only: [:new, :index, :create]
-  resources :users, only: [:index]
+  resources :users, except: [:delete, :destroy]
 
   root 'weeks#index'
 end

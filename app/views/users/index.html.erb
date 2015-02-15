@@ -14,8 +14,8 @@
   <tbody>
     <% @users.each do |user| %>
       <tr>
+        <td><%= link_to user.name, user %></td>
         <td><%= mail_to user.email %></td>
-        <td><%= user.name %></td>
         <% if current_user.is_admin? %>
           <td class="<%= user.balance >= 0.0 ? "success" : "danger" %>">
             <%= user.balance %>
@@ -27,3 +27,7 @@
 </table>
 
 <br>
+
+<% if current_user.is_admin? %>
+  <%= link_to "Add user", new_user_path %>
+<% end %>

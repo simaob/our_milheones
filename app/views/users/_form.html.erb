@@ -1,0 +1,42 @@
+<%= form_for(@user) do |f| %>
+  <% if @user.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@user.errors.count, "error") %> prohibited this bet from being saved:</h2>
+
+      <ul>
+      <% @user.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= f.label :email %>
+    <%= f.email_field :email, autofocus: true, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :name %>
+    <%= f.text_field :name, class: "form-control" %>
+  </div>
+
+  <% if @user == current_user %>
+    <div class="form-group">
+      <%= f.label :password %>
+      <em>(<%= @minimum_password_length %> characters minimum)</em>
+      <%= f.password_field :password, autocomplete: "off",
+        class: "form-control" %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :password_confirmation %>
+      <%= f.password_field :password_confirmation, autocomplete: "off",
+        class: "form-control" %>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit "Sign up", class: "btn btn-default" %>
+  </div>
+<% end %>
