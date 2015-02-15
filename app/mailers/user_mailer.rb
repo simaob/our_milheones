@@ -1,6 +1,6 @@
 class UserMailer < ApplicationMailer
 
-  def user_created user, password
+  def welcome_email user, password
     @user = user
     @password = password
     mail(to: @user.email, subject: "[Euromilhões] Conta criada")

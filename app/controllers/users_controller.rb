@@ -23,6 +23,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
+        UserMailer.welcome_email(@user, @password).deliver_later
         format.html { redirect_to users_path, notice: 'User was successfully created.' }
         format.json { render :show, status: :created, location: @user }
       else
@@ -67,6 +68,6 @@ class UsersController < ApplicationController
   end
 
   def set_password
-    params[:user][:password] = params[:user][:password_confirmation] = "12345678"
+    @password = params[:user][:password] = params[:user][:password_confirmation] = "12345678"
   end
 end
