@@ -18,7 +18,7 @@ class BetTest < ActiveSupport::TestCase
   # end
   test "numbers should return empty if no bet" do
     bet = Bet.new
-    assert_equal "", bet.numbers
+    assert_equal [], bet.numbers
   end
 
   test "numbers should return bet numbers" do
@@ -28,7 +28,7 @@ class BetTest < ActiveSupport::TestCase
 
   test "stars should return empty if no bet" do
     bet = Bet.new
-    assert_equal "", bet.stars
+    assert_equal [], bet.stars
   end
 
   test "stars should return bet stars" do

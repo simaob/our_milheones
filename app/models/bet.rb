@@ -34,12 +34,12 @@ class Bet < ActiveRecord::Base
   after_commit :add_transaction, on: [:create]
 
   def numbers
-    return "" unless bet
+    return [] unless bet
     bet["numbers"]
   end
 
   def stars
-    return "" unless bet
+    return [] unless bet
     bet["stars"]
   end
 
