@@ -7,7 +7,7 @@
     <tr>
       <th>Bet</th>
       <th>User</th>
-      <th colspan="3"></th>
+      <th></th>
     </tr>
   </thead>
 
@@ -16,9 +16,13 @@
       <tr>
         <td><%= display_bet bet, bet.week.try(:solution) %></td>
         <td><%= bet.user.try(:name) %></td>
-        <td><%= link_to 'Show', bet %></td>
-        <td><%= link_to 'Edit', edit_bet_path(bet) %></td>
-        <td><%= link_to 'Destroy', bet, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td>
+          <%= link_to 'Show', bet %>
+          <% if bet.week == current_week %>
+            |
+            <%= link_to 'Edit', new_bet_path %>
+          <% end %>
+        </td>
       </tr>
     <% end %>
   </tbody>

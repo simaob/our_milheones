@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   devise_for :users
   # You can have the root of your site routed with "root"
-  resources :bets
+  resources :bets, except: [:edit]
   resources :weeks, except: [:new, :create] do
     member do
       get :request_bets

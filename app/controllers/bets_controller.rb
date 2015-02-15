@@ -1,5 +1,5 @@
 class BetsController < ApplicationController
-  before_action :set_bet, only: [:show, :edit, :update, :destroy]
+  before_action :set_bet, only: [:show, :update, :destroy]
 
   # GET /bets
   # GET /bets.json
@@ -16,10 +16,6 @@ class BetsController < ApplicationController
   def new
     @bet = Bet.find_or_initialize_by(week_id: current_week.id,
                                      user_id: current_user.id)
-  end
-
-  # GET /bets/1/edit
-  def edit
   end
 
   # POST /bets
