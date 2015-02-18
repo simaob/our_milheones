@@ -7,21 +7,19 @@ $(function() {
     var random = [];
     var num;
     while(random.length < 5) {
-     num = Math.ceil((Math.random()*50)+1);
+     num = Math.ceil((Math.random()*50)+1).toString();
      if(random.indexOf(num) === -1){
        random.push(num);
      }
     }
-    $('#bet_bet_numbers').val('');
-    $('#bet_bet_numbers').val(random.toString());
+    $('#bet_bet_numbers').select2('val', random);
     random = [];
     while(random.length < 2) {
-     num = Math.ceil((Math.random()*11)+1);
+     num = Math.ceil((Math.random()*11)+1).toString();
      if(random.indexOf(num) === -1){
        random.push(num);
      }
     }
-    $('#bet_bet_stars').val('');
-    $('#bet_bet_stars').val(random.toString());
+    $('#bet_bet_stars').select2('val', random);
   });
 });
