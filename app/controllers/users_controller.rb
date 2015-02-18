@@ -68,6 +68,8 @@ class UsersController < ApplicationController
   end
 
   def set_password
-    @password = params[:user][:password] = params[:user][:password_confirmation] = "12345678"
+    range = ((48..57).to_a+(65..90).to_a+(97..122).to_a)
+    password = ([nil]*8).map { range.sample.chr }.join
+    @password = params[:user][:password] = params[:user][:password_confirmation] = password
   end
 end
