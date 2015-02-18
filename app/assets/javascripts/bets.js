@@ -7,7 +7,7 @@ $(function() {
     var random = [];
     var num;
     while(random.length < 5) {
-     num = Math.ceil((Math.random()*50)+1).toString();
+     num = Math.floor((Math.random()*50)+1).toString();
      if(random.indexOf(num) === -1){
        random.push(num);
      }
@@ -15,7 +15,7 @@ $(function() {
     $('#bet_bet_numbers').select2('val', random);
     random = [];
     while(random.length < 2) {
-     num = Math.ceil((Math.random()*11)+1).toString();
+     num = Math.floor((Math.random()*11)+1).toString();
      if(random.indexOf(num) === -1){
        random.push(num);
      }
