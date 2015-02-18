@@ -1,3 +1,4 @@
+# encoding: utf-8
 class BetMailer < ApplicationMailer
 
   def make_your_bets week

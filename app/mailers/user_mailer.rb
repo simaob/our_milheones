@@ -1,3 +1,4 @@
+# encoding: utf-8
 class UserMailer < ApplicationMailer
 
   def welcome_email user, password
