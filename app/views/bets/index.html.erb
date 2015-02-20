@@ -14,7 +14,7 @@
   <tbody>
     <% @bets.each do |bet| %>
       <tr>
-        <td><%= display_bet bet, bet.week.try(:solution) %></td>
+        <td><%= formatted_bet bet, bet.week.try(:solution) %></td>
         <td><%= bet.user.try(:name) %></td>
         <td>
           <%= link_to 'Show', bet %>

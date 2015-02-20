@@ -22,7 +22,7 @@
 
 <p>
   <strong>Solution:</strong>
-  <%= @week.print_solution %>
+  <%= print_bet @week.solution %>
 </p>
 
 <h4>Bets for this week</h4>
@@ -32,7 +32,7 @@
     <li>
       <%= display_user user %>:
       <% if bet %>
-        <%= display_bet bet, @week.solution %>
+        <%= formatted_bet bet, @week.solution %>
       <% end %>
     </li>
   <% end %>
@@ -45,7 +45,7 @@
   <h5>Quick play bets</h5>
   <ul class="quick-play">
     <% @bets.each do |bet| %>
-      <li><%= bet.numbers.join(" ") %> + <%= bet.stars.join(" ") %></li>
+      <li><%= print_bet bet.bet %></li>
     <% end %>
   </ul>
 <% end %>

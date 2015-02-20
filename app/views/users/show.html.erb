@@ -1,6 +1,9 @@
 <h3><%= @user.name %></h3>
 <p>
-  <strong>Email:</strong> <%= mail_to @user.email %>
+  <strong>Email:</strong> <%= mail_to @user.email %><br>
+  <% if @user.default_bet.present? %>
+    <strong>Default bet:</strong> <%= print_bet @user.default_bet %>
+  <% end %>
 </p>
 
 <h4>Stats</h4>
@@ -28,7 +31,7 @@
 <ul>
   <% @bets.each do |bet| %>
     <li>
-      <%= display_bet bet, bet.week.solution %>,
+      <%= formatted_bet bet, bet.week.solution %>,
       for <%= link_to "week #{bet.week.number} (#{bet.week.friday})", bet.week %>
     </li>
   <% end %>

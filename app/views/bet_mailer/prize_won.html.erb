@@ -6,13 +6,13 @@
   <body>
     <h1>We won! <strong>€<%= @week.prize %></strong></h1>
     <p>
-      This week's solution was: <%= @week.print_solution %>.<br>
+      This week's solution was: <%= print_bet @week.solution %>.<br>
       Our bets were:
       <ul>
         <% @week.bets.each do |bet| %>
           <li>
             <%= display_user bet.user %>:
-            <%= display_bet bet, @week.solution %>
+            <%= formatted_bet bet, @week.solution %>
           </li>
         <% end %>
       </ul>

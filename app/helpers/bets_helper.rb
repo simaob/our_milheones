@@ -1,5 +1,5 @@
 module BetsHelper
-  def display_bet bet, solution=nil
+  def formatted_bet bet, solution=nil
     return 'No bet made' unless bet
     result = []
     ['numbers', 'stars'].each do |i|

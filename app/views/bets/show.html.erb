@@ -3,7 +3,7 @@
 </p>
 <p>
   <strong>Bet:</strong>
-  <%= display_bet @bet, @bet.week.try(:solution) %>
+  <%= formatted_bet @bet, @bet.week.try(:solution) %>
 </p>
 
 <%= link_to 'Back', bets_path %>

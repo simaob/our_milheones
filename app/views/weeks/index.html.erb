@@ -17,11 +17,11 @@
       <tr class="<%= if week == current_week then "success" end %>">
         <td><%= week.number %></td>
         <td><%= week.friday %></td>
-        <td><%= week.print_solution %></td>
+        <td><%= print_bet week.solution %></td>
         <td><%= week.bets.size %>
           (<%= week.bets_missing %> missing)
         </td>
-        <td><%= display_bet(week.bet_from(current_user), week.solution) %>
+        <td><%= formatted_bet(week.bet_from(current_user), week.solution) %>
         <td>
           <%= link_to 'Show', week %>
           <% if current_user.is_admin? %>

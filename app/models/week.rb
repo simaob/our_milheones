@@ -36,11 +36,6 @@ class Week < ActiveRecord::Base
     bets.find_by(user_id: user.id)
   end
 
-  def print_solution
-    return "" unless solution
-    "#{solution["numbers"].join(", ")} + #{solution["stars"].join(", ")}"
-  end
-
   def register_prize
     total = User.count
     divided = prize/total
