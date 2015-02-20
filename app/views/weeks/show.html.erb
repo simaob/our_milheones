@@ -1,5 +1,3 @@
-<p id="notice"><%= notice %></p>
-
 <p>
   <strong>Number:</strong>
   <%= @week.number %>
@@ -12,8 +10,15 @@
 
 <p>
   <strong>Prize:</strong>
-  €<%= @week.prize %>
+  €<%= @week.prize.presence || 0.0 %>
 </p>
+
+<% if @week.prize_details.present? %>
+  <p>
+    <strong>Prize details:</strong>
+    <%= @week.prize_details %>
+  </p>
+<% end %>
 
 <p>
   <strong>Solution:</strong>

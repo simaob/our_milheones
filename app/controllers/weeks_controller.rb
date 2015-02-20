@@ -22,7 +22,7 @@ class WeeksController < ApplicationController
   def update
     respond_to do |format|
       if @week.update(week_params)
-        @week.register_prize if @week.update_type
+        @week.register_prize if @week.update_type == 'prize'
         format.html { redirect_to @week, notice: 'Week was successfully updated.' }
         format.json { render :show, status: :ok, location: @week }
       else
