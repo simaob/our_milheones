@@ -52,4 +52,29 @@ class UserTest < ActiveSupport::TestCase
     assert_equal 1, (@user.bets.size - @user.recent_bets(5).size)
     assert_equal last_bet, (@user.bets - @user.recent_bets(5)).first
   end
+
+  test "recent transactions should be empty if no transactions" do
+    Transaction.delete_all
+    assert_equal [], @user.recent_transactions(5)
+  end
+
+  test "recent transactions return all of users transactions" do
+    5.times do |i|
+      Transaction.create(user_id: @user.id, value: i,
+                                            kind: TransactionKind::BET)
+    end
+    assert_equal 5, @user.recent_transactions(5).size
+  end
+
+  test "recent transactions return all but one users transactions" do
+    Transaction.delete_all
+    6.times do |i|
+      Transaction.create(user_id: @user.id,
+        kind: TransactionKind::BET, value: i)
+      sleep(0.1)
+    end
+    last_transaction = Transaction.where(value: 0.0).first
+    assert_equal 1, (@user.transactions.size - @user.recent_transactions(5).size)
+    assert_equal last_transaction, (@user.transactions - @user.recent_transactions(5)).first
+  end
 end
