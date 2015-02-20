@@ -48,5 +48,6 @@
 
 <% if @user == current_user %>
   <%= link_to 'Edit', edit_user_path(@user) %> |
+  <%= link_to 'Set default bet', edit_user_path(@user, update_type: 'default_bet') %> |
 <% end %>
 <%= link_to 'Back', users_path %>

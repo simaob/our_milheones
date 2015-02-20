@@ -11,32 +11,51 @@
     </div>
   <% end %>
 
-  <div class="form-group">
-    <%= f.label :email %>
-    <%= f.email_field :email, autofocus: true, class: "form-control" %>
-  </div>
-
-  <div class="form-group">
-    <%= f.label :name %>
-    <%= f.text_field :name, class: "form-control" %>
-  </div>
-
-  <% if @user == current_user %>
+  <% if params[:update_type] && params[:update_type] == 'default_bet' %>
+    <%= f.fields_for :default_bet do |b| %>
+      <div class="form-group">
+        <%= b.label :numbers %>
+        <%= b.text_field :numbers, value: @user.default_bet &&
+          @user.default_bet["numbers"].join(","),
+          class: "form-control numbers-selector" %>
+        <p class="help-block">5 numbers from 1 to 50, inclusive.</p>
+      </div>
+      <div class="form-group">
+        <%= b.label :stars %>
+        <%= b.text_field :stars, value: @user.default_bet &&
+          @user.default_bet["stars"].join(","),
+          class: "form-control stars-selector" %>
+        <p class="help-block">2 numbers from 1 to 11, inclusive.</p>
+      </div>
+    <% end %>
+  <% else %>
     <div class="form-group">
-      <%= f.label :password %>
-      <em>(<%= @minimum_password_length %> characters minimum)</em>
-      <%= f.password_field :password, autocomplete: "off",
-        class: "form-control" %>
+      <%= f.label :email %>
+      <%= f.email_field :email, autofocus: true, class: "form-control" %>
     </div>
 
     <div class="form-group">
-      <%= f.label :password_confirmation %>
-      <%= f.password_field :password_confirmation, autocomplete: "off",
-        class: "form-control" %>
+      <%= f.label :name %>
+      <%= f.text_field :name, class: "form-control" %>
     </div>
+
+    <% if @user == current_user %>
+      <div class="form-group">
+        <%= f.label :password %>
+        <em>(<%= @minimum_password_length %> characters minimum)</em>
+        <%= f.password_field :password, autocomplete: "off",
+          class: "form-control" %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :password_confirmation %>
+        <%= f.password_field :password_confirmation, autocomplete: "off",
+          class: "form-control" %>
+      </div>
+    <% end %>
   <% end %>
 
   <div class="actions">
-    <%= f.submit "Sign up", class: "btn btn-default" %>
+    <%= f.submit "Update", class: "btn btn-default" %>
   </div>
 <% end %>

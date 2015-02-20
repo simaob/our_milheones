@@ -66,7 +66,8 @@ class UsersController < ApplicationController
       params[:user].delete(:password_confirmation)
     end
     params.require(:user).permit(:name, :email, :password,
-                                 :password_confirmation)
+                                 :password_confirmation,
+                                 default_bet: [ :numbers, :stars ])
   end
 
   def set_password

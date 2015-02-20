@@ -30,6 +30,15 @@ class User < ActiveRecord::Base
   has_many :bets
   has_many :transactions
 
+  before_validation do |model|
+    if model.default_bet
+      model.default_bet['numbers'] = model.default_bet['numbers'].split(",")
+      model.default_bet['numbers'].map!(&:to_i).sort!
+      model.default_bet['stars'] = model.default_bet['stars'].split(",")
+      model.default_bet['stars'].map!(&:to_i).sort!
+    end
+  end
+
 
   def recent_bets n
     bets.joins(:week).order('weeks.friday DESC').limit(n)
