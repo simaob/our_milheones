@@ -2,13 +2,14 @@
 #
 # Table name: weeks
 #
-#  id         :integer          not null, primary key
-#  number     :integer
-#  friday     :date
-#  solution   :json
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  prize      :float            default("0.0")
+#  id            :integer          not null, primary key
+#  number        :integer
+#  friday        :date
+#  solution      :json
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  prize         :float            default("0.0")
+#  prize_details :text
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html

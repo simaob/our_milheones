@@ -66,6 +66,6 @@ class WeeksController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def week_params
       params.require(:week).permit(:number, :friday, :prize, :update_type,
-                                  solution: [ :numbers, :stars])
+                                   :prize_details, solution: [ :numbers, :stars])
     end
 end

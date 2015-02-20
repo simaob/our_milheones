@@ -46,3 +46,16 @@
 <% end %>
 
 <%= link_to 'Back', weeks_path %>
+<% if current_user.is_admin? %>
+  |
+  <%= link_to 'Add solution', edit_week_path(@week,
+    update_type: 'solution') %>
+  |
+  <%= link_to 'Set prize', edit_week_path(@week,
+    update_type: 'prize') %>
+  <% if @week == current_week %>
+     |
+    <%= link_to 'Request bets', request_bets_week_path(@week),
+    remote: true %>
+  <% end %>
+<% end %>
