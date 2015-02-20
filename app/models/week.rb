@@ -13,6 +13,7 @@
 
 class Week < ActiveRecord::Base
 
+  attr_accessor :update_type
   has_many :bets
 
   validates :number, uniqueness: { scope: :friday }
@@ -52,5 +53,6 @@ class Week < ActiveRecord::Base
         date: Date.today
       )
     end
+    BetMailer.prize_won(self).deliver_later
   end
 end

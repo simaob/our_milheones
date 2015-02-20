@@ -11,8 +11,8 @@
       </ul>
     </div>
   <% end %>
-  <%= hidden_field_tag :set, params[:set] %>
-  <% if params[:set] == 'solution' %>
+  <%= f.hidden_field :update_type %>
+  <% if @week.update_type == 'solution' %>
     <%= f.fields_for :solution do |b| %>
       <div class="form-group">
         <%= b.label :numbers %>
@@ -29,7 +29,7 @@
         <p class="help-block">2 numbers from 1 to 11, inclusive.</p>
       </div>
     <% end %>
-  <% elsif params[:set] == 'prize' %>
+  <% elsif @week.update_type == 'prize' %>
     <div class="form-group">
       <%= f.label :prize %>
       <div class="input-group">

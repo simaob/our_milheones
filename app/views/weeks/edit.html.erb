@@ -1,7 +1,7 @@
 <h1>
-  <% if params[:set] == 'solution' %>
+  <% if @week.update_type == 'solution' %>
     Adding solution
-  <% elsif params[:set] == 'prize' %>
+  <% elsif @week.update_type == 'prize' %>
     Adding prize
   <% end %>
 </h1>

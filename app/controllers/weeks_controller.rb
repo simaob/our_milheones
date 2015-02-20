@@ -16,12 +16,13 @@ class WeeksController < ApplicationController
   end
 
   def edit
+    @week.update_type = params[:update_type]
   end
 
   def update
     respond_to do |format|
       if @week.update(week_params)
-        @week.register_prize if params[:set] == 'prize'
+        @week.register_prize if @week.update_type
         format.html { redirect_to @week, notice: 'Week was successfully updated.' }
         format.json { render :show, status: :ok, location: @week }
       else
@@ -64,7 +65,7 @@ class WeeksController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def week_params
-      params.require(:week).permit(:number, :friday, :prize,
+      params.require(:week).permit(:number, :friday, :prize, :update_type,
                                   solution: [ :numbers, :stars])
     end
 end

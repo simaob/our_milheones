@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>We won! <strong>€<%= @week.prize %></strong></h1>
+    <p>
+      This week's solution was: <%= @week.print_solution %>.<br>
+      Our bets were:
+      <ul>
+        <% @week.bets.each do |bet| %>
+          <li>
+            <%= display_user bet.user %>:
+            <%= display_bet bet, @week.solution %>
+          </li>
+        <% end %>
+      </ul>
+    </p>
+    <p>
+      More details at <%= link_to "our amazing website", week_url(@week) %>
+    </p>
+    <p>Congratulations!</p>
+    <p>
+      -- <em><%= @quote %></em>
+    </p>
+  </body>
+</html>
