@@ -29,4 +29,22 @@ class User < ActiveRecord::Base
 
   has_many :bets
   has_many :transactions
+
+
+  def recent_bets n
+    bets.joins(:week).order('weeks.friday DESC').limit(n)
+  end
+
+  def recent_transactions n
+    transactions.order('created_at DESC').limit(n)
+  end
+
+  def stats
+    stats = {}
+    stats[:total_bets] = bets.size
+    stats[:total_transactions] = transactions.size
+    stats[:balance] = balance
+    stats[:member_since] = created_at.strftime("%d/%m/%Y")
+    stats
+  end
 end

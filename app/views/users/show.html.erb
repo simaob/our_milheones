@@ -3,12 +3,42 @@
   <strong>Email:</strong> <%= mail_to @user.email %>
 </p>
 
+<h4>Stats</h4>
+<table class="table table-bordered table-condensed">
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Member since</td><td><%= @stats[:member_since] %></td></tr>
+    <tr>
+      <td>Balance</td>
+      <td class="<%= @stats[:balance] > 0.0 ? 'success' : 'danger' %>">
+        <%= @stats[:balance] %>
+      </td>
+    </tr>
+    <tr><td>Total transactions</td><td><%= @stats[:total_transactions] %></td></tr>
+    <tr><td>Total bets</td><td><%= @stats[:total_bets] %></td></tr>
+  </tbody>
+</table>
+
 <h4>Last <%= pluralize(@bets.size, 'bet') %></h4>
 <ul>
   <% @bets.each do |bet| %>
     <li>
       <%= display_bet bet, bet.week.solution %>,
       for <%= link_to "week #{bet.week.number} (#{bet.week.friday})", bet.week %>
+    </li>
+  <% end %>
+</ul>
+
+<h4>Last <%= pluralize(@transactions.size, 'transaction') %></h4>
+<ul>
+  <% @transactions.each do |t| %>
+    <li>
+      <%= t.kind_humanize %> | <%= t.value %> | <%= t.details %>
     </li>
   <% end %>
 </ul>

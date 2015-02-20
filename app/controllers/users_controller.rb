@@ -49,7 +49,9 @@ class UsersController < ApplicationController
   end
 
   def show
-    @bets = @user.bets.joins(:week).order('weeks.friday DESC').limit(5)
+    @bets = @user.recent_bets(5)
+    @transactions = @user.recent_transactions(5)
+    @stats = @user.stats
   end
 
   private
