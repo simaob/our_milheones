@@ -11,6 +11,7 @@ class WeeksController < ApplicationController
   # GET /weeks/1
   # GET /weeks/1.json
   def show
+    @users = User.order(:name)
     @bets = @week.bets.joins(:user).order('users.name ASC')
   end
 
@@ -43,6 +44,16 @@ class WeeksController < ApplicationController
   def request_bets
     BetMailer.make_your_bets(@week).deliver_later
     render nothing: true
+  end
+
+  def fill_bets
+    @week = current_week
+    User.all.each do |user|
+      unless @week.bets.where(user_id: user.id).any?
+        Bet.create_random_bet_for(user, @week)
+      end
+    end
+    redirect_to @week
   end
 
   private

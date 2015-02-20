@@ -20,25 +20,29 @@
   <%= @week.print_solution %>
 </p>
 
-<% if @bets.any? %>
-  <h4>Bets for this week</h4>
-  <ul>
-    <% @bets.each do |bet| %>
-      <li>
-        <%= display_user_of bet %>:
+<h4>Bets for this week</h4>
+<ul>
+  <% @users.each do |user| %>
+    <% bet = user.bets.where(week_id: @week.id).first %>
+    <li>
+      <%= display_user user %>:
+      <% if bet %>
         <%= display_bet bet, @week.solution %>
-      </li>
+      <% end %>
+    </li>
+  <% end %>
+</ul>
+<% if @users.size != @bets.size && current_user.is_admin? %>
+  <%= link_to "Fill bets", fill_bets_week_path(@week), method: :post %>
+<% end %>
+
+<% if current_user.is_admin? %>
+  <h5>Quick play bets</h5>
+  <ul class="quick-play">
+    <% @bets.each do |bet| %>
+      <li><%= bet.numbers.join(" ") %> + <%= bet.stars.join(" ") %></li>
     <% end %>
   </ul>
-
-  <% if current_user.is_admin? %>
-    <h5>Quick play bets</h5>
-    <ul class="quick-play">
-      <% @bets.each do |bet| %>
-        <li><%= bet.numbers.join(" ") %> + <%= bet.stars.join(" ") %></li>
-      <% end %>
-    </ul>
-  <% end %>
 <% end %>
 
 <%= link_to 'Back', weeks_path %>

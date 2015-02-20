@@ -15,9 +15,9 @@ module BetsHelper
     result.join(" + ").html_safe
   end
 
-  def display_user_of bet
-    content_tag(:span, class: "#{"current-user" if bet.user == current_user}") do
-      "#{bet.user.name}"
+  def display_user user
+    content_tag(:span, class: "#{"current-user" if user == current_user}") do
+      "#{user.name}"
     end
   end
 end

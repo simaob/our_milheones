@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   resources :weeks, except: [:new, :create] do
     member do
       get :request_bets
+      post :fill_bets
     end
   end
   resources :transactions, only: [:new, :index, :create]

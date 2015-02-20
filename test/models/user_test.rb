@@ -18,6 +18,7 @@
 #  updated_at             :datetime
 #  balance                :float            default("0.0")
 #  is_admin               :boolean          default("false")
+#  default_bet            :json
 #
 
 require 'test_helper'

@@ -21,7 +21,7 @@ class Bet < ActiveRecord::Base
   validates :user_id, presence: true
 
   before_validation do |model|
-    if model.bet
+    if model.bet && !model.bet['numbers'].is_a?(Array)
       model.bet['numbers'] = model.bet['numbers'].split(",")
       model.bet['numbers'].map!(&:to_i).sort!
       model.bet['stars'] = model.bet['stars'].split(",")
@@ -41,6 +41,19 @@ class Bet < ActiveRecord::Base
   def stars
     return [] unless bet
     bet["stars"]
+  end
+
+  def self.create_random_bet_for user, week
+    numbers = (1..50).to_a
+    stars = (1..11).to_a
+    bet = { numbers: [], stars: [] }
+    5.times do
+      bet[:numbers] << numbers.shuffle.pop
+    end
+    2.times do
+      bet[:stars] << stars.shuffle.pop
+    end
+    self.create(bet: bet, user_id: user.id, week_id: week.id)
   end
 
   private
