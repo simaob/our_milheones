@@ -53,6 +53,8 @@ class Bet < ActiveRecord::Base
     2.times do
       bet[:stars] << stars.shuffle.pop
     end
+    bet[:numbers].sort!
+    bet[:stars].sort!
     self.create(bet: bet, user_id: user.id, week_id: week.id)
   end
 
