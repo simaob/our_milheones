@@ -35,4 +35,13 @@ class WeeksControllerTest < ActionController::TestCase
     assert_redirected_to week_path(assigns(:week))
     assert_equal 20.0, assigns(:week).prize
   end
+
+  test "should create missing bets" do
+    2.times do |i|
+      User.create(email: "s#{i}@mail.com", name: "derp")
+    end
+    assert_equal 2, @week.bets_missing
+    post :fill_bets, id: @week
+    assert_equal 0, assigns(:week).bets_missing
+  end
 end
