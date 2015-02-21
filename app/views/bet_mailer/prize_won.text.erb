@@ -6,7 +6,7 @@ This week's solution was: <%= print_bet @week.solution %>.
 Our bets were:
 
 <% @week.bets.each do |bet| %>
-  <%= display_user bet.user %> <%= formatted_bet bet %>
+  <%= bet.user.name %> <%= formatted_bet bet %>
 <% end %>
 
 More details at <%= week_url(@week) %>

@@ -11,7 +11,7 @@
       <ul>
         <% @week.bets.each do |bet| %>
           <li>
-            <%= display_user bet.user %>:
+            <%= bet.user.name %>:
             <%= formatted_bet bet, @week.solution %>
           </li>
         <% end %>

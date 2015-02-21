@@ -1,5 +1,6 @@
 # encoding: utf-8
 class BetMailer < ApplicationMailer
+  add_template_helper(ApplicationHelper)
 
   def make_your_bets week
     @week = week

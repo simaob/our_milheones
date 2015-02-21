@@ -31,7 +31,7 @@ class User < ActiveRecord::Base
   has_many :transactions
 
   before_validation do |model|
-    if model.default_bet
+    if model.default_bet && !model.default_bet['numbers'].is_a?(Array)
       model.default_bet['numbers'] = model.default_bet['numbers'].split(",")
       model.default_bet['numbers'].map!(&:to_i).sort!
       model.default_bet['stars'] = model.default_bet['stars'].split(",")
