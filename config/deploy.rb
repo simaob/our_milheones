@@ -53,7 +53,9 @@ set(:symlinks, [
 
 # which config files should be made executable after copying
 # # by deploy:setup_config
- set(:executable_config_files, [])
+set(:executable_config_files, [])
+
+set :whenever_identifier, ->{ "#{fetch(:application)}_#{fetch(:stage)}" }
 
 namespace :deploy do
 
