@@ -7,6 +7,7 @@
       <th>Number</th>
       <th>Friday</th>
       <th>Solution</th>
+      <th>Prize</th>
       <th>Bets</th>
       <th>Your bet</th>
       <th></th>
@@ -19,6 +20,8 @@
         <td><%= week.number %></td>
         <td><%= week.friday %></td>
         <td><%= print_bet week.solution %></td>
+        <td><span class="<%= "label label-success" if week.prize && week.prize > 0.0 %>">
+          €<%= week.prize.presence || 0.0 %></span></td>
         <td><%= week.bets.size %>
           (<%= week.bets_missing %> missing)
         </td>
