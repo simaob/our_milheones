@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   end
   resources :transactions, only: [:new, :index, :create]
   resources :users, except: [:delete, :destroy]
+  get 'payments', to: 'payments#index', as: 'payments'
 
   root 'weeks#index'
 end

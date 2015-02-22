@@ -1,0 +1,17 @@
+<h1>Payments</h1>
+
+<h3>Balance:
+  <span class="label label-<%= current_user.balance > 0.0 ?
+  "success" : "danger" %>">
+    <%= current_user.balance %></span></h3>
+
+<p>If your balance is showing in red you could probably make a transfer to
+clear it... if it's in green you can also make a transfer to make it more
+robust... ;). but if you feel like it, here are my account details:</p>
+<hr>
+<p class="lead">
+  <strong>Name:</strong> Simão Belchior de Castro<br>
+  <strong>NIB:</strong> 0035 0739 00021582100 38<br>
+  <strong>IBAN:</strong> PT50 0035 0739 00021582100 38<br>
+  <strong>BIC SWIFT:</strong> CGDIPTPL
+</p>
