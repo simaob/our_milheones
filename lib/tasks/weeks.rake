@@ -12,6 +12,7 @@ namespace :weeks do
     friday = Date.today.end_of_week
     week_number = friday.strftime("%U").to_i
     week = Week.find_or_create_by(number: week_number, friday: friday)
+    week.fill_default_bets
     BetMailer.make_your_bets(week).deliver_now
   end
 end

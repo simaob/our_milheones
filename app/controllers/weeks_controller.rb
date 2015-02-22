@@ -52,7 +52,11 @@ class WeeksController < ApplicationController
     @week = current_week
     User.all.each do |user|
       unless @week.bets.where(user_id: user.id).any?
-        Bet.create_random_bet_for(user, @week)
+        if user.default_bet.present?
+          Bet.create(user_id: user.id, week_id: week.id, bet: user.default_bet)
+        else
+          Bet.create_random_bet_for(user, @week)
+        end
       end
     end
     redirect_to @week

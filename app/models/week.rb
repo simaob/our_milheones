@@ -51,4 +51,14 @@ class Week < ActiveRecord::Base
     end
     BetMailer.prize_won(self).deliver_later
   end
+
+  def fill_default_bets
+    User.all.each do |u|
+      if u.default_bet.present?
+        bet = Bet.find_or_initialize_by(user_id: u.id, week_id: self.id)
+        bet.bet = u.default_bet
+        bet.save
+      end
+    end
+  end
 end
