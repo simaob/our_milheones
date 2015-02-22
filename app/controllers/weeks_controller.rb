@@ -6,6 +6,7 @@ class WeeksController < ApplicationController
   # GET /weeks.json
   def index
     @weeks = Week.order('friday DESC').includes(:bets).page(params[:page])
+    @weeks_month = @weeks.group_by { |t| t.friday.strftime("%B %Y") }
   end
 
   # GET /weeks/1
