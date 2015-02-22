@@ -10,6 +10,7 @@ class TransactionsController < ApplicationController
     else
       @transactions = current_user.transactions.order('created_at DESC')
     end
+    @transactions = @transactions.page(params[:page])
   end
 
   # GET /transactions/new

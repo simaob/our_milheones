@@ -1,6 +1,7 @@
-<p id="notice"><%= notice %></p>
-
 <h1>Listing Bets</h1>
+
+<%= paginate @bets, theme: 'twitter-bootstrap-3',
+  pagination_class:  "pagination-sm" %>
 
 <table class="table table-bordered table-condensed">
   <thead>
@@ -28,6 +29,5 @@
   </tbody>
 </table>
 
-<br>
-
-<%= link_to 'New Bet', new_bet_path %>
+<%= paginate @bets, theme: 'twitter-bootstrap-3',
+  pagination_class:  "pagination-sm" %>

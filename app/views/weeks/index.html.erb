@@ -1,5 +1,6 @@
 <h1>Week by week</h1>
-
+<%= paginate @weeks, theme: 'twitter-bootstrap-3',
+  pagination_class:  "pagination-sm" %>
 <table class="table table-bordered table-condensed">
   <thead>
     <tr>
@@ -42,4 +43,5 @@
     <% end %>
   </tbody>
 </table>
-
+<%= paginate @weeks, theme: 'twitter-bootstrap-3',
+  pagination_class:  "pagination-sm" %>

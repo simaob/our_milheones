@@ -4,7 +4,7 @@ class BetsController < ApplicationController
   # GET /bets
   # GET /bets.json
   def index
-    @bets = Bet.joins(:week).order('weeks.friday DESC')
+    @bets = Bet.joins(:week).order('weeks.friday DESC').page(params[:page])
   end
 
   # GET /bets/1

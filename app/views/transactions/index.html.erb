@@ -2,8 +2,15 @@
 
 <p>Here are the latest transactions associated with your account. This will include
 bets, payments, prizes and any admin transactions that might be relevant</p>
-<p>If your balance is in red and you feel like clearing it you can do so, by
-making a transfer to the following account:</p>
+
+<% if current_user.is_admin? %>
+  <%= link_to 'New Transaction', new_transaction_path %>
+<% end %>
+
+<br>
+
+<%= paginate @transactions, theme: 'twitter-bootstrap-3',
+  pagination_class:  "pagination-sm" %>
 
 <table class="table table-bordered table-condensed">
   <thead>
@@ -29,8 +36,6 @@ making a transfer to the following account:</p>
   </tbody>
 </table>
 
-<br>
+<%= paginate @transactions, theme: 'twitter-bootstrap-3',
+  pagination_class:  "pagination-sm" %>
 
-<% if current_user.is_admin? %>
-  <%= link_to 'New Transaction', new_transaction_path %>
-<% end %>
