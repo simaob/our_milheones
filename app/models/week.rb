@@ -32,6 +32,10 @@ class Week < ActiveRecord::Base
     User.count - bets.size
   end
 
+  def users_missing_bets
+    User.all - bets.map(&:user)
+  end
+
   def bet_from user
     bets.find_by(user_id: user.id)
   end
