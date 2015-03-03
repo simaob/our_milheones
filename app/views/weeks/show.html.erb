@@ -45,7 +45,7 @@
   <h5>Quick play bets</h5>
   <ul class="quick-play">
     <% @bets.each do |bet| %>
-      <li><%= print_bet bet.bet %></li>
+      <li><%= print_bet bet.bet, "" %></li>
     <% end %>
   </ul>
 <% end %>

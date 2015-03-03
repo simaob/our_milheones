@@ -22,8 +22,8 @@ module ApplicationHelper
     end
   end
 
-  def print_bet bet
+  def print_bet bet, char=","
     return "" unless bet
-    "#{bet["numbers"].join(", ")} + #{bet["stars"].join(", ")}"
+    "#{bet["numbers"].join("#{char} ")} + #{bet["stars"].join("#{char} ")}"
   end
 end
