@@ -55,3 +55,6 @@ group :development, :test do
 end
 
 gem 'whenever', :require => false
+
+#just temporarily
+gem 'httparty'
