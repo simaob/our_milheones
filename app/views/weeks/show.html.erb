@@ -20,6 +20,13 @@
   </p>
 <% end %>
 
+<% if @week.weeks_bet.present? %>
+  <p>
+    <strong>Bet proof:</strong>
+    <%= image_tag(@week.weeks_bet.url(:thumb)) %>
+  </p>
+<% end %>
+
 <p>
   <strong>Solution:</strong>
   <%= print_bet @week.solution %>
@@ -52,6 +59,9 @@
 
 <%= link_to 'Back', weeks_path %>
 <% if current_user.is_admin? %>
+  |
+  <%= link_to 'Bet made', edit_week_path(@week,
+    update_type: 'bet') %>
   |
   <%= link_to 'Add solution', edit_week_path(@week,
     update_type: 'solution') %>

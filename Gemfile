@@ -28,6 +28,7 @@ gem 'enumerate_it'
 gem 'kaminari'
 gem 'bootstrap-kaminari-views'
 gem 'carrierwave'
+gem 'mini_magick'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
