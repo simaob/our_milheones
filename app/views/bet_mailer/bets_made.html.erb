@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <p>Bets for <%= @week.number %> (<%= @week.friday %>) have been made!</p>
+    <p>Image proof can be found on our website.<br>
+      Our bets were:
+      <ul>
+        <% @week.bets.each do |bet| %>
+          <li>
+            <%= bet.user.name %>:
+            <%= formatted_bet bet %>
+          </li>
+        <% end %>
+      </ul>
+    </p>
+    <p>Thanks!</p>
+    <p>
+      -- <em><%= @quote %></em>
+    </p>
+  </body>
+</html>
+

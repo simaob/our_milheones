@@ -27,3 +27,4 @@ module ApplicationHelper
     "#{bet["numbers"].join("#{char} ")} + #{bet["stars"].join("#{char} ")}"
   end
 end
+

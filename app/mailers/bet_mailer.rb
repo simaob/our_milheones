@@ -22,4 +22,12 @@ class BetMailer < ApplicationMailer
     mail(to: User.all.map(&:email).join(","),
          subject: "[Euromilhões] #{@week.friday}")
   end
+
+  def bets_made week
+    @week = week
+    @quote = random_quote
+    mail(to: User.all.map(&:email).join(","),
+         subject: "[Euromilhões] #{@week.friday}")
+  end
 end
+

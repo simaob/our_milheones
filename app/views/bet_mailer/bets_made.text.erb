@@ -1,0 +1,13 @@
+  Bets for <%= @week.number %> (<%= @week.friday %>) have been made!
+
+  Image proof can be found on our website.
+  Our bets were:
+  <% @week.bets.each do |bet| %>
+    <%= bet.user.name %>:
+    <%= formatted_bet bet %>
+  <% end %>
+
+Thanks!
+
+-- <%= @quote %>
+
