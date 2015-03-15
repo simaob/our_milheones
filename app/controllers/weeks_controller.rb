@@ -24,7 +24,7 @@ class WeeksController < ApplicationController
     respond_to do |format|
       if @week.update(week_params)
         @week.register_prize if @week.update_type == 'prize'
-        BetMailer.bets_made(@week) if @week.update_type == 'bet'
+        BetMailer.bets_made(@week).deliver_later if @week.update_type == 'bet'
         format.html { redirect_to @week, notice: 'Week was successfully updated.' }
         format.json { render :show, status: :ok, location: @week }
       else
