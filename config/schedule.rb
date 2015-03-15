@@ -25,3 +25,7 @@ end
 every :friday, :at => '9am' do # Use any day of the week or :weekend, :weekday
   rake "weeks:remind_users"
 end
+
+every :friday, :at => '11am' do
+  rake "weeks:do_the_bets"
+end

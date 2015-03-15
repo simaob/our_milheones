@@ -29,5 +29,11 @@ class BetMailer < ApplicationMailer
     mail(to: User.all.map(&:email).join(","),
          subject: "[Euromilhões] #{@week.friday}")
   end
+
+  def do_the_bets week
+    @week = week
+    mail(to: User.where(is_admin: true).map(&:email).join(","),
+         subject: "[Euromilhões] #{@week.friday}")
+  end
 end
 
