@@ -31,6 +31,8 @@
           <td>
             <%= link_to 'Show', week %>
             <% if current_user.is_admin? %>
+              <%= link_to "Bet made", edit_week_path(week,
+                update_type: 'bet') %>
               |
               <%= link_to 'Add solution', edit_week_path(week,
                 update_type: 'solution') %>

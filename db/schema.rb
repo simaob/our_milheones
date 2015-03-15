@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150220184349) do
+ActiveRecord::Schema.define(version: 20150315164245) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -64,6 +64,7 @@ ActiveRecord::Schema.define(version: 20150220184349) do
     t.datetime "updated_at",                  null: false
     t.float    "prize",         default: 0.0
     t.text     "prize_details"
+    t.string   "weeks_bet"
   end
 
 end

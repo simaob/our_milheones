@@ -10,6 +10,7 @@
 #  updated_at    :datetime         not null
 #  prize         :float            default("0.0")
 #  prize_details :text
+#  weeks_bet     :string
 #
 
 require 'test_helper'

@@ -10,11 +10,13 @@
 #  updated_at    :datetime         not null
 #  prize         :float            default("0.0")
 #  prize_details :text
+#  weeks_bet     :string
 #
 
 class Week < ActiveRecord::Base
-
   attr_accessor :update_type
+  mount_uploader :weeks_bet, WeeksBetUploader
+
   has_many :bets
 
   validates :number, uniqueness: { scope: :friday }

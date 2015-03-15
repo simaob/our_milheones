@@ -27,6 +27,7 @@ gem 'devise'
 gem 'enumerate_it'
 gem 'kaminari'
 gem 'bootstrap-kaminari-views'
+gem 'carrierwave'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
