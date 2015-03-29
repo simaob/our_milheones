@@ -9,7 +9,7 @@
       This week's solution was: <%= print_bet @week.solution %>.<br>
       Our bets were:
       <ul>
-        <% @week.bets.each do |bet| %>
+        <% @week.sorted_bets.each do |bet| %>
           <li>
             <%= bet.user.name %>:
             <%= formatted_bet bet, @week.solution %>

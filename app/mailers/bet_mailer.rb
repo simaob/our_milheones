@@ -5,7 +5,7 @@ class BetMailer < ApplicationMailer
   def make_your_bets week
     @week = week
     @quote = random_quote
-    mail(to: User.all.map(&:email).join(","),
+    mail(to: User.order(:name).map(&:email).join(","),
          subject: "[Euromilhões] #{@week.friday}")
   end
 
@@ -19,14 +19,14 @@ class BetMailer < ApplicationMailer
   def prize_won week
     @week = week
     @quote = random_quote
-    mail(to: User.all.map(&:email).join(","),
+    mail(to: User.order(:name).map(&:email).join(","),
          subject: "[Euromilhões] #{@week.friday}")
   end
 
   def bets_made week
     @week = week
     @quote = random_quote
-    mail(to: User.all.map(&:email).join(","),
+    mail(to: User.order(:name).map(&:email).join(","),
          subject: "[Euromilhões] #{@week.friday}")
   end
 

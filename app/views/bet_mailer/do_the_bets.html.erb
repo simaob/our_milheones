@@ -7,7 +7,7 @@
     <p>Bets for <%= @week.number %> (<%= @week.friday %>) have been made!</p>
     <p>Do them!
       <ul>
-        <% @week.bets.each do |bet| %>
+        <% @week.sorted_bets.each do |bet| %>
           <li><%= print_bet bet.bet, "" %></li>
         <% end %>
       </ul>

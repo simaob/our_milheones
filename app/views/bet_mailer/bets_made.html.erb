@@ -8,7 +8,7 @@
     <p>Image proof can be found on our website.<br>
       Our bets were:
       <ul>
-        <% @week.bets.each do |bet| %>
+        <% @week.sorted_bets.each do |bet| %>
           <li>
             <%= bet.user.name %>:
             <%= formatted_bet bet %>

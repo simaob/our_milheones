@@ -42,6 +42,10 @@ class Week < ActiveRecord::Base
     bets.find_by(user_id: user.id)
   end
 
+  def sorted_bets
+    bets.joins(:user).order('users.name ASC')
+  end
+
   def register_prize
     total = User.count
     divided = prize/total
