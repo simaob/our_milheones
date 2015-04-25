@@ -3,7 +3,7 @@
 <h3>Balance:
   <span class="label label-<%= current_user.balance > 0.0 ?
   "success" : "danger" %>">
-    <%= current_user.balance %></span></h3>
+    <%= balance(current_user.balance) %></span></h3>
 
 <p>If your balance is showing in red you could probably make a transfer to
 clear it... if it's in green you can also make a transfer to make it more

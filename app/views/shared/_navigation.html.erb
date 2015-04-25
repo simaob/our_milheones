@@ -51,7 +51,7 @@
         <p class="navbar-text navbar-right">
           <span class="label label-<%= current_user.balance >= 0.0 ? "success" : "danger" %>"
             title="Balance">
-            €<%= current_user.balance %>
+            €<%= balance current_user.balance %>
           </span>
         </p>
       <% end %>

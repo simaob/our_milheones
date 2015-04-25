@@ -18,7 +18,7 @@
         <td><%= mail_to user.email %></td>
         <% if current_user.is_admin? %>
           <td class="<%= user.balance >= 0.0 ? "success" : "danger" %>">
-            <%= user.balance %>
+            <%= balance(user.balance) %>
           </td>
         <% end %>
       </tr>

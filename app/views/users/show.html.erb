@@ -19,7 +19,7 @@
     <tr>
       <td>Balance</td>
       <td class="<%= @stats[:balance] > 0.0 ? 'success' : 'danger' %>">
-        <%= @stats[:balance] %>
+        <%= balance @stats[:balance] %>
       </td>
     </tr>
     <tr><td>Total transactions</td><td><%= @stats[:total_transactions] %></td></tr>

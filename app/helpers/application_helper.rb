@@ -26,5 +26,9 @@ module ApplicationHelper
     return "" unless bet
     "#{bet["numbers"].join("#{char} ")} + #{bet["stars"].join("#{char} ")}"
   end
+
+  def balance balance
+    number_with_precision(balance, precision: 2)
+  end
 end
 

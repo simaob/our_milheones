@@ -16,14 +16,14 @@
 <% if @week.prize_details.present? %>
   <p>
     <strong>Prize details:</strong>
-    <%= @week.prize_details %>
+    <%= simple_format @week.prize_details %>
   </p>
 <% end %>
 
 <% if @week.weeks_bet.present? %>
   <p>
     <strong>Bet proof:</strong>
-    <%= image_tag(@week.weeks_bet.url) %>
+    <%= link_to image_tag(@week.weeks_bet.url(:thumb)), @week.weeks_bet.url %>
   </p>
 <% end %>
 
