@@ -43,6 +43,7 @@ group :development do
   gem 'capistrano-bundler', '>= 1.1.0'
   gem 'capistrano-rails', '~> 1.1'
   gem 'capistrano-passenger'
+  gem 'capistrano3-unicorn'
   gem 'annotate', github: 'ctran/annotate_models'
   gem 'letter_opener'
 end
@@ -62,3 +63,7 @@ gem 'whenever', :require => false
 
 #just temporarily
 gem 'httparty'
+
+group :production do
+  gem 'unicorn'
+end
