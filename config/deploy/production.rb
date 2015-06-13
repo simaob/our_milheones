@@ -1,12 +1,15 @@
+set :rvm_ruby_version, '2.2.1'
+set :user, 'simaob'
+
 # Simple Role Syntax
 # ==================
 # Supports bulk-adding hosts to roles, the primary server in each group
 # is considered to be the first unless any hosts have the primary
 # property set.  Don't declare `role :all`, it's a meta role.
 
-role :app, %w{root@simaobelchior.net}
-role :web, %w{root@simaobelchior.net}
-role :db,  %w{root@simaobelchior.net}
+role :app, %w{188.166.121.220}
+role :web, %w{188.166.121.220}
+role :db,  %w{188.166.121.220}
 
 
 # Extended Server Syntax
@@ -15,13 +18,16 @@ role :db,  %w{root@simaobelchior.net}
 # server list. The second argument is a, or duck-types, Hash and is
 # used to set extended properties on the server.
 
-server 'simaobelchior.net', user: 'root', roles: %w{web app}
+server '188.166.121.220', user: fetch(:user), roles: %w{web app},
+  port: 4334
 
 set :rails_env, :production
 # Custom SSH Options
 # ==================
 # You may pass any option but keep in mind that net/ssh understands a
 # limited set of options, consult[net/ssh documentation](http://net-ssh.github.io/net-ssh/classes/Net/SSH.html#method-c-start).
+
+set :deploy_to, "/home/#{fetch(:user)}/our_milheones"
 #
 # Global options
 # --------------
