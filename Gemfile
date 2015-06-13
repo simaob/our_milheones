@@ -39,6 +39,8 @@ gem 'mini_magick'
 # Use Capistrano for deployment
 group :development do
   gem 'capistrano',  '~> 3.1'
+  gem 'capistrano-rvm'
+  gem 'capistrano-bundler', '>= 1.1.0'
   gem 'capistrano-rails', '~> 1.1'
   gem 'capistrano-passenger'
   gem 'annotate', github: 'ctran/annotate_models'

@@ -75,6 +75,9 @@ GEM
     capistrano-rails (1.1.2)
       capistrano (~> 3.1)
       capistrano-bundler (~> 1.1)
+    capistrano-rvm (0.1.2)
+      capistrano (~> 3.0)
+      sshkit (~> 1.2)
     capistrano-stats (1.1.1)
     carrierwave (0.10.0)
       activemodel (>= 3.2.0)
@@ -232,8 +235,10 @@ DEPENDENCIES
   bootstrap-sass (~> 3.2.0)
   byebug
   capistrano (~> 3.1)
+  capistrano-bundler (>= 1.1.0)
   capistrano-passenger
   capistrano-rails (~> 1.1)
+  capistrano-rvm
   carrierwave
   devise
   enumerate_it
