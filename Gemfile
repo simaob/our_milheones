@@ -60,10 +60,3 @@ group :development, :test do
 end
 
 gem 'whenever', :require => false
-
-#just temporarily
-gem 'httparty'
-
-group :production do
-  gem 'unicorn'
-end
