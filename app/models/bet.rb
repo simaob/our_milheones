@@ -48,10 +48,10 @@ class Bet < ActiveRecord::Base
     stars = (1..11).to_a
     bet = { numbers: [], stars: [] }
     5.times do
-      bet[:numbers] << numbers.shuffle.pop
+      bet[:numbers] << numbers.shuffle!.pop
     end
     2.times do
-      bet[:stars] << stars.shuffle.pop
+      bet[:stars] << stars.shuffle!.pop
     end
     bet[:numbers].sort!
     bet[:stars].sort!
