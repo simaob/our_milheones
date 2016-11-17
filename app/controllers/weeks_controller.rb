@@ -50,7 +50,7 @@ class WeeksController < ApplicationController
   end
 
   def fill_bets
-    @week = current_week
+    @week = Week.find(params[:id])
     User.all.each do |user|
       unless @week.bets.where(user_id: user.id).any?
         if user.default_bet.present?
