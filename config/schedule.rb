@@ -22,9 +22,9 @@ every :monday, :at => '9am' do # Use any day of the week or :weekend, :weekday
   rake "weeks:request_bets"
 end
 
-every :thursday, :at => '9pm' do # Use any day of the week or :weekend, :weekday
-  rake "weeks:remind_users"
-end
+#every :thursday, :at => '9pm' do # Use any day of the week or :weekend, :weekday
+#  rake "weeks:remind_users"
+#end
 
 every :friday, :at => '11am' do
   rake "weeks:do_the_bets"
