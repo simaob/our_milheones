@@ -27,7 +27,11 @@
           <td><%= week.bets.size %>
             (<%= week.bets_missing %> missing)
           </td>
-          <td><%= formatted_bet(week.bet_from(current_user), week.solution) %>
+          <td>
+            <% if week.friday < Date.parse('11/06/2017') %>
+              <%= formatted_bet(week.bet_from(current_user), week.solution) %>
+            <% end %>
+          </td>
           <td>
             <%= link_to 'Show', week %>
             <% if current_user.is_admin? %>

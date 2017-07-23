@@ -5,13 +5,7 @@
   </head>
   <body>
     <p>Bets for <%= @week.number %> (<%= @week.friday %>) have been made!</p>
-    <p>Do them!
-      <ul>
-        <% @week.sorted_bets.each do |bet| %>
-          <li><%= print_bet bet.bet, "" %></li>
-        <% end %>
-      </ul>
-    </p>
+    <p>Do them! Don't forget that they are multiples now!!!</p>
     <p>Thanks!</p>
   </body>
 </html>

@@ -1,10 +1,17 @@
 namespace :weeks do
 
-  desc "Request bets for current week"
-  task request_bets: :environment do
+  desc "Add new current week"
+  task new_current_week: :environment do
     week = current_week
-    week.fill_default_bets
-    BetMailer.make_your_bets(week).deliver_now
+    # adds transaction for each user
+    User.all.each do |u|
+      Transaction.create(
+        user_id: u.id,
+        value: Bet::BET_COST,
+        kind: TransactionKind::BET,
+        details: "Bet for week number #{week.number} (#{week.friday})",
+        date: Date.today)
+    end
   end
 
   desc "Remind users to do their bets if they haven't already"

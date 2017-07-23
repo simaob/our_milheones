@@ -31,24 +31,25 @@
   <strong>Solution:</strong>
   <%= print_bet @week.solution %>
 </p>
-
-<h4>Bets for this week</h4>
-<ul>
-  <% @users.each do |user| %>
-    <% bet = user.bets.where(week_id: @week.id).first %>
-    <li>
-      <%= display_user user %>:
-      <% if bet %>
-        <%= formatted_bet bet, @week.solution %>
-      <% end %>
-    </li>
+<% if @week.friday < Date.parse('11/06/2017') %>
+  <h4>Bets for this week</h4>
+  <ul>
+    <% @users.each do |user| %>
+      <% bet = user.bets.where(week_id: @week.id).first %>
+      <li>
+        <%= display_user user %>:
+        <% if bet %>
+          <%= formatted_bet bet, @week.solution %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+  <% if @users.size != @bets.size && current_user.is_admin? %>
+    <%= link_to "Fill bets", fill_bets_week_path(@week), method: :post %>
   <% end %>
-</ul>
-<% if @users.size != @bets.size && current_user.is_admin? %>
-  <%= link_to "Fill bets", fill_bets_week_path(@week), method: :post %>
 <% end %>
 
-<% if current_user.is_admin? %>
+<% if current_user.is_admin? && @week.friday < Date.parse('11/06/2017') %>
   <h5>Quick play bets</h5>
   <ul class="quick-play">
     <% @bets.each do |bet| %>

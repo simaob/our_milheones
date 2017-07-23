@@ -2,9 +2,8 @@
 class BetMailer < ApplicationMailer
   add_template_helper(ApplicationHelper)
 
-  def make_your_bets week
+  def new_week_created week
     @week = week
-    @quote = random_quote
     mail(to: User.order(:name).map(&:email).join(","),
          subject: "[Euromilhões] #{@week.friday}")
   end

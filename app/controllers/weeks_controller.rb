@@ -44,25 +44,6 @@ class WeeksController < ApplicationController
     end
   end
 
-  def request_bets
-    BetMailer.make_your_bets(@week).deliver_later
-    render nothing: true
-  end
-
-  def fill_bets
-    @week = Week.find(params[:id])
-    User.all.each do |user|
-      unless @week.bets.where(user_id: user.id).any?
-        if user.default_bet.present?
-          Bet.create(user_id: user.id, week_id: week.id, bet: user.default_bet)
-        else
-          Bet.create_random_bet_for(user, @week)
-        end
-      end
-    end
-    redirect_to @week
-  end
-
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_week

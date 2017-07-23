@@ -19,7 +19,7 @@
 
 # Learn more: http://github.com/javan/whenever
 every :monday, :at => '9am' do # Use any day of the week or :weekend, :weekday
-  rake "weeks:request_bets"
+  rake "weeks:new_current_week"
 end
 
 #every :thursday, :at => '9pm' do # Use any day of the week or :weekend, :weekday

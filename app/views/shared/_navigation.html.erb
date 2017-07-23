@@ -17,12 +17,6 @@
         <li class="<%= "active" if controller_name == "weeks" %>">
           <%= link_to "Home", root_url %>
         </li>
-        <li class="<%= "active" if controller_name == "bets" && action_name == 'new' %>">
-          <%= link_to "Bet!", new_bet_path %>
-        </li>
-        <li class="<%= "active" if controller_name == "bets" && action_name == 'index' %>">
-          <%= link_to "Bets", bets_path %>
-        </li>
         <li class="<%= "active" if controller_name == "transactions" %>">
           <%= link_to "Transactions", transactions_path %>
         </li>
