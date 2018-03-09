@@ -1,20 +1,12 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
-  </head>
-  <body>
-    <p>This is a gentle reminder about your bet for week
-      <%= @week.number %> (<%= @week.friday %>).</p>
-    <p>
-      You haven't done it yet, and I'd appreciate if you could do it.<br>
-      Just follow the link to <%= link_to "our amazing website", new_bet_url %><br>
-      If you can't make it, the system will generate a random bet for you, so
-      fear not!
-    </p>
-    <p>Thanks for your attention. :)</p>
-    <p>
-      -- <em><%= @quote %></em>
-    </p>
-  </body>
-</html>
+<p>This is a gentle reminder about your bet for week
+  <%= @week.number %> (<%= @week.friday %>).</p>
+<p>
+  You haven't done it yet, and I'd appreciate if you could do it.<br>
+  Just follow the link to <%= link_to "our amazing website", new_bet_url %><br>
+  If you can't make it, the system will generate a random bet for you, so
+  fear not!
+</p>
+<p>Thanks for your attention. :)</p>
+<p>
+  -- <em><%= @quote %></em>
+</p>

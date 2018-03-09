@@ -17,7 +17,9 @@ class ApplicationMailer < ActionMailer::Base
       "Para a frente é que é caminho",
       "Sarava!",
       "Quando é que se abre a porta aBerta?",
-      "Eu sou o rei dos matraquilhos"
+      "Eu sou o rei dos matraquilhos",
+      "Buga ser ricos e coiso?",
+      "A Cinha convidou dois amigos para irem jantar lá a casa e nenhum deles foi... como se chama o filme? Só Cinha em casa"
     ].shuffle.first
   end
 end

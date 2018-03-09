@@ -1,25 +1,17 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
-  </head>
-  <body>
-    <h1>User account created for you</h1>
-    <p>
-      You can access the Our Milheones website through the following link:
-        <%= link_to "http://our_milheones.simaobelchior.net", root_url %>
-    </p>
-    <p>
-      Your account details are:<br>
-      <strong>Email:</strong> <%= @user.email %><br>
-      <strong>Name:</strong> <%= @user.name %><br>
-      <strong>Password:</strong> <%= @password %> <em>(make sure you change it
-        to something more secure ASAP!")</em>
-    </p>
+<h1>User account created for you</h1>
+<p>
+  You can access the Our Milheones website through the following link:
+    <%= link_to "http://our_milheones.simaobelchior.net", root_url %>
+</p>
+<p>
+  Your account details are:<br>
+  <strong>Email:</strong> <%= @user.email %><br>
+  <strong>Name:</strong> <%= @user.name %><br>
+  <strong>Password:</strong> <%= @password %> <em>(make sure you change it
+    to something more secure ASAP!")</em>
+</p>
 
-    <p>Thank you!<br> Simão</p>
-    <p>
-      -- <em><%= @quote %></em>
-    </p>
-  </body>
-</html>
+<p>Thank you!<br> Simão</p>
+<p>
+  -- <em><%= @quote %></em>
+</p>
