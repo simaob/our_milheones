@@ -1,5 +1,5 @@
 <% require "dotenv"; Dotenv.load(".env") %>
-<% server_ip = ENV["OUR_MILHEONES_SERVER_IP"].presence || raise("Set OUR_MILHEONES_SERVER_IP in .env (see .env.example)") %>
+<% server_ip = "2.29.122.94" %>
 # Name of your application. Used to uniquely configure containers.
 service: our_milheones
 
@@ -16,7 +16,7 @@ servers:
 # Using an SSL proxy like this requires config.assume_ssl and config.force_ssl in production.rb (both on).
 proxy:
   ssl: true
-  host: our-milheones.simaobelchior.net
+  host: our-milheones-new.simaobelchior.net
 
 # No remote registry: the image is built on this machine and pushed into a local
 # registry container (kamal-docker-registry, on 127.0.0.1:5555 only), and the server
