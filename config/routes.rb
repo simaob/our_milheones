@@ -2,14 +2,14 @@ Rails.application.routes.draw do
   devise_for :users
   # You can have the root of your site routed with "root"
   resources :bets, except: [:new, :edit]
-  resources :weeks, except: [:new, :create] do
-    member do
-      get :request_bets
-    end
-  end
+  resources :weeks, except: [:new, :create]
   resources :transactions, only: [:new, :index, :create]
-  resources :users, except: [:delete, :destroy]
+  resources :users, except: [:destroy]
   get 'payments', to: 'payments#index', as: 'payments'
 
   root 'weeks#index'
+
+  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
+  # Used by kamal-proxy to know when a new container is ready to receive traffic.
+  get "up" => "rails/health#show", as: :rails_health_check
 end

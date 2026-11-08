@@ -16,14 +16,14 @@
 
 one:
   value: 1.5
-  user_id: 1
+  user: one
   details: MyText
   date: 2015-02-08
   kind: 1
 
 two:
   value: 1.5
-  user_id: 1
+  user: one
   details: MyText
   date: 2015-02-08
   kind: 1

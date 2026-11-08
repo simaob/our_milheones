@@ -13,13 +13,20 @@
 #  weeks_bet     :string
 #
 
-class Week < ActiveRecord::Base
+class Week < ApplicationRecord
   attr_accessor :update_type
   mount_uploader :weeks_bet, WeeksBetUploader
 
   has_many :bets
 
   validates :number, uniqueness: { scope: :friday }
+
+  # The week whose draw is this coming Friday (weeks start on Saturday,
+  # see config.beginning_of_week).
+  def self.current
+    friday = Date.today.end_of_week
+    find_or_create_by(number: friday.strftime("%U").to_i, friday: friday)
+  end
 
   before_validation do |model|
     if model.solution && model.changes.include?(:solution)
@@ -55,7 +62,7 @@ class Week < ActiveRecord::Base
         value: divided,
         kind: TransactionKind::PRIZE,
         details: "Prize (#{prize}/#{total} users = #{divided}) for"+
-          " week number #{number} (#{friday})",
+          " week number #{number} (#{friday.to_fs})",
         date: Date.today
       )
     end

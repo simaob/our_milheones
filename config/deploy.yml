@@ -1,0 +1,93 @@
+<% require "dotenv"; Dotenv.load(".env") %>
+<% server_ip = ENV["OUR_MILHEONES_SERVER_IP"].presence || raise("Set OUR_MILHEONES_SERVER_IP in .env (see .env.example)") %>
+# Name of your application. Used to uniquely configure containers.
+service: our_milheones
+
+# Name of the container image (pushed to the local registry below).
+image: our_milheones
+
+# Deploy to these servers.
+servers:
+  web:
+    - <%= server_ip %>
+
+# Enable SSL auto certification via Let's Encrypt and allow for multiple apps on a single web server.
+# The DNS A record for the host must point at the server before the first deploy.
+# Using an SSL proxy like this requires config.assume_ssl and config.force_ssl in production.rb (both on).
+proxy:
+  ssl: true
+  host: our-milheones.simaobelchior.net
+
+# No remote registry: the image is built on this machine and pushed into a local
+# registry container (kamal-docker-registry, on 127.0.0.1:5555 only), and the server
+# pulls it from there through an SSH tunnel that Kamal opens during the deploy.
+# Nothing is pushed to Docker Hub or any other registry, and no credentials are needed.
+registry:
+  server: localhost:5555
+
+# Inject ENV variables into containers (secrets come from .kamal/secrets).
+env:
+  secret:
+    - RAILS_MASTER_KEY
+    - POSTGRES_PASSWORD
+    - SMTP_PASSWORD
+  clear:
+    # Run the Solid Queue Supervisor inside the web server's Puma process to do jobs
+    # (deliver_later and the weekly tasks in config/recurring.yml).
+    SOLID_QUEUE_IN_PUMA: true
+
+    # The db accessory below, reached over the kamal Docker network.
+    DB_HOST: our_milheones-db
+    POSTGRES_USER: our_milheones
+    POSTGRES_DB: our_milheones_production
+
+    # Outgoing email (see config/environments/production.rb). Defaults to SendGrid,
+    # where the username is literally "apikey" and SMTP_PASSWORD is the API key.
+    # SMTP_ADDRESS: smtp.sendgrid.net
+    # SMTP_USERNAME: apikey
+
+    # Log everything from Rails
+    # RAILS_LOG_LEVEL: debug
+
+# Aliases are triggered with "bin/kamal <alias>". You can overwrite arguments on invocation:
+# "bin/kamal logs -r job" will tail logs from the first server in the job section.
+aliases:
+  console: app exec --interactive --reuse "bin/rails console"
+  shell: app exec --interactive --reuse "bash"
+  logs: app logs -f
+  dbc: app exec --interactive --reuse "bin/rails dbconsole --include-password"
+
+# Persist the CarrierWave uploads (weekly bet proofs) across deploys.
+volumes:
+  - "our_milheones_uploads:/rails/public/uploads"
+
+# Bridge fingerprinted assets, like JS and CSS, between versions to avoid
+# hitting 404 on in-flight requests. Combines all files from new and old
+# version inside the asset_path.
+asset_path: /rails/public/assets
+
+# Configure the image builder.
+builder:
+  arch: amd64
+
+  # # Build image via remote server (useful for faster amd64 builds on arm64 computers)
+  # remote: ssh://docker@docker-builder-server
+
+ssh:
+  user: simaob
+
+# Use accessory services (secrets come from .kamal/secrets).
+accessories:
+  db:
+    image: postgres:16
+    host: <%= server_ip %>
+    # No host port is published: the app reaches it on the kamal network as
+    # our_milheones-db:5432, so it can share a server with other Postgres accessories.
+    env:
+      clear:
+        POSTGRES_USER: our_milheones
+        POSTGRES_DB: our_milheones_production
+      secret:
+        - POSTGRES_PASSWORD
+    directories:
+      - data:/var/lib/postgresql/data

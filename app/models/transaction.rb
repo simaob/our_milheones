@@ -12,7 +12,7 @@
 #  kind       :integer          not null
 #
 
-class Transaction < ActiveRecord::Base
+class Transaction < ApplicationRecord
   has_enumeration_for :kind, :with => TransactionKind,
     :create_helpers => true
   belongs_to :user

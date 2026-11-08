@@ -32,7 +32,7 @@
   <% @bets.each do |bet| %>
     <li>
       <%= formatted_bet bet, bet.week.solution %>,
-      for <%= link_to "week #{bet.week.number} (#{bet.week.friday})", bet.week %>
+      for <%= link_to "week #{bet.week.number} (#{bet.week.friday.to_fs})", bet.week %>
     </li>
   <% end %>
 </ul>

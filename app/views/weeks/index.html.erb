@@ -20,7 +20,7 @@
       <% weeks.each do |week| %>
         <tr class="<%= if week == current_week then "success" end %>">
           <td><%= week.number %></td>
-          <td><%= week.friday %></td>
+          <td><%= week.friday.to_fs %></td>
           <td><%= print_bet week.solution %></td>
           <td><span class="<%= "label label-success" if week.prize && week.prize > 0.0 %>">
             €<%= week.prize.presence || 0.0 %></span></td>
@@ -44,11 +44,6 @@
               |
               <%= link_to 'Set prize', edit_week_path(week,
                 update_type: 'prize') %>
-              <% if week == current_week %>
-                |
-                <%= link_to 'Request bets', request_bets_week_path(week),
-                  remote: true %>
-              <% end %>
             <% end %>
           </td>
         </tr>
