@@ -1,14 +1,20 @@
-# SQLite version 3.x
-#   gem install sqlite3
+# PostgreSQL. Versions 9.3 and up are supported.
 #
-#   Ensure the SQLite 3 gem is defined in your Gemfile
-#   gem 'sqlite3'
+# In development and test this connects through the local Unix socket as your
+# OS user (e.g. Homebrew's postgresql@16). Set DB_HOST / DB_PORT to use a
+# different server.
+#
+# In production (Kamal) the database is the `db` accessory defined in
+# config/deploy.yml, reached over the Docker network at DB_HOST=our_milheones-db.
 #
 default: &default
   adapter: postgresql
-  pool: 5
-  timeout: 5000
-  username: postgres
+  encoding: unicode
+  # For details on connection pooling, see Rails configuration guide
+  # https://guides.rubyonrails.org/configuring.html#database-pooling
+  max_connections: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  host: <%= ENV["DB_HOST"] %>
+  port: <%= ENV.fetch("DB_PORT") { 5432 } %>
 
 development:
   <<: *default
@@ -21,6 +27,16 @@ test:
   <<: *default
   database: our_milheones_test
 
+# The production databases (primary + Solid Queue) are created on first boot by
+# `bin/rails db:prepare` (see bin/docker-entrypoint). The POSTGRES_* values are
+# set in config/deploy.yml and .kamal/secrets.
 production:
-  <<: *default
-  database: our_milheones_production
+  primary: &primary_production
+    <<: *default
+    database: <%= ENV.fetch("POSTGRES_DB") { "our_milheones_production" } %>
+    username: <%= ENV.fetch("POSTGRES_USER") { "our_milheones" } %>
+    password: <%= ENV["POSTGRES_PASSWORD"] %>
+  queue:
+    <<: *primary_production
+    database: our_milheones_production_queue
+    migrations_paths: db/queue_migrate

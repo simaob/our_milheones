@@ -1,4 +1,4 @@
 
-$(document).on('ready page:load', function() {
+$(function() {
   $('#payment_user_id').select2();
 });

@@ -1,6 +1,6 @@
 class TransactionsController < ApplicationController
 
-  before_filter :authorize!, except: [:index]
+  before_action :authorize!, except: [:index]
 
   # GET /transactions
   # GET /transactions.json

@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
 
-  before_filter :authorize!, only: [:new, :create]
+  before_action :authorize!, only: [:new, :create]
   before_action :set_user, only: [:show, :edit, :update]
   before_action :set_password, only: [:create]
 
@@ -23,7 +23,8 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        UserMailer.welcome_email(@user, @password).deliver_later
+        # Send right away: a queued job would store the plaintext password in the jobs table.
+        UserMailer.welcome_email(@user, @password).deliver_now
         format.html { redirect_to users_path, notice: 'User was successfully created.' }
         format.json { render :show, status: :created, location: @user }
       else

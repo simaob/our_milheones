@@ -1,6 +1,6 @@
 class WeeksController < ApplicationController
-  before_action :set_week, only: [:show, :destroy, :edit, :update, :request_bets]
-  before_action :authorize!, only: [:edit, :update, :destroy, :request_bets]
+  before_action :set_week, only: [:show, :destroy, :edit, :update]
+  before_action :authorize!, only: [:edit, :update, :destroy]
 
   # GET /weeks
   # GET /weeks.json

@@ -10,7 +10,7 @@
 #  updated_at :datetime         not null
 #
 
-class Bet < ActiveRecord::Base
+class Bet < ApplicationRecord
 
   BET_COST = -2.0
 
@@ -65,7 +65,7 @@ class Bet < ActiveRecord::Base
       user_id: user_id,
       value: BET_COST,
       kind: TransactionKind::BET,
-      details: "Bet for week number #{week.number} (#{week.friday})",
+      details: "Bet for week number #{week.number} (#{week.friday.to_fs})",
       date: Date.today
     )
   end

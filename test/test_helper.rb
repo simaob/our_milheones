@@ -1,14 +1,22 @@
-ENV['RAILS_ENV'] ||= 'test'
-require File.expand_path('../../config/environment', __FILE__)
-require 'rails/test_help'
+ENV["RAILS_ENV"] ||= "test"
+require_relative "../config/environment"
+require "rails/test_help"
 
-class ActiveSupport::TestCase
-  # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
-  fixtures :all
+# Keep test uploads out of public/ and skip image processing (no ImageMagick needed).
+CarrierWave.configure do |config|
+  config.root = Rails.root.join("tmp/test_uploads")
+  config.enable_processing = false
+end
 
-  # Add more helper methods to be used by all tests here...
+module ActiveSupport
+  class TestCase
+    # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
+    fixtures :all
+
+    # Add more helper methods to be used by all tests here...
+  end
 end
 
 class ActionController::TestCase
-  include Devise::TestHelpers
+  include Devise::Test::ControllerHelpers
 end

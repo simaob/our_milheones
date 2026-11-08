@@ -1,62 +1,57 @@
-source 'https://rubygems.org'
+source "https://rubygems.org"
 
+gem "rails", "~> 8.1.4", ">= 8.1.4.1"
+# Use postgresql as the database for Active Record
+gem "pg", "~> 1.1"
+# Use the Puma web server [https://github.com/puma/puma]
+gem "puma", ">= 5.0"
+# Build JSON APIs with ease [https://github.com/rails/jbuilder]
+gem "jbuilder"
 
-# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.0'
-# Use sqlite3 as the database for Active Record
-gem 'pg'
-# Use SCSS for stylesheets
-gem 'sass-rails', '~> 5.0'
-gem 'bootstrap-sass', '~> 3.2.0'
-gem 'autoprefixer-rails'
+# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
+gem "tzinfo-data", platforms: %i[ windows jruby ]
 
-# Use Uglifier as compressor for JavaScript assets
-gem 'uglifier', '>= 1.3.0'
+# Database-backed Active Job adapter; also runs the weekly recurring tasks (config/recurring.yml)
+gem "solid_queue"
 
-# Use jquery as the JavaScript library
-gem 'jquery-rails'
-gem 'select2-rails'
-# Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
-gem 'turbolinks'
-# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 2.0'
-# bundle exec rake doc:rails generates the API under doc/api.
-gem 'sdoc', '~> 0.4.0', group: :doc
+# Reduces boot times through caching; required in config/boot.rb
+gem "bootsnap", require: false
 
-gem 'devise'
-gem 'enumerate_it'
-gem 'kaminari'
-gem 'bootstrap-kaminari-views'
-gem 'carrierwave'
-gem 'mini_magick'
+# Deploy this application anywhere as a Docker container [https://kamal-deploy.org]
+gem "kamal", require: false
 
-# Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
+# Add HTTP asset caching/compression and X-Sendfile acceleration to Puma [https://github.com/basecamp/thruster/]
+gem "thruster", require: false
 
-# Use Unicorn as the app server
-# gem 'unicorn'
+# Asset pipeline. The front end is Bootstrap 3 + jQuery + select2, so we keep Sprockets
+# and compile the few .scss files with Dart Sass (no Node.js or libsass needed).
+gem "sprockets-rails"
+gem "dartsass-sprockets"
+gem "jquery-rails"
+# Stay on select2 3.x: the bet pickers rely on its "tags on a text input" API (removed in 4.x)
+gem "select2-rails", "~> 3.5"
 
-# Use Capistrano for deployment
-group :development do
-  gem 'capistrano',  '~> 3.1'
-  gem 'capistrano-rvm'
-  gem 'capistrano-bundler', '>= 1.1.0'
-  gem 'capistrano-rails', '~> 1.1'
-  gem 'capistrano-passenger'
-  gem 'capistrano3-unicorn'
-  gem 'annotate', github: 'ctran/annotate_models'
-  gem 'letter_opener'
-end
+gem "devise", "~> 5.0"
+gem "enumerate_it"
+gem "kaminari"
+gem "bootstrap-kaminari-views"
+gem "carrierwave", "~> 3.1"
+gem "mini_magick"
 
 group :development, :test do
-  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug'
-
-  # Access an IRB console on exception pages or by using <%= console %> in views
-  gem 'web-console', '~> 2.0'
-
-  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-  gem 'spring'
+  # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
+  gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
 end
 
-gem 'whenever', :require => false
+group :development do
+  # Use console on exceptions pages [https://github.com/rails/web-console]
+  gem "web-console"
+  gem "letter_opener"
+  # Successor of the annotate gem: `bundle exec annotaterb models`
+  gem "annotaterb"
+end
+
+group :test do
+  # Provides `assigns` and `assert_template` for the controller tests
+  gem "rails-controller-testing"
+end

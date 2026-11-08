@@ -30,7 +30,7 @@ bets, payments, prizes and any admin transactions that might be relevant</p>
         <td><%= transaction.value %></td>
         <td><%= transaction.user.try(:name) %></td>
         <td><%= transaction.details %></td>
-        <td><%= transaction.date %></td>
+        <td><%= transaction.date&.to_fs %></td>
       </tr>
     <% end %>
   </tbody>
