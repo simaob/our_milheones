@@ -39,4 +39,45 @@ class WeekTest < ActiveSupport::TestCase
     @week.reload
     assert_equal User.count-1, @week.bets_missing
   end
+
+  test "current creates this week's row once and reuses it" do
+    travel_to Date.new(2026, 11, 9) do
+      week = nil
+      assert_difference -> { Week.count }, 1 do
+        week = Week.current
+      end
+      assert_equal Date.new(2026, 11, 13), week.friday
+      assert_no_difference -> { Week.count } do
+        assert_equal week, Week.current
+      end
+    end
+  end
+
+  test "current loads the week another process created between lookup and insert" do
+    travel_to Date.new(2026, 11, 9) do
+      friday = Date.new(2026, 11, 13)
+      winner = Week.create!(number: friday.strftime("%U").to_i, friday: friday)
+
+      # Make the first lookup miss, as if it ran just before the winner's insert.
+      lookups = 0
+      Week.define_singleton_method(:find_by) do |*args|
+        lookups += 1
+        lookups == 1 ? nil : super(*args)
+      end
+
+      begin
+        assert_no_difference -> { Week.count } do
+          assert_equal winner, Week.current
+        end
+      ensure
+        Week.singleton_class.remove_method(:find_by)
+      end
+    end
+  end
+
+  test "the database rejects a duplicate week" do
+    assert_raises ActiveRecord::RecordNotUnique do
+      Week.new(number: @week.number, friday: @week.friday).save!(validate: false)
+    end
+  end
 end

@@ -23,9 +23,16 @@ class Week < ApplicationRecord
 
   # The week whose draw is this coming Friday (weeks start on Saturday,
   # see config.beginning_of_week).
+  #
+  # A web request and the Monday job can both miss the week and try to create
+  # it. The unique index on (number, friday) lets only one insert win; the
+  # loser fails validation or hits the index, and loads the winner's row.
   def self.current
-    friday = Date.today.end_of_week
-    find_or_create_by(number: friday.strftime("%U").to_i, friday: friday)
+    friday = Date.current.end_of_week
+    attributes = { number: friday.strftime("%U").to_i, friday: friday }
+    find_by(attributes) || transaction(requires_new: true) { create!(attributes) }
+  rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique
+    find_by!(attributes)
   end
 
   before_validation do |model|
@@ -63,7 +70,7 @@ class Week < ApplicationRecord
         kind: TransactionKind::PRIZE,
         details: "Prize (#{prize}/#{total} users = #{divided}) for"+
           " week number #{number} (#{friday.to_fs})",
-        date: Date.today
+        date: Date.current
       )
     end
     BetMailer.prize_won(self).deliver_later
