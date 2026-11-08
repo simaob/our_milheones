@@ -30,7 +30,10 @@ module OurMilheones
     # These settings can be overridden in specific environments using the files
     # in config/environments, which are processed later.
     #
-    # config.time_zone = "Central Time (US & Canada)"
+    # The group plays from Portugal. Without this the app runs in UTC (the
+    # container's clock), so for an hour after midnight on summer Saturdays
+    # it would still show the previous week.
+    config.time_zone = "Lisbon"
     # config.eager_load_paths << Rails.root.join("extras")
 
     # Lottery weeks run Saturday -> Friday (the draw).

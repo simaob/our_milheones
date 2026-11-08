@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2015_03_15_164245) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_08_151921) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -62,5 +62,6 @@ ActiveRecord::Schema[8.1].define(version: 2015_03_15_164245) do
     t.float "prize", default: 0.0
     t.text "prize_details"
     t.string "weeks_bet"
+    t.index ["number", "friday"], name: "index_weeks_on_number_and_friday", unique: true
   end
 end

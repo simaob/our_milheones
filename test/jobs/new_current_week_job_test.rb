@@ -8,7 +8,7 @@ class NewCurrentWeekJobTest < ActiveJob::TestCase
       end
 
       week = Week.find_by!(friday: Date.new(2026, 11, 13))
-      charges = Transaction.where(date: Date.today)
+      charges = Transaction.where(date: Date.current)
       assert_equal User.count, charges.count
       assert charges.all? { |t| t.value == Bet::BET_COST && t.kind == TransactionKind::BET }
       assert_equal "Bet for week number #{week.number} (13/11/2026)", charges.first.details

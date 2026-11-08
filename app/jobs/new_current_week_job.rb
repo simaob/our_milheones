@@ -12,7 +12,7 @@ class NewCurrentWeekJob < ApplicationJob
         value: Bet::BET_COST,
         kind: TransactionKind::BET,
         details: "Bet for week number #{week.number} (#{week.friday.to_fs})",
-        date: Date.today)
+        date: Date.current)
     end
   end
 end
