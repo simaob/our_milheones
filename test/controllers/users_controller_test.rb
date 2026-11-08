@@ -46,6 +46,25 @@ class UsersControllerTest < ActionController::TestCase
   test "should update user" do
     patch :update, params: { id: @user, user: { email: "simao@cenas.com" } }
     assert_redirected_to user_path(assigns(:user))
+    assert_equal "simao@cenas.com", @user.reload.email
+  end
+
+  test "non-admin can update themselves" do
+    sign_out @admin
+    sign_in @user
+    patch :update, params: { id: @user, user: { name: "New Name" } }
+    assert_redirected_to user_path(@user)
+    assert_equal "New Name", @user.reload.name
+  end
+
+  test "non-admin cannot update another user" do
+    sign_out @admin
+    sign_in @user
+    patch :update, params: { id: @admin, user: { email: "hijacked@example.com", password: "hijacked123", password_confirmation: "hijacked123" } }
+    assert_redirected_to root_path
+    @admin.reload
+    assert_equal "simao@fe.up.pt", @admin.email
+    assert_not @admin.valid_password?("hijacked123")
   end
 
 end
