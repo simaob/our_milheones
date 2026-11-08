@@ -2,6 +2,7 @@ class UsersController < ApplicationController
 
   before_action :authorize!, only: [:new, :create]
   before_action :set_user, only: [:show, :edit, :update]
+  before_action :authorize_self_or_admin!, only: [:edit, :update]
   before_action :set_password, only: [:create]
 
   def index
@@ -13,7 +14,6 @@ class UsersController < ApplicationController
   end
 
   def edit
-    authorize! if @user != current_user
   end
 
   # POST /users
@@ -37,7 +37,6 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update
-    authorize! if @user != current_user
     respond_to do |format|
       if @user.update(user_params)
         format.html { redirect_to @user, notice: 'User was successfully updated.' }
@@ -59,6 +58,12 @@ class UsersController < ApplicationController
 
   def set_user
     @user = User.find(params[:id])
+  end
+
+  # Users can edit themselves; only admins can edit someone else. Running this as a
+  # before_action means the redirect halts the request before anything is saved.
+  def authorize_self_or_admin!
+    authorize! unless @user == current_user
   end
 
   def user_params
