@@ -52,13 +52,33 @@ under emulation). Later deploys reuse the cache unless the `Gemfile.lock` change
    root. sshd must allow TCP forwarding for the image tunnel (`AllowTcpForwarding`, which is
    on by default on Ubuntu and Debian).
 2. Point the DNS `A` record for `our-milheones.simaobelchior.net` at the server.
-3. `cp .env.example .env` and fill in the server IP, a Postgres password and the SMTP password
-   (SendGrid API key by default, see `config/environments/production.rb`). The `from` address
-   `no-reply@simaobelchior.net` must be a verified sender with the mail provider.
-4. Keep `config/master.key` safe (e.g. in your password manager): it decrypts
-   `config/credentials.yml.enc` and is not in git.
+3. Secrets come from 1Password (see `.kamal/secrets`): the `our_milheones` item in the
+   `Personal` vault of the `my.1password.com` account. Install the CLI
+   (`brew install --cask 1password-cli`), turn on 1Password > Settings > Developer >
+   "Integrate with 1Password CLI", then create the item:
+
+   ```sh
+   op item create --account my.1password.com --vault Personal --category "Secure Note" \
+     --title our_milheones \
+     "RAILS_MASTER_KEY[password]=$(cat config/master.key)" \
+     "POSTGRES_PASSWORD[password]=$(openssl rand -hex 32)"
+   ```
+
+   Then add a password field named `SMTP_PASSWORD` to it in the 1Password app (the SendGrid API
+   key by default, see `config/environments/production.rb`; typing it into a shell command would
+   leave it in your history). The `from` address `no-reply@simaobelchior.net` must be a verified
+   sender with the mail provider. `bin/kamal secrets print` shows what Kamal reads.
+4. The item is also the backup of `config/master.key`, which decrypts
+   `config/credentials.yml.enc` and is not in git. On another machine, recreate the file from it
+   to edit credentials.
 5. Commit your changes: Kamal builds the image from the committed `HEAD`.
 6. `bin/kamal setup`: boots Postgres and kamal-proxy on the server, then builds and deploys the app.
+
+Kamal only creates the Postgres container once: later `setup`/`deploy` runs skip it because it
+already exists. If it was ever booted with a wrong or empty password, fix the 1Password item and
+recreate it with `bin/kamal accessory reboot db`. That is harmless while the database is still
+empty; once it holds data, the password lives inside the database and has to be changed with
+`ALTER ROLE`.
 
 ### Moving the data from the old server
 
