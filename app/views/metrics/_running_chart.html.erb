@@ -1,0 +1,62 @@
+<%# Running totals of bet charges and prizes over the year, one point per draw week. %>
+<% points = metrics.running_totals %>
+<% ticks = chart_ticks(points.map { |p| [p[:spent], p[:won]].max }.max) %>
+<% top = ticks.last %>
+<% x = ->(i) { points.size > 1 ? (i * 1000.0 / (points.size - 1)).round(2) : 500 } %>
+<% y = ->(value) { (1000 - value / top * 1000).round(2) } %>
+<% last = points.last %>
+<%# Direct labels at the line ends, unless they'd sit on top of each other. %>
+<% end_labels = (last[:spent] - last[:won]).abs / top > 0.12 %>
+<figure class="metrics-chart" data-chart="line"
+  data-points="<%= points.map { |p|
+    { title: "By Friday #{p[:friday].to_fs}",
+      rows: [
+        { key: "won", label: "Won", value: euros(p[:won]) },
+        { key: "spent", label: "Spent", value: euros(p[:spent]) },
+        { label: "Net", value: euros(p[:won] - p[:spent], signed: true) }
+      ] }
+  }.to_json %>">
+  <figcaption>
+    <h3>Spent and won over the year</h3>
+    <p class="text-muted">Running totals after each draw. The gap between the lines is the net.</p>
+  </figcaption>
+  <div class="chart-legend">
+    <span><i class="chart-key chart-key-line chart-key-won"></i>Won</span>
+    <span><i class="chart-key chart-key-line chart-key-spent"></i>Spent</span>
+  </div>
+  <div class="chart-body">
+    <div class="chart-y" aria-hidden="true">
+      <% ticks.each do |tick| %>
+        <span style="bottom: <%= chart_pct(tick, top) %>"><%= euros(tick).delete_suffix(".00") %></span>
+      <% end %>
+    </div>
+    <div class="chart-plot" tabindex="0"
+      aria-label="By <%= last[:friday].to_fs %>: spent <%= euros(last[:spent]) %>, won <%= euros(last[:won]) %>. Use the arrow keys to step through the weeks.">
+      <% ticks.each do |tick| %>
+        <div class="chart-grid<%= " chart-baseline" if tick.zero? %>"
+          style="bottom: <%= chart_pct(tick, top) %>"></div>
+      <% end %>
+      <svg class="chart-lines" viewBox="0 0 1000 1000" preserveAspectRatio="none" aria-hidden="true">
+        <% %i[spent won].each do |series| %>
+          <% coords = points.each_with_index.map { |p, i| "#{x.(i)},#{y.(p[series])}" } %>
+          <polyline class="chart-line chart-line-<%= series %>" points="<%= coords.join(" ") %>" />
+        <% end %>
+      </svg>
+      <% %i[spent won].each do |series| %>
+        <span class="chart-dot chart-dot-<%= series %>"
+          style="left: <%= x.(points.size - 1) / 10.0 %>%; bottom: <%= chart_pct(last[series], top) %>"></span>
+      <% end %>
+    </div>
+    <div class="chart-end-labels" aria-hidden="true">
+      <% if end_labels %>
+        <span style="bottom: <%= chart_pct(last[:spent], top) %>">Spent <%= euros(last[:spent]) %></span>
+        <span style="bottom: <%= chart_pct(last[:won], top) %>">Won <%= euros(last[:won]) %></span>
+      <% end %>
+    </div>
+  </div>
+  <div class="chart-x chart-x-line" aria-hidden="true">
+    <% month_starts(metrics.weeks).each do |index, label| %>
+      <span style="left: <%= x.(index) / 10.0 %>%"><%= label %></span>
+    <% end %>
+  </div>
+</figure>

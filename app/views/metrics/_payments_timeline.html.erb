@@ -1,0 +1,37 @@
+<%# One row per person, one dot per payment, across the calendar year. %>
+<% year = metrics.calendar_year %>
+<% pos = ->(date) { "#{((date - year.begin) * 100.0 / (year.end - year.begin)).round(2)}%" } %>
+<% month_starts = (1..12).map { |month| Date.new(metrics.year, month) } %>
+<figure class="metrics-chart" data-chart="marks">
+  <figcaption>
+    <h3>When people paid</h3>
+    <p class="text-muted">One dot per payment.</p>
+  </figcaption>
+  <div class="payment-rows">
+    <div class="payment-months" aria-hidden="true">
+      <% month_starts.each do |date| %>
+        <span style="left: <%= pos.(date) %>"></span>
+      <% end %>
+    </div>
+    <% metrics.people.each do |person| %>
+      <div class="payment-row">
+        <div class="payment-name"><%= person.user.name %></div>
+        <div class="payment-track">
+          <% person.payments.each do |date, value| %>
+            <%= tag.span class: "payment-dot", style: "left: #{pos.(date)}", tabindex: 0,
+              aria: { label: "#{person.user.name} paid #{euros(value)} on #{date.to_fs}" },
+              data: { tip: {
+                title: date.to_fs,
+                rows: [{ key: "paid", label: person.user.name, value: euros(value) }]
+              } } %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <div class="chart-x payment-x" aria-hidden="true">
+    <% month_starts.each do |date| %>
+      <span style="left: <%= pos.(date + 14) %>"><%= date.strftime("%b") %></span>
+    <% end %>
+  </div>
+</figure>

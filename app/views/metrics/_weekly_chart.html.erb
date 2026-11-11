@@ -1,0 +1,55 @@
+<%# Prize won each week (columns) against that week's bet charges (step line). %>
+<% weeks = metrics.weeks %>
+<% ticks = chart_ticks([weeks.map(&:won).max, weeks.map(&:spent).max].max) %>
+<% top = ticks.last %>
+<figure class="metrics-chart" data-chart="marks">
+  <figcaption>
+    <h3>Prize won each week</h3>
+    <p class="text-muted">
+      Against what the week cost in bet charges. A column above the line paid for its week.
+    </p>
+  </figcaption>
+  <div class="chart-legend">
+    <span><i class="chart-key chart-key-bar chart-key-won"></i>Prize won</span>
+    <span><i class="chart-key chart-key-line chart-key-spent"></i>Bet charges</span>
+  </div>
+  <div class="chart-body">
+    <div class="chart-y" aria-hidden="true">
+      <% ticks.each do |tick| %>
+        <span style="bottom: <%= chart_pct(tick, top) %>"><%= euros(tick).delete_suffix(".00") %></span>
+      <% end %>
+    </div>
+    <div class="chart-plot">
+      <% ticks.each do |tick| %>
+        <div class="chart-grid<%= " chart-baseline" if tick.zero? %>"
+          style="bottom: <%= chart_pct(tick, top) %>"></div>
+      <% end %>
+      <div class="chart-columns">
+        <% weeks.each do |week| %>
+          <%= tag.div class: "chart-slot", tabindex: 0,
+            aria: { label: "#{week.friday.to_fs}: won #{euros(week.won)}, bet charges #{euros(week.spent)}" },
+            data: { tip: {
+              title: "Friday #{week.friday.to_fs}",
+              rows: [
+                { key: "won", label: "Prize won", value: euros(week.won) },
+                { key: "spent", label: "Bet charges", value: euros(week.spent) },
+                { label: "Net", value: euros(week.net, signed: true) }
+              ]
+            } } do %>
+            <% if week.won? %>
+              <div class="chart-column" style="height: <%= chart_pct(week.won, top) %>"></div>
+            <% end %>
+            <% if week.spent.positive? %>
+              <div class="chart-step" style="bottom: <%= chart_pct(week.spent, top) %>"></div>
+            <% end %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <div class="chart-x" aria-hidden="true">
+    <% month_starts(weeks).each do |index, label| %>
+      <span style="left: <%= chart_pct(index + 0.5, weeks.size) %>"><%= label %></span>
+    <% end %>
+  </div>
+</figure>

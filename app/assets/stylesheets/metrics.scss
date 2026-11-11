@@ -1,0 +1,532 @@
+// The Metrics page: stat tiles, the charts and their tooltips.
+// In every chart blue is money won, orange money spent and aqua money paid in.
+
+.metrics {
+  --won: #2a78d6;
+  --spent: #eb6834;
+  --paid: #1baf7a;
+  --surface: #fff;
+  --ink: #333;
+  --ink-secondary: #52514e;
+  --ink-muted: #777;
+  --grid: #ebebeb;
+  --baseline: #c3c2b7;
+  --hairline: #e5e5e5;
+
+  h2 {
+    font-size: 22px;
+    margin: 36px 0 12px;
+  }
+
+  h3 {
+    font-size: 15px;
+    font-weight: bold;
+    margin: 0 0 4px;
+  }
+}
+
+.metrics-header {
+  h1 {
+    margin-top: 0;
+  }
+}
+
+.metrics-years {
+  margin-bottom: 8px;
+
+  > li > a {
+    padding: 4px 10px;
+  }
+}
+
+// Stat tiles
+
+.metric-tiles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 20px 0 32px;
+}
+
+.metric-tile {
+  flex: 1 1 150px;
+  border: 1px solid var(--hairline);
+  border-radius: 4px;
+  padding: 12px 14px;
+}
+
+.metric-tile-label,
+.metric-tile-sub {
+  color: var(--ink-muted);
+  font-size: 12px;
+}
+
+.metric-tile-value {
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1.25;
+  margin: 4px 0;
+  white-space: nowrap;
+}
+
+// Charts
+
+$chart-height: 200px;
+$chart-y-width: 56px;
+$chart-end-width: 140px;
+
+.metrics-chart {
+  position: relative;
+  margin: 0 0 36px;
+
+  figcaption p {
+    margin: 0 0 8px;
+  }
+}
+
+.chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 10px;
+  color: var(--ink-secondary);
+  font-size: 12px;
+
+  span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+}
+
+.chart-key {
+  display: inline-block;
+  flex: none;
+}
+
+.chart-key-bar {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
+
+.chart-key-line {
+  width: 14px;
+  height: 2px;
+  border-radius: 1px;
+}
+
+.chart-key-won { background: var(--won); }
+.chart-key-spent { background: var(--spent); }
+.chart-key-paid { background: var(--paid); }
+
+.chart-body {
+  display: flex;
+}
+
+.chart-y,
+.chart-end-labels {
+  position: relative;
+  flex: none;
+  height: $chart-height;
+  font-size: 11px;
+
+  span {
+    position: absolute;
+    transform: translateY(50%);
+    white-space: nowrap;
+  }
+}
+
+.chart-y {
+  width: $chart-y-width;
+  color: var(--ink-muted);
+  font-variant-numeric: tabular-nums;
+
+  span {
+    right: 8px;
+  }
+}
+
+.chart-end-labels {
+  width: $chart-end-width;
+  color: var(--ink);
+  font-size: 12px;
+
+  span {
+    left: 10px;
+  }
+}
+
+.chart-plot {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  height: $chart-height;
+  outline: none;
+  touch-action: pan-y;
+
+  &:focus-visible {
+    box-shadow: 0 0 0 2px rgba(42, 120, 214, 0.4);
+  }
+}
+
+.chart-grid {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--grid);
+}
+
+.chart-baseline {
+  background: var(--baseline);
+}
+
+.chart-x {
+  position: relative;
+  height: 22px;
+  margin-left: $chart-y-width;
+  color: var(--ink-muted);
+  font-size: 11px;
+
+  span {
+    position: absolute;
+    top: 5px;
+    transform: translateX(-50%);
+  }
+}
+
+.chart-x-line {
+  margin-right: $chart-end-width;
+}
+
+// Weekly columns: one slot per draw week, a column for the prize and a
+// stretch of the step line at that week's bet charges.
+
+.chart-columns {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+}
+
+.chart-slot {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  outline: none;
+
+  &:hover,
+  &:focus {
+    background: rgba(0, 0, 0, 0.04);
+  }
+}
+
+.chart-column {
+  position: absolute;
+  bottom: 0;
+  left: 1px;
+  right: 1px;
+  max-width: 24px;
+  min-height: 2px;
+  margin: 0 auto;
+  border-radius: 4px 4px 0 0;
+  background: var(--won);
+}
+
+.chart-slot:hover .chart-column,
+.chart-slot:focus .chart-column {
+  filter: brightness(1.12);
+}
+
+.chart-step {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  transform: translateY(1px);
+  background: var(--spent);
+}
+
+// Running totals: lines are drawn in a stretched SVG, so the stroke keeps
+// its width with vector-effect, and the end dots are HTML to stay round.
+
+.chart-lines {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.chart-line {
+  fill: none;
+  stroke-width: 2;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.chart-line-won { stroke: var(--won); }
+.chart-line-spent { stroke: var(--spent); }
+
+.chart-dot {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  transform: translate(-50%, 50%);
+  box-shadow: 0 0 0 2px var(--surface);
+}
+
+.chart-dot-won { background: var(--won); }
+.chart-dot-spent { background: var(--spent); }
+
+.chart-crosshair {
+  display: none;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--ink-muted);
+  pointer-events: none;
+}
+
+// Tooltip, shared by both charts (built by metrics.js)
+
+.chart-tooltip {
+  display: none;
+  position: absolute;
+  z-index: 10;
+  min-width: 160px;
+  padding: 8px 10px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 4px;
+  background: var(--surface);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  font-size: 12px;
+  pointer-events: none;
+}
+
+.chart-tooltip-title {
+  margin-bottom: 4px;
+  color: var(--ink-muted);
+}
+
+.chart-tooltip-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+
+  strong {
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+  }
+
+  span {
+    color: var(--ink-secondary);
+  }
+
+  .chart-key-line:not(.chart-key-won):not(.chart-key-spent):not(.chart-key-paid) {
+    visibility: hidden;
+  }
+}
+
+// Payments timeline: a row per person, a dot per payment
+
+$payment-name-width: 110px;
+
+.payment-rows {
+  position: relative;
+}
+
+.payment-months {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: $payment-name-width;
+  right: 0;
+  pointer-events: none;
+
+  span {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: var(--grid);
+  }
+}
+
+.payment-row {
+  display: flex;
+  align-items: center;
+  height: 28px;
+}
+
+.payment-name {
+  flex: none;
+  width: $payment-name-width;
+  padding-right: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.payment-track {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 1px;
+    background: var(--baseline);
+  }
+}
+
+.payment-dot {
+  position: absolute;
+  top: 50%;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--paid);
+  box-shadow: 0 0 0 2px var(--surface);
+  outline: none;
+
+  // A bigger, invisible hit area than the dot itself.
+  &::before {
+    content: "";
+    position: absolute;
+    top: -7px;
+    left: -7px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+  }
+
+  &:hover,
+  &:focus {
+    box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--paid);
+  }
+}
+
+.payment-x {
+  margin-left: $payment-name-width;
+}
+
+// Prize tiers: one bar per tier, on a shared baseline
+
+.metric-bars {
+  list-style: none;
+  margin: 0 0 20px;
+  padding: 0;
+
+  li {
+    display: grid;
+    grid-template-columns: 150px 1fr 32px;
+    align-items: center;
+    gap: 10px;
+    padding: 5px 0;
+  }
+}
+
+.metric-bar-track {
+  display: block;
+  height: 14px;
+}
+
+.metric-bar {
+  display: block;
+  height: 100%;
+  border-radius: 0 4px 4px 0;
+  background: var(--won);
+}
+
+.metric-bar-value {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.metric-facts {
+  margin: 8px 0 0;
+  padding-left: 18px;
+
+  li {
+    margin-bottom: 4px;
+  }
+}
+
+// Tables
+
+.metrics-table {
+  .num {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  tfoot th {
+    border-top: 2px solid var(--hairline);
+  }
+}
+
+.metrics-details {
+  margin-top: 8px;
+
+  summary {
+    cursor: pointer;
+    margin-bottom: 8px;
+    font-weight: bold;
+  }
+}
+
+@media (max-width: 480px) {
+  .metric-tile-value {
+    font-size: 21px;
+  }
+
+  .chart-y {
+    width: 44px;
+  }
+
+  .chart-x {
+    margin-left: 44px;
+
+    span:nth-child(even) {
+      display: none;
+    }
+  }
+
+  // No room for the end labels: the legend and the tooltip carry them.
+  .chart-end-labels {
+    display: none;
+  }
+
+  .chart-x-line {
+    margin-right: 0;
+  }
+
+  .payment-x {
+    margin-left: $payment-name-width;
+  }
+
+  .metric-bars li {
+    grid-template-columns: 1fr 32px;
+  }
+
+  .metric-bar-label {
+    grid-column: 1 / -1;
+  }
+}
