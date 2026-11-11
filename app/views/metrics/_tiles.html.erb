@@ -1,0 +1,45 @@
+<%# The headline numbers. %>
+<% m = metrics %>
+<div class="metric-tiles">
+  <div class="metric-tile">
+    <div class="metric-tile-label">Spent on bets</div>
+    <div class="metric-tile-value"><%= euros(m.spent) %></div>
+    <div class="metric-tile-sub">
+      <%= pluralize(m.bets, "bet") %> over <%= pluralize(m.weeks.size, "week") %>
+    </div>
+  </div>
+  <div class="metric-tile">
+    <div class="metric-tile-label">Won in prizes</div>
+    <div class="metric-tile-value"><%= euros(m.won) %></div>
+    <div class="metric-tile-sub">
+      <% if (best = m.biggest_win) %>
+        Biggest: <%= euros(best.won) %> on <%= best.friday.to_fs %>
+      <% else %>
+        No prizes <%= still_running ? "yet" : "this year" %>
+      <% end %>
+    </div>
+  </div>
+  <div class="metric-tile">
+    <div class="metric-tile-label">Net</div>
+    <div class="metric-tile-value <%= net_class(m.net) %>"><%= euros(m.net, signed: true) %></div>
+    <div class="metric-tile-sub">Prizes minus bets</div>
+  </div>
+  <div class="metric-tile">
+    <div class="metric-tile-label">Return</div>
+    <div class="metric-tile-value"><%= percent(m.return_rate) %></div>
+    <div class="metric-tile-sub">
+      <% if m.return_rate %>
+        <%= euros(m.return_rate) %> back for every €1 bet
+      <% end %>
+    </div>
+  </div>
+  <div class="metric-tile">
+    <div class="metric-tile-label">Winning weeks</div>
+    <div class="metric-tile-value"><%= m.winning_weeks.size %> of <%= m.weeks.size %></div>
+    <div class="metric-tile-sub">
+      <% if m.weeks_per_win %>
+        A prize every <%= number_with_precision(m.weeks_per_win, precision: 1, strip_insignificant_zeros: true) %> weeks
+      <% end %>
+    </div>
+  </div>
+</div>

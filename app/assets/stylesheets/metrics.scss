@@ -242,6 +242,34 @@ $chart-end-width: 140px;
   filter: brightness(1.12);
 }
 
+// Spent and won per year: two bars side by side in each year's slot (a link).
+
+.chart-pair {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 2px;
+  padding: 0 4px;
+}
+
+.chart-bar {
+  flex: 0 1 24px;
+  border-radius: 4px 4px 0 0;
+}
+
+.chart-bar-spent { background: var(--spent); }
+.chart-bar-won { background: var(--won); }
+
+.chart-slot:hover .chart-bar,
+.chart-slot:focus .chart-bar {
+  filter: brightness(1.12);
+}
+
 .chart-step {
   position: absolute;
   left: 0;

@@ -1,0 +1,16 @@
+<%# Page title and the period switcher. active: a year, or :all for all time. %>
+<div class="metrics-header">
+  <h1><%= title %><% if local_assigns[:subtitle] %> <small><%= subtitle %></small><% end %></h1>
+  <% if years.any? %>
+    <ul class="nav nav-pills metrics-years" aria-label="Period">
+      <li class="<%= "active" if active == :all %>">
+        <%= link_to "All time", all_time_metrics_path, aria: { current: ("page" if active == :all) } %>
+      </li>
+      <% years.each do |year| %>
+        <li class="<%= "active" if year == active %>">
+          <%= link_to year, metrics_path(year: year), aria: { current: ("page" if year == active) } %>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+</div>

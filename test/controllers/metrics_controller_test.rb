@@ -35,6 +35,32 @@ class MetricsControllerTest < ActionController::TestCase
     assert_select ".metrics-years a[href=?]", metrics_path(year: 2015)
   end
 
+  test "shows all time, with the years to compare" do
+    Week.create!(number: 1, friday: Date.new(2030, 1, 4), prize: 30.0)
+    Transaction.create!(user: users(:one), value: Bet::BET_COST, kind: TransactionKind::BET,
+                        date: Date.new(2029, 12, 31), details: "Bet")
+    # A bet in the fixtures' prizeless 2015 week.
+    Transaction.create!(user: users(:one), value: Bet::BET_COST, kind: TransactionKind::BET,
+                        date: weeks(:one).friday, details: "Bet")
+
+    get :all_time
+    assert_response :success
+    assert_select "h1", /All time/
+    assert_select ".metrics-years li.active a[href=?]", all_time_metrics_path
+    assert_select ".metric-tile", text: /Best year\s+2030/
+    assert_select ".metric-tile", text: /Worst year\s+2015/
+    assert_select ".metric-tile", text: /Biggest prize\s+€30.00/
+    assert_select ".metric-tile", text: /Best winning streak\s+1 week/
+    assert_select "a.chart-slot[href=?]", metrics_path(year: 2030)
+  end
+
+  test "all time before anything was bet" do
+    Week.delete_all
+    get :all_time
+    assert_response :success
+    assert_select "p.lead", /Nothing has been bet or won yet/
+  end
+
   test "a year without draws" do
     get :show, params: { year: 1999 }
     assert_response :success

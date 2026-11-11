@@ -1,0 +1,53 @@
+<%# Spent and won per year, side by side, oldest first. Each year links to its own page. %>
+<% years = metrics.by_year.reverse %>
+<% ticks = chart_ticks(years.map { |year| [year.spent, year.won].max }.max) %>
+<% top = ticks.last %>
+<% bar_style = ->(value) { value.positive? ? "height: #{chart_pct(value, top)}; min-height: 2px" : "height: 0" } %>
+<figure class="metrics-chart" data-chart="marks">
+  <figcaption>
+    <h3>Spent and won each year</h3>
+    <p class="text-muted">Click a year to see it in detail.</p>
+  </figcaption>
+  <div class="chart-legend">
+    <span><i class="chart-key chart-key-bar chart-key-spent"></i>Spent</span>
+    <span><i class="chart-key chart-key-bar chart-key-won"></i>Won</span>
+  </div>
+  <div class="chart-body">
+    <div class="chart-y" aria-hidden="true">
+      <% ticks.each do |tick| %>
+        <span style="bottom: <%= chart_pct(tick, top) %>"><%= euros(tick).delete_suffix(".00") %></span>
+      <% end %>
+    </div>
+    <div class="chart-plot">
+      <% ticks.each do |tick| %>
+        <div class="chart-grid<%= " chart-baseline" if tick.zero? %>"
+          style="bottom: <%= chart_pct(tick, top) %>"></div>
+      <% end %>
+      <div class="chart-columns">
+        <% years.each do |year| %>
+          <%= link_to metrics_path(year: year.year), class: "chart-slot",
+            aria: { label: "#{year.year}: spent #{euros(year.spent)}, won #{euros(year.won)}" },
+            data: { tip: {
+              title: year.year.to_s,
+              rows: [
+                { key: "spent", label: "Spent", value: euros(year.spent) },
+                { key: "won", label: "Won", value: euros(year.won) },
+                { label: "Net", value: euros(year.net, signed: true) },
+                { label: "Return", value: percent(year.return_rate) }
+              ]
+            } } do %>
+            <span class="chart-pair">
+              <span class="chart-bar chart-bar-spent" style="<%= bar_style.(year.spent) %>"></span>
+              <span class="chart-bar chart-bar-won" style="<%= bar_style.(year.won) %>"></span>
+            </span>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <div class="chart-x" aria-hidden="true">
+    <% years.each_with_index do |year, index| %>
+      <span style="left: <%= chart_pct(index + 0.5, years.size) %>"><%= year.year %></span>
+    <% end %>
+  </div>
+</figure>

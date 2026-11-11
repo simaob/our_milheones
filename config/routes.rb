@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   resources :transactions, only: [:new, :index, :create]
   resources :users, except: [:destroy]
   get 'payments', to: 'payments#index', as: 'payments'
+  get 'metrics/all', to: 'metrics#all_time', as: 'all_time_metrics'
   get 'metrics(/:year)', to: 'metrics#show', as: 'metrics', constraints: { year: /\d{4}/ }
 
   root 'weeks#index'

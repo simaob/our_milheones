@@ -1,0 +1,32 @@
+<%# One row per year, newest first; the row for `current` (a year) is highlighted. %>
+<h2>Every year</h2>
+<div class="table-responsive">
+  <table class="table table-condensed metrics-table">
+    <thead>
+      <tr>
+        <th>Year</th>
+        <th class="num">Draws</th>
+        <th class="num">Spent</th>
+        <th class="num">Won</th>
+        <th class="num">Net</th>
+        <th class="num">Return</th>
+        <th class="num">Winning weeks</th>
+        <th class="num">Paid in</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% years.each do |year| %>
+        <tr class="<%= "info" if year.year == local_assigns[:current] %>">
+          <td><%= link_to year.year, metrics_path(year: year.year) %></td>
+          <td class="num"><%= year.weeks.size %></td>
+          <td class="num"><%= euros(year.spent) %></td>
+          <td class="num"><%= euros(year.won) %></td>
+          <td class="num <%= net_class(year.net) %>"><%= euros(year.net, signed: true) %></td>
+          <td class="num"><%= percent(year.return_rate) %></td>
+          <td class="num"><%= year.winning_weeks.size %> (<%= percent(year.hit_rate) %>)</td>
+          <td class="num"><%= euros(year.paid) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

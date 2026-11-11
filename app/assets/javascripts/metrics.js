@@ -65,7 +65,7 @@ $(function() {
   $('[data-chart="line"]').each(function() {
     var chart = this;
     var plot = $(chart).find('.chart-plot')[0];
-    var points = $(chart).data('points');
+    var points = JSON.parse($(chart).find('script.chart-points').text());
     var tip = buildTooltip(chart);
     var crosshair = document.createElement('div');
     crosshair.className = 'chart-crosshair';

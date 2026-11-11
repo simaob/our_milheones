@@ -1,0 +1,46 @@
+<%# Each person's bets, spending and prize share. %>
+<% people = metrics.people %>
+<h2>Who got what</h2>
+<p class="text-muted">
+  Prizes are split equally between everyone registered when the prize is recorded,
+  and shares count on the day they were credited.
+</p>
+<div class="table-responsive">
+  <table class="table table-condensed metrics-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th class="num">Bets</th>
+        <th class="num">Spent</th>
+        <th class="num">Prize share</th>
+        <th class="num">Net</th>
+        <th class="num">Return</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% people.each do |person| %>
+        <tr>
+          <td><%= link_to display_user(person.user), person.user %></td>
+          <td class="num"><%= person.bets %></td>
+          <td class="num"><%= euros(person.spent) %></td>
+          <td class="num"><%= euros(person.won) %></td>
+          <td class="num <%= net_class(person.net) %>"><%= euros(person.net, signed: true) %></td>
+          <td class="num"><%= percent(person.return_rate) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+    <% if people.size > 1 %>
+      <% spent = people.sum(&:spent); won = people.sum(&:won) %>
+      <tfoot>
+        <tr>
+          <th>Everyone</th>
+          <th class="num"><%= people.sum(&:bets) %></th>
+          <th class="num"><%= euros(spent) %></th>
+          <th class="num"><%= euros(won) %></th>
+          <th class="num <%= net_class(won - spent) %>"><%= euros(won - spent, signed: true) %></th>
+          <th class="num"><%= percent(won / spent) if spent.positive? %></th>
+        </tr>
+      </tfoot>
+    <% end %>
+  </table>
+</div>

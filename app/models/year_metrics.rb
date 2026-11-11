@@ -60,10 +60,12 @@ class YearMetrics
     def bet_slips = weeks.count(&:bet_slip?)
   end
 
-  DrySpell = Data.define(:weeks) do
+  # Consecutive draw weeks: a winning streak or a run without prizes.
+  Run = Data.define(:weeks) do
     def length = weeks.size
     def from = weeks.first.friday
     def to = weeks.last.friday
+    def won = weeks.sum(0.0, &:won)
   end
 
   attr_reader :year
@@ -161,11 +163,10 @@ class YearMetrics
   end
 
   # The longest run of consecutive draw weeks without a prize, if any.
-  def longest_dry_spell
-    runs = weeks.chunk_while { |a, b| !a.won? && !b.won? }.reject { |run| run.first.won? }
-    longest = runs.max_by(&:size)
-    DrySpell.new(weeks: longest) if longest
-  end
+  def longest_dry_spell = longest_run { |week| !week.won? }
+
+  # The longest run of consecutive winning weeks, if any. The earliest one on a tie.
+  def longest_winning_streak = longest_run(&:won?)
 
   def people
     @people ||= begin
@@ -205,6 +206,12 @@ class YearMetrics
   def calendar_year = Date.new(year).all_year
 
   private
+
+  def longest_run(&matches)
+    runs = weeks.chunk_while { |a, b| matches.(a) && matches.(b) }.select { |run| matches.(run.first) }
+    longest = runs.max_by(&:size)
+    Run.new(weeks: longest) if longest
+  end
 
   # [user_id, date, value] for every payment in the calendar year, oldest first.
   def payments

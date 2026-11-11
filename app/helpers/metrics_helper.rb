@@ -47,7 +47,9 @@ module MetricsHelper
          .to_h { |run| [run.first.last, run.first.first.friday.strftime("%b")] }
   end
 
-  def short_date(date)
-    date.strftime("%d/%m")
+  # Index of the first week of each year: { 0 => "2015", 47 => "2016", ... }
+  def year_starts(weeks)
+    weeks.each_with_index.chunk_while { |(a, _), (b, _)| a.friday.year == b.friday.year }
+         .to_h { |run| [run.first.last, run.first.first.friday.year.to_s] }
   end
 end

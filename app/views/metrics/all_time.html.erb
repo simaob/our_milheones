@@ -1,0 +1,98 @@
+<% m = @metrics %>
+<% years = m.by_year %>
+<div class="metrics">
+  <%= render "header", title: "All time",
+    subtitle: ("#{years.last.year}–#{years.first.year}" if years.size > 1),
+    years: @years, active: :all %>
+
+  <% if m.empty? %>
+    <p class="lead">Nothing has been bet or won yet.</p>
+  <% else %>
+    <%= render "tiles", metrics: m, still_running: true %>
+
+    <h2>Records</h2>
+    <div class="metric-tiles">
+      <% if years.size > 1 && m.best_year != m.worst_year %>
+        <% [["Best year", m.best_year], ["Worst year", m.worst_year]].each do |label, year| %>
+          <div class="metric-tile">
+            <div class="metric-tile-label"><%= label %></div>
+            <div class="metric-tile-value"><%= link_to year.year, metrics_path(year: year.year) %></div>
+            <div class="metric-tile-sub">
+              <%= percent(year.return_rate) %> return, <%= euros(year.net, signed: true) %> net
+              <%= "(so far)" if year.year == Date.current.year %>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+      <% if (best = m.biggest_win) %>
+        <div class="metric-tile">
+          <div class="metric-tile-label">Biggest prize</div>
+          <div class="metric-tile-value"><%= euros(best.won) %></div>
+          <div class="metric-tile-sub">
+            <%= best.week ? link_to("On #{best.friday.to_fs}", best.week) : "On #{best.friday.to_fs}" %>
+          </div>
+        </div>
+      <% end %>
+      <% if (streak = m.longest_winning_streak) %>
+        <div class="metric-tile">
+          <div class="metric-tile-label">Best winning streak</div>
+          <div class="metric-tile-value"><%= pluralize(streak.length, "week") %></div>
+          <div class="metric-tile-sub">
+            <%= streak.from.to_fs %><% if streak.length > 1 %> to <%= streak.to.to_fs %><% end %>,
+            <%= euros(streak.won) %> won
+          </div>
+        </div>
+      <% end %>
+      <% if (spell = m.longest_dry_spell) %>
+        <div class="metric-tile">
+          <div class="metric-tile-label">Longest run without a prize</div>
+          <div class="metric-tile-value"><%= pluralize(spell.length, "week") %></div>
+          <div class="metric-tile-sub">
+            <%= spell.from.to_fs %><% if spell.length > 1 %> to <%= spell.to.to_fs %><% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <% if years.size > 1 %>
+      <%= render "yearly_chart", metrics: m %>
+    <% end %>
+    <%= render "running_chart", metrics: m,
+      title: "Spent and won since #{m.weeks.first.friday.year}",
+      labels: year_starts(m.weeks) %>
+
+    <%= render "years_table", years: years %>
+
+    <% if (top_wins = m.top_wins).any? %>
+      <h2>Biggest prizes</h2>
+      <div class="table-responsive">
+        <table class="table table-condensed metrics-table">
+          <thead>
+            <tr>
+              <th>Friday</th>
+              <th class="num">Prize</th>
+              <th class="num">Bet charges that week</th>
+              <th class="num">Paid back</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% top_wins.each do |week| %>
+              <tr>
+                <td><%= week.week ? link_to(week.friday.to_fs, week.week) : week.friday.to_fs %></td>
+                <td class="num"><%= euros(week.won) %></td>
+                <td class="num"><%= euros(week.spent) %></td>
+                <td class="num">
+                  <%= pluralize((week.won / week.spent).floor, "week") if week.spent.positive? %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    <% end %>
+
+    <%= render "patterns", metrics: m, facts: false %>
+    <%= render "people", metrics: m %>
+    <%= render "payments", metrics: m %>
+  <% end %>
+</div>

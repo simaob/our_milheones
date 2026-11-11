@@ -1,0 +1,43 @@
+<%# Money people sent in: how much and how often. The timeline is drawn for a single year only. %>
+<% m = metrics %>
+<h2>Payments</h2>
+<% if m.payment_count.zero? %>
+  <p>No payments were recorded<%= " in #{m.year}" if m.year %>.</p>
+<% else %>
+  <p class="text-muted">
+    <%= pluralize(m.payment_count, "payment") %> totalling <%= euros(m.paid) %><% if m.spent.positive? %>,
+    <%= percent(m.paid / m.spent) %> of <%= m.year ? "the year's" : "all" %> bet charges<% end %>.
+  </p>
+  <%= render "payments_timeline", metrics: m if m.year %>
+  <div class="table-responsive">
+    <table class="table table-condensed metrics-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th class="num">Payments</th>
+          <th class="num">Paid</th>
+          <th class="num">Of their bets</th>
+          <th class="num">Days between payments</th>
+          <th class="num">Last payment</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% m.people.each do |person| %>
+          <tr>
+            <td><%= link_to display_user(person.user), person.user %></td>
+            <td class="num"><%= person.payments.size %></td>
+            <td class="num"><%= euros(person.paid) %></td>
+            <td class="num"><%= percent(person.coverage) %></td>
+            <td class="num"><%= person.days_between_payments&.round || "—" %></td>
+            <td class="num"><%= person.last_payment&.to_fs || "—" %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <% if m.year %>
+    <p class="text-muted small">
+      Days between payments counts from each person's last payment before <%= m.year %>.
+    </p>
+  <% end %>
+<% end %>

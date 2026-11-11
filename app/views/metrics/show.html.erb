@@ -1,238 +1,21 @@
 <% m = @metrics %>
 <% current_year = m.year == Date.current.year %>
 <div class="metrics">
-  <div class="metrics-header">
-    <h1><%= m.year %> in numbers<% if current_year %> <small>so far</small><% end %></h1>
-    <% if @years.size > 1 %>
-      <ul class="nav nav-pills metrics-years" aria-label="Year">
-        <% @years.each do |year| %>
-          <li class="<%= "active" if year == m.year %>">
-            <%= link_to year, metrics_path(year: year),
-              aria: { current: ("page" if year == m.year) } %>
-          </li>
-        <% end %>
-      </ul>
-    <% end %>
-  </div>
+  <%= render "header", title: "#{m.year} in numbers", subtitle: ("so far" if current_year),
+    years: @years, active: m.year %>
 
   <% if m.empty? %>
     <p class="lead">Nothing was bet or won in <%= m.year %>.</p>
   <% else %>
-    <div class="metric-tiles">
-      <div class="metric-tile">
-        <div class="metric-tile-label">Spent on bets</div>
-        <div class="metric-tile-value"><%= euros(m.spent) %></div>
-        <div class="metric-tile-sub">
-          <%= pluralize(m.bets, "bet") %> over <%= pluralize(m.weeks.size, "week") %>
-        </div>
-      </div>
-      <div class="metric-tile">
-        <div class="metric-tile-label">Won in prizes</div>
-        <div class="metric-tile-value"><%= euros(m.won) %></div>
-        <div class="metric-tile-sub">
-          <% if (best = m.biggest_win) %>
-            Biggest: <%= euros(best.won) %> on <%= short_date(best.friday) %>
-          <% else %>
-            No prizes <%= current_year ? "yet" : "this year" %>
-          <% end %>
-        </div>
-      </div>
-      <div class="metric-tile">
-        <div class="metric-tile-label">Net</div>
-        <div class="metric-tile-value <%= net_class(m.net) %>"><%= euros(m.net, signed: true) %></div>
-        <div class="metric-tile-sub">Prizes minus bets</div>
-      </div>
-      <div class="metric-tile">
-        <div class="metric-tile-label">Return</div>
-        <div class="metric-tile-value"><%= percent(m.return_rate) %></div>
-        <div class="metric-tile-sub">
-          <% if m.return_rate %>
-            <%= euros(m.return_rate) %> back for every €1 bet
-          <% end %>
-        </div>
-      </div>
-      <div class="metric-tile">
-        <div class="metric-tile-label">Winning weeks</div>
-        <div class="metric-tile-value"><%= m.winning_weeks.size %> of <%= m.weeks.size %></div>
-        <div class="metric-tile-sub">
-          <% if m.weeks_per_win %>
-            A prize every <%= number_with_precision(m.weeks_per_win, precision: 1, strip_insignificant_zeros: true) %> weeks
-          <% end %>
-        </div>
-      </div>
-    </div>
+    <%= render "tiles", metrics: m, still_running: current_year %>
 
     <%= render "weekly_chart", metrics: m %>
-    <%= render "running_chart", metrics: m %>
+    <%= render "running_chart", metrics: m, title: "Spent and won over the year",
+      labels: month_starts(m.weeks) %>
 
-    <h2>Patterns</h2>
-    <div class="row">
-      <div class="col-md-6">
-        <h3>How far each prize went</h3>
-        <p class="text-muted">
-          Winning weeks by how many weeks of bet charges the prize paid back.
-        </p>
-        <% tiers = m.prize_tiers %>
-        <% if tiers.values.sum.zero? %>
-          <p>No winning weeks to group.</p>
-        <% else %>
-          <ul class="metric-bars">
-            <% tiers.each do |tier, count| %>
-              <li>
-                <span class="metric-bar-label"><%= MetricsHelper::PRIZE_TIER_LABELS.fetch(tier) %></span>
-                <span class="metric-bar-track">
-                  <span class="metric-bar" style="width: <%= chart_pct(count, tiers.values.max) %>"></span>
-                </span>
-                <span class="metric-bar-value"><%= count %></span>
-              </li>
-            <% end %>
-          </ul>
-        <% end %>
-      </div>
-      <div class="col-md-6">
-        <h3>By Friday of the month</h3>
-        <p class="text-muted">
-          We're charged every week but bet once a month: this shows where in the month the prizes land.
-        </p>
-        <div class="table-responsive">
-          <table class="table table-condensed metrics-table">
-            <thead>
-              <tr>
-                <th>Friday</th>
-                <th class="num">Draws</th>
-                <th class="num">Winning</th>
-                <th class="num">Spent</th>
-                <th class="num">Won</th>
-                <th class="num">Return</th>
-              </tr>
-            </thead>
-            <tbody>
-              <% m.fridays_of_month.each do |nth, period| %>
-                <tr>
-                  <td><%= nth.ordinalize %></td>
-                  <td class="num"><%= period.weeks.size %></td>
-                  <td class="num"><%= period.winning_weeks.size %></td>
-                  <td class="num"><%= euros(period.spent) %></td>
-                  <td class="num"><%= euros(period.won) %></td>
-                  <td class="num"><%= percent(period.return_rate) %></td>
-                </tr>
-              <% end %>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <ul class="metric-facts">
-      <% if (spell = m.longest_dry_spell) %>
-        <li>
-          Longest run without a prize: <strong><%= pluralize(spell.length, "week") %></strong>,
-          <% if spell.length == 1 %>
-            on <%= spell.from.to_fs %>.
-          <% else %>
-            from <%= spell.from.to_fs %> to <%= spell.to.to_fs %>.
-          <% end %>
-        </li>
-      <% end %>
-      <% if m.average_win %>
-        <li>A winning week paid <strong><%= euros(m.average_win) %></strong> on average.</li>
-      <% end %>
-      <% if (best = m.biggest_win) %>
-        <li>
-          Biggest prize: <strong><%= euros(best.won) %></strong>
-          <% if best.week %>
-            for <%= link_to "week #{best.week.number} (#{best.friday.to_fs})", best.week %>.
-          <% else %>
-            on <%= best.friday.to_fs %>.
-          <% end %>
-        </li>
-      <% end %>
-    </ul>
-
-    <h2>Who got what</h2>
-    <p class="text-muted">
-      Prizes are split equally between everyone registered when the prize is recorded,
-      and shares count on the day they were credited.
-    </p>
-    <div class="table-responsive">
-      <table class="table table-condensed metrics-table">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th class="num">Bets</th>
-            <th class="num">Spent</th>
-            <th class="num">Prize share</th>
-            <th class="num">Net</th>
-            <th class="num">Return</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% m.people.each do |person| %>
-            <tr>
-              <td><%= link_to display_user(person.user), person.user %></td>
-              <td class="num"><%= person.bets %></td>
-              <td class="num"><%= euros(person.spent) %></td>
-              <td class="num"><%= euros(person.won) %></td>
-              <td class="num <%= net_class(person.net) %>"><%= euros(person.net, signed: true) %></td>
-              <td class="num"><%= percent(person.return_rate) %></td>
-            </tr>
-          <% end %>
-        </tbody>
-        <% if m.people.size > 1 %>
-          <% spent = m.people.sum(&:spent); won = m.people.sum(&:won) %>
-          <tfoot>
-            <tr>
-              <th>Everyone</th>
-              <th class="num"><%= m.people.sum(&:bets) %></th>
-              <th class="num"><%= euros(spent) %></th>
-              <th class="num"><%= euros(won) %></th>
-              <th class="num <%= net_class(won - spent) %>"><%= euros(won - spent, signed: true) %></th>
-              <th class="num"><%= percent(won / spent) if spent.positive? %></th>
-            </tr>
-          </tfoot>
-        <% end %>
-      </table>
-    </div>
-
-    <h2>Payments</h2>
-    <% if m.payment_count.zero? %>
-      <p>No payments were recorded in <%= m.year %>.</p>
-    <% else %>
-      <p class="text-muted">
-        <%= pluralize(m.payment_count, "payment") %> totalling <%= euros(m.paid) %><% if m.spent.positive? %>,
-        <%= percent(m.paid / m.spent) %> of the year's bet charges<% end %>.
-      </p>
-      <%= render "payments_timeline", metrics: m %>
-      <div class="table-responsive">
-        <table class="table table-condensed metrics-table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th class="num">Payments</th>
-              <th class="num">Paid</th>
-              <th class="num">Of their bets</th>
-              <th class="num">Days between payments</th>
-              <th class="num">Last payment</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% m.people.each do |person| %>
-              <tr>
-                <td><%= link_to display_user(person.user), person.user %></td>
-                <td class="num"><%= person.payments.size %></td>
-                <td class="num"><%= euros(person.paid) %></td>
-                <td class="num"><%= percent(person.coverage) %></td>
-                <td class="num"><%= person.days_between_payments&.round || "—" %></td>
-                <td class="num"><%= person.last_payment&.to_fs || "—" %></td>
-              </tr>
-            <% end %>
-          </tbody>
-        </table>
-      </div>
-      <p class="text-muted small">
-        Days between payments counts from each person's last payment before <%= m.year %>.
-      </p>
-    <% end %>
+    <%= render "patterns", metrics: m, facts: true %>
+    <%= render "people", metrics: m %>
+    <%= render "payments", metrics: m %>
 
     <h2>Month by month</h2>
     <% paid_by_month = m.paid_by_month %>
@@ -301,36 +84,6 @@
   <% end %>
 
   <% if @all_years.size > 1 %>
-    <h2>Every year</h2>
-    <div class="table-responsive">
-      <table class="table table-condensed metrics-table">
-        <thead>
-          <tr>
-            <th>Year</th>
-            <th class="num">Draws</th>
-            <th class="num">Spent</th>
-            <th class="num">Won</th>
-            <th class="num">Net</th>
-            <th class="num">Return</th>
-            <th class="num">Winning weeks</th>
-            <th class="num">Paid in</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @all_years.each do |year| %>
-            <tr class="<%= "info" if year.year == m.year %>">
-              <td><%= link_to year.year, metrics_path(year: year.year) %></td>
-              <td class="num"><%= year.weeks.size %></td>
-              <td class="num"><%= euros(year.spent) %></td>
-              <td class="num"><%= euros(year.won) %></td>
-              <td class="num <%= net_class(year.net) %>"><%= euros(year.net, signed: true) %></td>
-              <td class="num"><%= percent(year.return_rate) %></td>
-              <td class="num"><%= year.winning_weeks.size %> (<%= percent(year.hit_rate) %>)</td>
-              <td class="num"><%= euros(year.paid) %></td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
-    </div>
+    <%= render "years_table", years: @all_years, current: m.year %>
   <% end %>
 </div>

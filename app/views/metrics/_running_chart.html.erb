@@ -1,4 +1,5 @@
-<%# Running totals of bet charges and prizes over the year, one point per draw week. %>
+<%# Running totals of bet charges and prizes, one point per draw week.
+    labels: x-axis labels by week index, e.g. month_starts(weeks). %>
 <% points = metrics.running_totals %>
 <% ticks = chart_ticks(points.map { |p| [p[:spent], p[:won]].max }.max) %>
 <% top = ticks.last %>
@@ -7,17 +8,18 @@
 <% last = points.last %>
 <%# Direct labels at the line ends, unless they'd sit on top of each other. %>
 <% end_labels = (last[:spent] - last[:won]).abs / top > 0.12 %>
-<figure class="metrics-chart" data-chart="line"
-  data-points="<%= points.map { |p|
+<figure class="metrics-chart" data-chart="line">
+  <%# Tooltip contents per point, read by metrics.js. %>
+  <script type="application/json" class="chart-points"><%= json_escape(points.map { |p|
     { title: "By Friday #{p[:friday].to_fs}",
       rows: [
         { key: "won", label: "Won", value: euros(p[:won]) },
         { key: "spent", label: "Spent", value: euros(p[:spent]) },
         { label: "Net", value: euros(p[:won] - p[:spent], signed: true) }
       ] }
-  }.to_json %>">
+  }.to_json).html_safe %></script>
   <figcaption>
-    <h3>Spent and won over the year</h3>
+    <h3><%= title %></h3>
     <p class="text-muted">Running totals after each draw. The gap between the lines is the net.</p>
   </figcaption>
   <div class="chart-legend">
@@ -55,7 +57,7 @@
     </div>
   </div>
   <div class="chart-x chart-x-line" aria-hidden="true">
-    <% month_starts(metrics.weeks).each do |index, label| %>
+    <% labels.each do |index, label| %>
       <span style="left: <%= x.(index) / 10.0 %>%"><%= label %></span>
     <% end %>
   </div>

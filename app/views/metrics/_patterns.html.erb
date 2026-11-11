@@ -1,0 +1,93 @@
+<%# Prize tiers and the Friday-of-the-month split; with facts: true, a few one-liners below. %>
+<% m = metrics %>
+<h2>Patterns</h2>
+<div class="row">
+  <div class="col-md-6">
+    <h3>How far each prize went</h3>
+    <p class="text-muted">
+      Winning weeks by how many weeks of bet charges the prize paid back.
+    </p>
+    <% tiers = m.prize_tiers %>
+    <% if tiers.values.sum.zero? %>
+      <p>No winning weeks to group.</p>
+    <% else %>
+      <ul class="metric-bars">
+        <% tiers.each do |tier, count| %>
+          <li>
+            <span class="metric-bar-label"><%= MetricsHelper::PRIZE_TIER_LABELS.fetch(tier) %></span>
+            <span class="metric-bar-track">
+              <span class="metric-bar" style="width: <%= chart_pct(count, tiers.values.max) %>"></span>
+            </span>
+            <span class="metric-bar-value"><%= count %></span>
+          </li>
+        <% end %>
+      </ul>
+    <% end %>
+  </div>
+  <div class="col-md-6">
+    <h3>By Friday of the month</h3>
+    <p class="text-muted">
+      Where in the month the prizes land. We're charged every week, but these days we bet once a month.
+    </p>
+    <div class="table-responsive">
+      <table class="table table-condensed metrics-table">
+        <thead>
+          <tr>
+            <th>Friday</th>
+            <th class="num">Draws</th>
+            <th class="num">Winning</th>
+            <th class="num">Spent</th>
+            <th class="num">Won</th>
+            <th class="num">Return</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% m.fridays_of_month.each do |nth, period| %>
+            <tr>
+              <td><%= nth.ordinalize %></td>
+              <td class="num"><%= period.weeks.size %></td>
+              <td class="num"><%= period.winning_weeks.size %></td>
+              <td class="num"><%= euros(period.spent) %></td>
+              <td class="num"><%= euros(period.won) %></td>
+              <td class="num"><%= percent(period.return_rate) %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<% if facts %>
+  <ul class="metric-facts">
+    <% if (streak = m.longest_winning_streak) && streak.length > 1 %>
+      <li>
+        Best winning streak: <strong><%= streak.length %> weeks in a row</strong>,
+        from <%= streak.from.to_fs %> to <%= streak.to.to_fs %>, <%= euros(streak.won) %> won.
+      </li>
+    <% end %>
+    <% if (spell = m.longest_dry_spell) %>
+      <li>
+        Longest run without a prize: <strong><%= pluralize(spell.length, "week") %></strong>,
+        <% if spell.length == 1 %>
+          on <%= spell.from.to_fs %>.
+        <% else %>
+          from <%= spell.from.to_fs %> to <%= spell.to.to_fs %>.
+        <% end %>
+      </li>
+    <% end %>
+    <% if m.average_win %>
+      <li>A winning week paid <strong><%= euros(m.average_win) %></strong> on average.</li>
+    <% end %>
+    <% if (best = m.biggest_win) %>
+      <li>
+        Biggest prize: <strong><%= euros(best.won) %></strong>
+        <% if best.week %>
+          for <%= link_to "week #{best.week.number} (#{best.friday.to_fs})", best.week %>.
+        <% else %>
+          on <%= best.friday.to_fs %>.
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>

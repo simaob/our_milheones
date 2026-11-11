@@ -73,6 +73,20 @@ class YearMetricsTest < ActiveSupport::TestCase
     assert_equal "2030-02-08".to_date, spell.to
   end
 
+  test "best winning streak" do
+    # Prizes on 11/01 and 25/01 only: the streaks are one week long, the earliest wins the tie.
+    streak = @metrics.longest_winning_streak
+    assert_equal 1, streak.length
+    assert_equal "2030-01-11".to_date, streak.from
+
+    Week.find_by!(friday: "2030-01-18".to_date).update!(prize: 5.0)
+    streak = YearMetrics.new(2030).longest_winning_streak
+    assert_equal 3, streak.length
+    assert_equal "2030-01-11".to_date, streak.from
+    assert_equal "2030-01-25".to_date, streak.to
+    assert_in_delta 75.0, streak.won
+  end
+
   test "splits the draws by month and by Friday of the month" do
     assert_equal [1, 2], @metrics.months.keys
     assert_in_delta 70.0, @metrics.months[1].won
@@ -123,6 +137,7 @@ class YearMetricsTest < ActiveSupport::TestCase
     assert metrics.empty?
     assert_nil metrics.return_rate
     assert_nil metrics.longest_dry_spell
+    assert_nil metrics.longest_winning_streak
     assert_empty metrics.people
   end
 end
