@@ -64,10 +64,11 @@ under emulation). Later deploys reuse the cache unless the `Gemfile.lock` change
      "POSTGRES_PASSWORD[password]=$(openssl rand -hex 32)"
    ```
 
-   Then add a password field named `SMTP_PASSWORD` to it in the 1Password app (the SendGrid API
-   key by default, see `config/environments/production.rb`; typing it into a shell command would
-   leave it in your history). The `from` address `no-reply@simaobelchior.net` must be a verified
-   sender with the mail provider. `bin/kamal secrets print` shows what Kamal reads.
+   Then add a password field named `SENDGRID_API_KEY` to it in the 1Password app (a SendGrid API
+   key with "Mail Send" access; typing it into a shell command would leave it in your history).
+   Kamal passes it to the app as `SMTP_PASSWORD`, see `config/environments/production.rb`.
+   `simaobelchior.net` is authenticated in SendGrid (Sender Authentication), so mail from
+   `no-reply@simaobelchior.net` is DKIM-signed. `bin/kamal secrets print` shows what Kamal reads.
 4. The item is also the backup of `config/master.key`, which decrypts
    `config/credentials.yml.enc` and is not in git. On another machine, recreate the file from it
    to edit credentials.
