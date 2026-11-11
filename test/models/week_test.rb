@@ -75,6 +75,17 @@ class WeekTest < ActiveSupport::TestCase
     end
   end
 
+  test "members picked their own bets until June 2017" do
+    assert Week.new(friday: Date.new(2017, 6, 9)).member_bets?
+    assert_not Week.new(friday: Date.new(2017, 6, 16)).member_bets?
+  end
+
+  test "a bet was made when its slip was uploaded" do
+    assert_not @week.bet_made?
+    @week.update!(weeks_bet: File.open(file_fixture("proof.png")))
+    assert @week.reload.bet_made?
+  end
+
   test "the database rejects a duplicate week" do
     assert_raises ActiveRecord::RecordNotUnique do
       Week.new(number: @week.number, friday: @week.friday).save!(validate: false)

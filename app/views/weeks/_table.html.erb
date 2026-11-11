@@ -1,0 +1,32 @@
+<%# Weeks since the syndicate places the bets itself: there are no member bets to
+    show, so the weeks a bet was made (its slip uploaded) are highlighted instead. %>
+<table class="table table-bordered table-condensed">
+  <thead>
+    <tr>
+      <th>Number</th>
+      <th>Friday</th>
+      <th>Solution</th>
+      <th>Prize</th>
+      <th>Bet</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% weeks.each do |week| %>
+      <tr class="<%= if week == current_week then "success" elsif week.bet_made? then "info" end %>">
+        <td><%= week.number %></td>
+        <td><%= week.friday.to_fs %></td>
+        <td><%= print_bet week.solution %></td>
+        <td><span class="<%= "label label-success" if week.prize && week.prize > 0.0 %>">
+          €<%= week.prize.presence || 0.0 %></span></td>
+        <td>
+          <% if week.bet_made? %>
+            <%= link_to "Bet made", week, class: "label label-info", title: "See the bet slip" %>
+          <% end %>
+        </td>
+        <td><%= render "actions", week: week %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

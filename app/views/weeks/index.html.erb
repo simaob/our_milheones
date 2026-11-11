@@ -3,53 +3,11 @@
   pagination_class:  "pagination-sm" %>
 <% @weeks_month.each do |month, weeks| %>
   <h4><%= month %></h4>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Number</th>
-        <th>Friday</th>
-        <th>Solution</th>
-        <th>Prize</th>
-        <th>Bets</th>
-        <th>Your bet</th>
-        <th></th>
-      </tr>
-    </thead>
-
-    <tbody>
-      <% weeks.each do |week| %>
-        <tr class="<%= if week == current_week then "success" end %>">
-          <td><%= week.number %></td>
-          <td><%= week.friday.to_fs %></td>
-          <td><%= print_bet week.solution %></td>
-          <td><span class="<%= "label label-success" if week.prize && week.prize > 0.0 %>">
-            €<%= week.prize.presence || 0.0 %></span></td>
-          <td><%= week.bets.size %>
-            (<%= week.bets_missing %> missing)
-          </td>
-          <td>
-            <% if week.friday < Date.parse('11/06/2017') %>
-              <%= formatted_bet(week.bet_from(current_user), week.solution) %>
-            <% end %>
-          </td>
-          <td>
-            <%= link_to 'Show', week %>
-            <% if current_user.is_admin? %>
-              |
-              <%= link_to "Bet made", edit_week_path(week,
-                update_type: 'bet') %>
-              |
-              <%= link_to 'Add solution', edit_week_path(week,
-                update_type: 'solution') %>
-              |
-              <%= link_to 'Set prize', edit_week_path(week,
-                update_type: 'prize') %>
-            <% end %>
-          </td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
+  <% if weeks.any?(&:member_bets?) %>
+    <%= render "member_bets_table", weeks: weeks %>
+  <% else %>
+    <%= render "table", weeks: weeks %>
+  <% end %>
 <% end %>
 <%= paginate @weeks, theme: 'twitter-bootstrap-3',
   pagination_class:  "pagination-sm" %>

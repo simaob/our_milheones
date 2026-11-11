@@ -13,6 +13,20 @@ class WeeksControllerTest < ActionController::TestCase
     assert_not_nil assigns(:weeks)
   end
 
+  test "index highlights the weeks a bet was made, after members stopped picking bets" do
+    with_bet = Week.create!(number: 40, friday: Date.new(2026, 10, 2),
+                            weeks_bet: fixture_file_upload("proof.png", "image/png"))
+    Week.create!(number: 41, friday: Date.new(2026, 10, 9))
+
+    get :index
+    assert_response :success
+    assert_select "tr.info", 1
+    assert_select "tr.info a.label[href=?]", week_path(with_bet), text: "Bet made"
+    # The fixtures' 2015 month keeps the member bets columns, October 2026 doesn't.
+    assert_select "th", text: "Your bet", count: 1
+    assert_select "th", text: "Bet", count: 1
+  end
+
   test "should show week" do
     get :show, params: { id: @week }
     assert_response :success

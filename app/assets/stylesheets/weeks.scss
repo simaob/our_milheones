@@ -4,3 +4,9 @@
 .quick-play {
   list-style: none;
 }
+
+// "Bet made" links in the weeks table: keep the label text white once visited
+// (scaffolds.scss greys out visited links).
+a.label:visited {
+  color: #fff;
+}

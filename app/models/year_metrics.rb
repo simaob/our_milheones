@@ -21,8 +21,7 @@ class YearMetrics
     def net = won - spent
     # 1 for the first Friday of the month, up to 5 for a fifth one.
     def friday_of_month = (friday.day - 1) / 7 + 1
-    # Reads the stored filename, so it doesn't check the upload on disk for every week.
-    def bet_slip? = week&.weeks_bet_identifier.present?
+    def bet_slip? = !!week&.bet_made?
   end
 
   # payments: [date, value] pairs in date order. last_payment_before: the date

@@ -14,6 +14,12 @@
 #
 
 class Week < ApplicationRecord
+  # Until this date each member picked their own numbers (the Bet rows, shown as
+  # "Your bet"). Since then the syndicate places the bets itself, weekly at
+  # first and once a month these days, and uploads the slip to the week it was
+  # made on ("Bet made").
+  MEMBER_BETS_UNTIL = Date.new(2017, 6, 11)
+
   attr_accessor :update_type
   mount_uploader :weeks_bet, WeeksBetUploader
 
@@ -42,6 +48,17 @@ class Week < ApplicationRecord
       model.solution['stars'] = model.solution['stars'].split(",")
       model.solution['stars'].map!(&:to_i).sort!
     end
+  end
+
+  # Whether this week's bets were each member's own picks.
+  def member_bets?
+    friday < MEMBER_BETS_UNTIL
+  end
+
+  # Whether the bet slip was uploaded. Reads the stored filename, so it doesn't
+  # check the file on disk.
+  def bet_made?
+    weeks_bet_identifier.present?
   end
 
   def bets_missing
