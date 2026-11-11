@@ -15,7 +15,7 @@ servers:
 # Using an SSL proxy like this requires config.assume_ssl and config.force_ssl in production.rb (both on).
 proxy:
   ssl: true
-  host:
+  hosts:
     - our-milheones-new.simaobelchior.net
     - our-milheones.simaobelchior.net
 
