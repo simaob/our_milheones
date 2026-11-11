@@ -82,23 +82,31 @@ empty; once it holds data, the password lives inside the database and has to be 
 
 ### Moving the data from the old server
 
-On the old server:
+On the old server (Postgres 9.3; the login is in `~/our_milheones/shared/config/database.yml`):
 
 ```sh
-pg_dump -Fc --no-owner --no-acl our_milheones_production > our_milheones.dump
-tar czf uploads.tgz -C ~/our_milheones/shared/public uploads
+pg_dump -Fc --no-owner --no-acl -h localhost -U simaob our_milheones_production > our_milheones.dump
+tar czf uploads.tgz -C ~/our_milheones/shared/public --exclude=uploads/tmp uploads
 ```
 
 Copy both files to the new server, then on the new server:
 
 ```sh
-# Database (replaces the empty tables created by the first deploy)
-docker exec -i our_milheones-db pg_restore -U our_milheones -d our_milheones_production \
-  --clean --if-exists --no-owner < our_milheones.dump
+# Database: load only the rows of the four tables into the schema the app already created,
+# keeping its schema_migrations and indexes. It runs in one transaction (all or nothing) and
+# empties the tables first, so it can be re-run to re-sync. A `pg_restore --clean` of the whole
+# dump is not used because the 9.3 dump also drops and recreates the public schema.
+docker cp our_milheones.dump our_milheones-db:/tmp/old.dump
+docker exec our_milheones-db sh -c '
+  pg_restore -l /tmp/old.dump | grep -E "(TABLE DATA|SEQUENCE SET) public (users|weeks|bets|transactions)(_id_seq)? " > /tmp/old.list
+  { echo "TRUNCATE users, weeks, bets, transactions;"
+    pg_restore --data-only --no-owner --no-acl -L /tmp/old.list -f - /tmp/old.dump
+  } | psql -X -q -v ON_ERROR_STOP=1 --single-transaction -U our_milheones -d our_milheones_production
+  rm /tmp/old.dump /tmp/old.list'
 
-# Uploaded bet proofs
-docker run --rm -v our_milheones_uploads:/uploads -v "$PWD":/backup alpine \
-  sh -c 'tar xzf /backup/uploads.tgz -C /uploads --strip-components=1 && chown -R 1000:1000 /uploads'
+# Uploaded bet proofs, unpacked through the app container so the files belong to its user
+docker exec -i $(docker ps -q --filter label=service=our_milheones --filter label=role=web | head -1) \
+  tar xzf - -C /rails/public/uploads --strip-components=1 --no-same-owner < uploads.tgz
 ```
 
 Passwords keep working (same bcrypt hashes), but everyone has to sign in again once:
