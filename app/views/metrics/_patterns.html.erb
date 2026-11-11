@@ -49,7 +49,7 @@
               <td class="num"><%= period.winning_weeks.size %></td>
               <td class="num"><%= euros(period.spent) %></td>
               <td class="num"><%= euros(period.won) %></td>
-              <td class="num"><%= percent(period.return_rate) %></td>
+              <%= return_tag(period.return_rate, :td, class: "num") %>
             </tr>
           <% end %>
         </tbody>

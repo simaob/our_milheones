@@ -29,7 +29,8 @@ class YearMetrics
   # of their last payment before this year, so a gap can span the new year.
   Person = Data.define(:user, :bets, :spent, :won, :payments, :last_payment_before) do
     def net = won - spent
-    def return_rate = spent.positive? ? won / spent : nil
+    # Gain or loss per euro bet: -0.75 when €1 bet brought back €0.25.
+    def return_rate = spent.positive? ? net / spent : nil
     def paid = payments.sum(0.0) { |_date, value| value }
     def last_payment = payments.last&.first
     # How much of the year's bet charges their payments covered.
@@ -54,7 +55,8 @@ class YearMetrics
     def won = weeks.sum(0.0, &:won)
     def net = won - spent
     def bets = weeks.sum(&:bets)
-    def return_rate = spent.positive? ? won / spent : nil
+    # Gain or loss per euro bet: -0.75 when €1 bet brought back €0.25.
+    def return_rate = spent.positive? ? net / spent : nil
     def winning_weeks = weeks.select(&:won?)
     def hit_rate = weeks.any? ? winning_weeks.size.fdiv(weeks.size) : nil
     def bet_slips = weeks.count(&:bet_slip?)

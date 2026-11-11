@@ -33,7 +33,7 @@
                 { key: "spent", label: "Spent", value: euros(year.spent) },
                 { key: "won", label: "Won", value: euros(year.won) },
                 { label: "Net", value: euros(year.net, signed: true) },
-                { label: "Return", value: percent(year.return_rate) }
+                { label: "Return", value: percent(year.return_rate, signed: true) }
               ]
             } } do %>
             <span class="chart-pair">

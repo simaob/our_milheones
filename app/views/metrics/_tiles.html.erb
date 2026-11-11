@@ -26,10 +26,10 @@
   </div>
   <div class="metric-tile">
     <div class="metric-tile-label">Return</div>
-    <div class="metric-tile-value"><%= percent(m.return_rate) %></div>
+    <%= return_tag(m.return_rate, :div, class: "metric-tile-value") %>
     <div class="metric-tile-sub">
-      <% if m.return_rate %>
-        <%= euros(m.return_rate) %> back for every €1 bet
+      <% if m.spent.positive? %>
+        <%= euros(m.won / m.spent) %> back for every €1 bet
       <% end %>
     </div>
   </div>

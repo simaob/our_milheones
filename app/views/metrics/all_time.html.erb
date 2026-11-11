@@ -18,7 +18,7 @@
             <div class="metric-tile-label"><%= label %></div>
             <div class="metric-tile-value"><%= link_to year.year, metrics_path(year: year.year) %></div>
             <div class="metric-tile-sub">
-              <%= percent(year.return_rate) %> return, <%= euros(year.net, signed: true) %> net
+              <%= percent(year.return_rate, signed: true) %> return, <%= euros(year.net, signed: true) %> net
               <%= "(so far)" if year.year == Date.current.year %>
             </div>
           </div>

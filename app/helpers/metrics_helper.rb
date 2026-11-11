@@ -22,8 +22,22 @@ module MetricsHelper
     end
   end
 
-  def percent(ratio)
-    ratio ? number_to_percentage(ratio * 100, precision: 0) : "—"
+  # 0.25 is "25%", -0.75 is "−75%". With signed: true gains get a "+".
+  def percent(ratio, signed: false)
+    return "—" unless ratio
+
+    rounded = (ratio * 100).round
+    text = "#{rounded.abs}%"
+    if rounded.negative? then "−#{text}"
+    elsif signed && rounded.positive? then "+#{text}"
+    else text
+    end
+  end
+
+  # A return as a signed, coloured percentage: "+5%" in green, "−75%" in red.
+  def return_tag(ratio, tag_name = :span, **options)
+    content_tag(tag_name, percent(ratio, signed: true),
+                **options, class: [options[:class], (net_class(ratio) if ratio)].compact.join(" ").presence)
   end
 
   # Round axis ticks from 0 that cover max: [0, 50, 100, 150].

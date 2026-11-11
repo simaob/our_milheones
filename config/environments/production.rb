@@ -21,6 +21,14 @@ Rails.application.configure do
   # Do not fall back to the asset pipeline if a precompiled asset is missed.
   config.assets.compile = false
 
+  # Kamal's asset bridging (asset_path in config/deploy.yml) copies the previous
+  # release's assets next to the new ones, manifest included. Sprockets names its
+  # manifest randomly and, when it finds two, reads the first alphabetically,
+  # which can be the old one: the new pages then get the old CSS and JS. With a
+  # fixed name the new release's manifest wins (Kamal never overwrites it with
+  # the old copy) and Sprockets reads it without searching.
+  config.assets.manifest = Rails.root.join("public/assets/.sprockets-manifest.json").to_s
+
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   # config.asset_host = "http://assets.example.com"
 

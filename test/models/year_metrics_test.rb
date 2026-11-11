@@ -28,7 +28,7 @@ class YearMetricsTest < ActiveSupport::TestCase
     assert_in_delta 24.0, @metrics.spent
     assert_in_delta 70.0, @metrics.won
     assert_in_delta 46.0, @metrics.net
-    assert_in_delta 70.0 / 24, @metrics.return_rate
+    assert_in_delta 46.0 / 24, @metrics.return_rate # €70 back on €24 bet: +192%
     assert_equal 2, @metrics.winning_weeks.size
     assert_in_delta 3.0, @metrics.weeks_per_win
     assert_in_delta 35.0, @metrics.average_win

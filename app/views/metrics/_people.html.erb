@@ -25,7 +25,7 @@
           <td class="num"><%= euros(person.spent) %></td>
           <td class="num"><%= euros(person.won) %></td>
           <td class="num <%= net_class(person.net) %>"><%= euros(person.net, signed: true) %></td>
-          <td class="num"><%= percent(person.return_rate) %></td>
+          <%= return_tag(person.return_rate, :td, class: "num") %>
         </tr>
       <% end %>
     </tbody>
@@ -38,7 +38,7 @@
           <th class="num"><%= euros(spent) %></th>
           <th class="num"><%= euros(won) %></th>
           <th class="num <%= net_class(won - spent) %>"><%= euros(won - spent, signed: true) %></th>
-          <th class="num"><%= percent(won / spent) if spent.positive? %></th>
+          <%= return_tag(((won - spent) / spent if spent.positive?), :th, class: "num") %>
         </tr>
       </tfoot>
     <% end %>

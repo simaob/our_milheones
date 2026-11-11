@@ -22,7 +22,7 @@
           <td class="num"><%= euros(year.spent) %></td>
           <td class="num"><%= euros(year.won) %></td>
           <td class="num <%= net_class(year.net) %>"><%= euros(year.net, signed: true) %></td>
-          <td class="num"><%= percent(year.return_rate) %></td>
+          <%= return_tag(year.return_rate, :td, class: "num") %>
           <td class="num"><%= year.winning_weeks.size %> (<%= percent(year.hit_rate) %>)</td>
           <td class="num"><%= euros(year.paid) %></td>
         </tr>
