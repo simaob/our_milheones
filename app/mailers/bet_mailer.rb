@@ -29,10 +29,14 @@ class BetMailer < ApplicationMailer
          subject: "Re: [Euromilhões] #{@week.friday.to_fs}")
   end
 
-  def do_the_bets week
-    @week = week
-    mail(to: User.where(is_admin: true).map(&:email).join(","),
-         subject: "Re: [Euromilhões] #{@week.friday.to_fs}")
+  # Sent two days before the end of each month (see MonthlyBetsReminderJob).
+  # `month` is the first day of the month the bets are for.
+  def monthly_bets_reminder month
+    @month = month.strftime("%B %Y")
+    admins = User.where(is_admin: true).pluck(:email)
+    return if admins.empty?
+
+    mail(to: admins.join(","), subject: "[Euromilhões] Bets for #{@month}")
   end
 end
 

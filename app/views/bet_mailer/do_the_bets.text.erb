@@ -1,8 +1,0 @@
-Bets for <%= @week.number %> (<%= @week.friday.to_fs %>) have been made!
-
-Do them!
-<% @week.sorted_bets.each do |bet| %>
-  <%= print_bet bet.bet, "" %>
-<% end %>
-
-Thanks!

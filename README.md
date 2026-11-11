@@ -27,9 +27,12 @@ served by Sprockets with Dart Sass, so there is no Node.js toolchain.
 | Task | When (Lisbon time) | What |
 |---|---|---|
 | `NewCurrentWeekJob` | Mondays 09:00 | opens the week and charges each user the bet cost |
-| `DoTheBetsJob` | Fridays 11:00 | emails the admins if the week's bet proof isn't uploaded yet |
+| `MonthlyBetsReminderJob` | 09:00, two days before the end of each month | emails the admins to place next month's bets |
 
-They can also be run by hand: `bin/rails weeks:new_current_week`, `bin/rails weeks:do_the_bets`.
+They can also be run by hand: `bin/rails weeks:new_current_week`, `bin/rails weeks:monthly_bets_reminder`.
+
+The other emails are sent when something happens in the app: recording a week's prize emails
+everyone their share (`prize_won`), and uploading a week's bet proof emails everyone (`bets_made`).
 
 ## Deploying (Kamal)
 

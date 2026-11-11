@@ -10,8 +10,8 @@ namespace :weeks do
     BetMailer.bet_reminder(Week.current).deliver_now
   end
 
-  desc "Check all bets are done, and request admin to do them"
-  task do_the_bets: :environment do
-    DoTheBetsJob.perform_now
+  desc "Email the admins to place next month's bets"
+  task monthly_bets_reminder: :environment do
+    MonthlyBetsReminderJob.perform_now
   end
 end
