@@ -1,4 +1,6 @@
-source "https://rubygems.org"
+# Only resolve to releases at least 14 days old. For a security fix that can't wait:
+# bundle update GEM --patch --conservative --cooldown=0
+source "https://rubygems.org", cooldown: 14
 
 gem "rails", "~> 8.1.4", ">= 8.1.4.1"
 # Use postgresql as the database for Active Record
