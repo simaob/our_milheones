@@ -9,6 +9,11 @@ updates:
   # security updates, so those still arrive as soon as a fix ships.
   cooldown:
     default-days: 14
+  ignore:
+    # The bet pickers rely on select2 3.x (see the Gemfile). Upgrading is tracked in issue #9;
+    # remove this rule when that's done.
+    - dependency-name: select2-rails
+      versions: [">= 4"]
 - package-ecosystem: github-actions
   directory: "/"
   schedule:
