@@ -31,7 +31,7 @@ gem "sprockets-rails"
 gem "dartsass-sprockets"
 gem "jquery-rails"
 # Stay on select2 3.x: the bet pickers rely on its "tags on a text input" API (removed in 4.x)
-gem "select2-rails", "~> 3.5"
+gem "select2-rails", "~> 4.0"
 
 gem "devise", "~> 5.0"
 gem "enumerate_it"
