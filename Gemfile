@@ -1,5 +1,5 @@
-# Only resolve to releases at least 14 days old. For a security fix that can't wait:
-# bundle update GEM --patch --conservative --cooldown=0
+# Only resolve to releases at least 14 days old, the same window as .github/dependabot.yml. For a
+# security fix that can't wait: bundle update GEM --patch --conservative --cooldown=0
 source "https://rubygems.org", cooldown: 14
 
 gem "rails", "~> 8.1.4", ">= 8.1.4.1"
@@ -43,6 +43,12 @@ gem "mini_magick"
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
+
+  # Audits gems for known security defects (use config/bundler-audit.yml to ignore issues)
+  gem "bundler-audit", require: false
+
+  # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
+  gem "brakeman", require: false
 end
 
 group :development do

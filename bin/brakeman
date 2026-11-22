@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+require "rubygems"
+require "bundler/setup"
+
+# No --ensure-latest: the Gemfile's 14-day cooldown keeps us behind the newest release on
+# purpose, so that check would fail for two weeks after every Brakeman release — and it exits
+# before scanning, so the failure hid whether there were any warnings at all.
+
+load Gem.bin_path("brakeman", "brakeman")
