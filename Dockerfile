@@ -22,7 +22,7 @@ RUN apt-get update -qq && \
 ENV RAILS_ENV="production" \
     BUNDLE_DEPLOYMENT="1" \
     BUNDLE_PATH="/usr/local/bundle" \
-    BUNDLE_WITHOUT="development" \
+    BUNDLE_WITHOUT="development:test" \
     LD_PRELOAD="/usr/local/lib/libjemalloc.so"
 
 # Throw-away build stage to reduce size of final image
@@ -37,8 +37,18 @@ RUN apt-get update -qq && \
 COPY vendor/* ./vendor/
 COPY Gemfile Gemfile.lock ./
 
-RUN bundle install && \
+# Compiled gems are kept between builds, so a Gemfile.lock change only installs what changed.
+# --no-cache doesn't clear them: change the id to start over.
+ARG RUBY_VERSION
+ARG TARGETARCH
+RUN --mount=type=cache,id=our_milheones-gems-$RUBY_VERSION-$TARGETARCH,target=/gem-cache,sharing=locked \
+    if [ -d /gem-cache/gems ]; then cp -a /gem-cache/gems/. "${BUNDLE_PATH}"; fi && \
+    bundle install && \
+    bundle clean && \
     rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
+    # Saved as a whole then swapped in, so a cancelled build can't leave half a copy
+    rm -rf /gem-cache/new && cp -a "${BUNDLE_PATH}" /gem-cache/new && \
+    rm -rf /gem-cache/gems && mv /gem-cache/new /gem-cache/gems && \
     # -j 1 disable parallel compilation to avoid a QEMU bug: https://github.com/rails/bootsnap/issues/495
     bundle exec bootsnap precompile -j 1 --gemfile
 
