@@ -2,7 +2,7 @@
 
 Shared EuroMillions syndicate tracker: weeks, bets, prizes and everyone's balance.
 
-Ruby 4.0.9 · Rails 8.1 · PostgreSQL · Devise · Solid Queue · deployed with Kamal 2.
+Ruby 4.0.10 · Rails 8.1 · PostgreSQL · Devise · Solid Queue · deployed with Kamal 2.
 
 ## Development
 
